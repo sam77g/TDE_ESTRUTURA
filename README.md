@@ -5,7 +5,13 @@
     tde/
     │
     ├── main.py
+    │
     ├── estruturas.py
+    │
     ├── medicamentos.py
+    │
     ├── fornecedores.py
-    └── relatorios.py
+    │
+    ├── estoque.py
+    │
+    └── reposicao.py
