@@ -7,8 +7,8 @@
 # alterar_medicamento()
 # remover_medicamento()
 # Também terá algumas validações
-
-medicamentos = []
+from collections import deque 
+from estruturas import medicamentos
 
 def cadastrar_medicamento(nome) :
     medicamentos.append(nome)

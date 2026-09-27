@@ -6,3 +6,5 @@
 # atualizar quantidade;
 # registrar movimentações no histórico;
 # desfazer a última movimentação.
+
+from collections import deque 
