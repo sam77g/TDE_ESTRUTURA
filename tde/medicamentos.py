@@ -1,13 +1,9 @@
-lista = []
-
-medicamento = {
-    "id": 1,
-    "nome": "Paracetamol",
-    "categoria": "Analgésico",
-    "estoque": 20,
-    "estoque_minimo": 10,
-    "preco": 8.50
-}
-
-lista.append(medicamento)
-print(medicamento["nome"])
+# Este arquivo será responsável pelo CRUD - LISTA
+# Aqui ficará as funções de adicionar, ler, deletar e atualizar os medicamentos
+# ex. de funções : 
+# cadastrar_medicamento()
+# listar_medicamentos()
+# buscar_medicamento()
+# alterar_medicamento()
+# remover_medicamento()
+# Também terá algumas validações
