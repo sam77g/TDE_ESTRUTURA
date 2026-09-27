@@ -7,3 +7,11 @@
 # alterar_medicamento()
 # remover_medicamento()
 # Também terá algumas validações
+
+medicamentos = []
+
+def cadastrar_medicamento(nome) :
+    medicamentos.append(nome)
+    
+def listar_medicamentos() :
+    print(medicamentos)
