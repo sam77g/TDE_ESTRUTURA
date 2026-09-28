@@ -38,29 +38,28 @@ A ideia é que **todos os integrantes entendam o código**, mesmo que cada pesso
 
 O projeto será um pequeno ERP para uma farmácia.
 
-O sistema será executado pelo terminal e permitirá controlar informações como:
+O sistema será executado pelo terminal e permitirá controlar principalmente:
 
 * medicamentos;
-* fornecedores;
 * estoque;
 * movimentações;
 * solicitações de reposição;
 * histórico de operações;
 * relatórios.
 
+O projeto foi deliberadamente simplificado para não adicionar funcionalidades que não contribuem diretamente para os objetivos do TDE.
+
 Não estamos tentando criar um ERP comercial completo.
 
-O objetivo é desenvolver um sistema suficientemente funcional para demonstrar os conceitos exigidos pelo TDE.
+O objetivo é desenvolver um sistema suficientemente funcional para demonstrar os conceitos exigidos pelo trabalho.
 
 ---
 
 # 3. Escopo do projeto
 
-## 3.1. O que estará no projeto
+## 3.1. Medicamentos
 
-O PharmaERP terá:
-
-### Medicamentos
+O sistema terá um CRUD de medicamentos:
 
 * cadastro;
 * consulta;
@@ -68,26 +67,54 @@ O PharmaERP terá:
 * remoção;
 * busca;
 * controle de estoque;
-* estoque mínimo.
+* definição de estoque mínimo.
 
-### Fornecedores
+Um medicamento poderá ser representado por um dicionário:
 
-* cadastro;
-* consulta;
-* alteração;
-* remoção;
-* busca.
+```python
+{
+    "id": 1,
+    "nome": "Paracetamol",
+    "categoria": "Analgésico",
+    "estoque": 20,
+    "estoque_minimo": 10,
+    "preco": 8.50
+}
+```
 
-### Estoque
+---
+
+## 3.2. Estoque
+
+O sistema permitirá:
 
 * entrada de medicamentos;
 * saída de medicamentos;
-* verificação de quantidade disponível;
-* identificação de estoque baixo.
+* consulta da quantidade disponível;
+* validação de estoque insuficiente;
+* identificação de estoque abaixo do mínimo.
 
-### Pilha
+Exemplo:
 
-Será utilizada para armazenar o histórico das movimentações.
+```text
+Paracetamol
+Estoque atual: 5
+Estoque mínimo: 10
+```
+
+Como:
+
+```text
+5 < 10
+```
+
+o sistema poderá identificar que o medicamento precisa de reposição.
+
+---
+
+## 3.3. Pilha
+
+A pilha será utilizada para armazenar o histórico das movimentações.
 
 Exemplo:
 
@@ -106,9 +133,13 @@ LIFO
 Last In, First Out
 ```
 
-### Fila
+A pilha permitirá implementar uma operação de **desfazer a última movimentação**, quando aplicável.
 
-Será utilizada para solicitações de reposição.
+---
+
+## 3.4. Fila
+
+A fila será utilizada para controlar solicitações de reposição.
 
 Exemplo:
 
@@ -127,13 +158,14 @@ FIFO
 First In, First Out
 ```
 
-### Relatórios
+---
+
+## 3.5. Relatórios
 
 O sistema poderá apresentar:
 
 * lista de medicamentos;
 * medicamentos com estoque baixo;
-* fornecedores;
 * histórico de movimentações;
 * fila de reposição;
 * resultados de buscas;
@@ -145,6 +177,7 @@ O sistema poderá apresentar:
 
 Para evitar que o grupo complique desnecessariamente o trabalho, não vamos implementar:
 
+* fornecedores;
 * banco de dados;
 * interface gráfica;
 * site;
@@ -245,10 +278,10 @@ pode conter funções relacionadas aos medicamentos.
 Outro arquivo:
 
 ```text
-fornecedores.py
+estoque.py
 ```
 
-pode conter funções relacionadas aos fornecedores.
+pode conter funções relacionadas ao estoque.
 
 E:
 
@@ -444,14 +477,14 @@ pharma_erp/
 │
 ├── medicamentos.py
 │
-├── fornecedores.py
-│
 ├── estoque.py
 │
 ├── reposicao.py
 │
 └── relatorios.py
 ```
+
+Cada arquivo terá uma responsabilidade específica.
 
 ---
 
@@ -496,7 +529,6 @@ Inicialmente:
 
 ```python
 medicamentos = []
-fornecedores = []
 historico = []
 fila_reposicao = []
 ```
@@ -509,10 +541,6 @@ Exemplo:
 medicamentos
     ↓
 [ medicamento 1, medicamento 2, medicamento 3 ]
-
-fornecedores
-    ↓
-[ fornecedor 1, fornecedor 2 ]
 
 historico
     ↓
@@ -541,7 +569,7 @@ remover_medicamento()
 
 Também poderá conter validações específicas.
 
-Exemplo de medicamento:
+Exemplo:
 
 ```python
 {
@@ -556,34 +584,7 @@ Exemplo de medicamento:
 
 ---
 
-# 15. `fornecedores.py`
-
-Responsável pelo CRUD dos fornecedores.
-
-Funções previstas:
-
-```python
-cadastrar_fornecedor()
-listar_fornecedores()
-buscar_fornecedor()
-alterar_fornecedor()
-remover_fornecedor()
-```
-
-Exemplo:
-
-```python
-{
-    "id": 1,
-    "nome": "Distribuidora Saúde",
-    "cnpj": "00.000.000/0001-00",
-    "telefone": "75999999999"
-}
-```
-
----
-
-# 16. `estoque.py`
+# 15. `estoque.py`
 
 Responsável pelas movimentações do estoque.
 
@@ -618,7 +619,7 @@ Também deverá registrar a movimentação no histórico.
 
 ---
 
-# 17. `reposicao.py`
+# 16. `reposicao.py`
 
 Responsável pela fila de reposição.
 
@@ -656,7 +657,7 @@ fila_reposicao.append(solicitacao)
 
 ---
 
-# 18. `relatorios.py`
+# 17. `relatorios.py`
 
 Responsável por consultas e relatórios.
 
@@ -674,7 +675,7 @@ Também será um dos locais onde poderemos demonstrar algoritmos de busca e orde
 
 ---
 
-# 19. Como os módulos se comunicam?
+# 18. Como os módulos se comunicam?
 
 A ideia geral será:
 
@@ -683,15 +684,14 @@ A ideia geral será:
                             │
              ┌──────────────┼──────────────┐
              ↓              ↓              ↓
-      medicamentos    fornecedores      estoque
+      medicamentos        estoque       reposicao
              │              │              │
              └──────────────┼──────────────┘
                             ↓
                       estruturas.py
                             ↑
-                  ┌─────────┴─────────┐
-                  │                   │
-             reposicao.py       relatorios.py
+                            │
+                       relatorios.py
 ```
 
 O `main.py` coordena.
@@ -702,7 +702,7 @@ Os módulos executam responsabilidades específicas.
 
 ---
 
-# 20. Exemplo simples de integração
+# 19. Exemplo simples de integração
 
 ## `estruturas.py`
 
@@ -746,7 +746,7 @@ Esse exemplo representa a ideia básica de integração que será usada no proje
 
 ---
 
-# 21. Listas em Python
+# 20. Listas em Python
 
 Uma lista é uma estrutura que permite armazenar vários valores.
 
@@ -798,7 +798,7 @@ medicamentos.pop()
 
 ---
 
-# 22. Lista no nosso projeto
+# 21. Lista no nosso projeto
 
 Uma lista poderá armazenar vários dicionários:
 
@@ -835,7 +835,7 @@ Esse conceito será fundamental para o CRUD.
 
 ---
 
-# 23. Dicionários
+# 22. Dicionários
 
 Os registros do sistema serão representados por dicionários.
 
@@ -869,7 +869,7 @@ medicamento["estoque"] = 30
 
 ---
 
-# 24. Lista + dicionário
+# 23. Lista + dicionário
 
 Essa combinação será a principal forma de armazenar nossas entidades.
 
@@ -900,7 +900,7 @@ medicamentos
 
 ---
 
-# 25. O que é uma pilha?
+# 24. O que é uma pilha?
 
 Uma pilha funciona no modelo:
 
@@ -933,7 +933,7 @@ O último prato colocado em cima é o primeiro que conseguimos retirar.
 
 ---
 
-# 26. Implementando uma pilha com lista
+# 25. Implementando uma pilha com lista
 
 No Python:
 
@@ -973,7 +973,7 @@ Entrada de Ibuprofeno
 
 ---
 
-# 27. Por que usar pilha no PharmaERP?
+# 26. Por que usar pilha no PharmaERP?
 
 Porque queremos manter um histórico reversível de movimentações.
 
@@ -1005,7 +1005,7 @@ boa representação para histórico reversível
 
 ---
 
-# 28. O que é uma fila?
+# 27. O que é uma fila?
 
 Uma fila funciona no modelo:
 
@@ -1019,22 +1019,22 @@ O primeiro elemento que entra é o primeiro que sai.
 Exemplo:
 
 ```text
-João
-Maria
-Pedro
+Paracetamol
+Dipirona
+Ibuprofeno
 ```
 
 A ordem de atendimento será:
 
 ```text
-João
-Maria
-Pedro
+Paracetamol
+Dipirona
+Ibuprofeno
 ```
 
 ---
 
-# 29. Implementando fila com lista
+# 28. Implementando fila com lista
 
 Criamos:
 
@@ -1081,7 +1081,7 @@ Ibuprofeno
 
 ---
 
-# 30. Por que usar fila no PharmaERP?
+# 29. Por que usar fila no PharmaERP?
 
 As solicitações de reposição podem seguir uma ordem de chegada.
 
@@ -1107,11 +1107,11 @@ ordem de atendimento das reposições
 
 ---
 
-# 31. Não confundir lista, pilha e fila
+# 30. Não confundir lista, pilha e fila
 
 Embora todas possam utilizar `list` em Python, o comportamento é diferente.
 
-| Estrutura | Regra                    | Exemplo      |
+| Estrutura | Regra                    | Aplicação    |
 | --------- | ------------------------ | ------------ |
 | Lista     | acesso/manipulação geral | medicamentos |
 | Pilha     | LIFO                     | histórico    |
@@ -1127,7 +1127,7 @@ A resposta correta é:
 
 ---
 
-# 32. CRUD
+# 31. CRUD
 
 CRUD significa:
 
@@ -1147,20 +1147,21 @@ Update → Alterar
 Delete → Remover
 ```
 
-No nosso projeto teremos CRUD de pelo menos duas entidades.
-
-Principalmente:
+O principal CRUD do projeto será o de:
 
 ```text
 Medicamentos
-Fornecedores
 ```
+
+O trabalho exige CRUD para pelo menos duas entidades. Como retiramos fornecedores, a segunda entidade deve ser definida pelo grupo conforme o escopo final do TDE — por exemplo, **solicitações de reposição** podem receber operações de cadastro/consulta/alteração/remoção se isso fizer sentido para os requisitos do professor.
+
+Não devemos adicionar uma entidade artificial apenas para cumprir CRUD.
 
 ---
 
-# 33. Busca linear
+# 32. Busca linear
 
-Precisaremos localizar medicamentos e fornecedores.
+Precisaremos localizar medicamentos.
 
 Podemos fazer uma busca percorrendo a lista:
 
@@ -1190,7 +1191,7 @@ se o primeiro elemento for o procurado.
 
 ---
 
-# 34. Ordenação
+# 33. Ordenação
 
 Também precisamos compreender algoritmos de ordenação.
 
@@ -1242,7 +1243,7 @@ Isso também será útil para a parte de análise de complexidade exigida no tra
 
 ---
 
-# 35. Complexidade que devemos conhecer
+# 34. Complexidade que devemos conhecer
 
 Não precisamos estudar toda a teoria de complexidade.
 
@@ -1299,7 +1300,7 @@ Bubble Sort no pior caso.
 
 ---
 
-# 36. Atenção ao `pop(0)`
+# 35. Atenção ao `pop(0)`
 
 Nossa fila inicialmente será:
 
@@ -1321,74 +1322,24 @@ Não vamos substituir por `collections.deque` neste momento porque o objetivo é
 
 ---
 
-# 37. Ordem de estudo recomendada
+# 36. Roteiro de estudos no YouTube
 
-Não tentem aprender tudo ao mesmo tempo.
-
-A sequência recomendada é:
-
-```text
-ETAPA 1
-Python básico
-    ↓
-ETAPA 2
-Funções
-    ↓
-ETAPA 3
-Listas
-    ↓
-ETAPA 4
-Dicionários
-    ↓
-ETAPA 5
-Módulos e import
-    ↓
-ETAPA 6
-CRUD
-    ↓
-ETAPA 7
-Pilha
-    ↓
-ETAPA 8
-Fila
-    ↓
-ETAPA 9
-Busca
-    ↓
-ETAPA 10
-Ordenação
-    ↓
-ETAPA 11
-Integração
-    ↓
-ETAPA 12
-Testes
-```
-
----
-
-# 38. Roteiro de estudos no YouTube
-
-## 38.1. Módulos e import
+## 36.1. Módulos e import
 
 ### Curso em Vídeo — Curso Python #08: Utilizando Módulos
 
-Conteúdo:
+Estudar:
 
 * módulos;
 * `import`;
 * `from`;
 * utilização de código de outros arquivos.
 
-É especialmente importante para este projeto porque é exatamente o conceito que será utilizado para integrar `main.py`, `medicamentos.py`, `estoque.py` etc.
-
 [Assistir no YouTube](https://www.youtube.com/watch?v=oOUyhGNib2Q)
-
-O vídeo é do Curso em Vídeo, com Gustavo Guanabara, e aborda especificamente `import` e `from/import`.
 
 ---
 
-# 39. Listas
+## 36.2. Listas
 
 ### Curso em Vídeo — Curso Python #17: Listas (Parte 1)
 
@@ -1401,13 +1352,11 @@ Estudar:
 
 [Assistir no YouTube](https://www.youtube.com/watch?v=N1hTsbW50eM)
 
-A aula é especificamente sobre listas em Python.
-
-Também é recomendável continuar as aulas seguintes do Curso de Python relacionadas a listas.
+Também é recomendável continuar as aulas seguintes relacionadas a listas.
 
 ---
 
-# 40. Funções
+## 36.3. Funções
 
 ### Curso em Vídeo — Curso Python #20: Funções (Parte 1)
 
@@ -1421,77 +1370,50 @@ Estudar:
 
 [Assistir no YouTube](https://www.youtube.com/watch?v=ezfr9d7wd_k)
 
-Essa aula aborda justamente funções e parâmetros em Python.
-
-Esse conteúdo é fundamental porque praticamente todos os módulos do nosso sistema serão compostos por funções.
-
 ---
 
-# 41. Lista × Pilha × Fila
+## 36.4. Lista × Pilha × Fila
 
 ### Bóson Treinamentos — Listas, Pilhas e Filas em Estruturas de Dados
 
-Esse vídeo é particularmente útil para compreender a **diferença conceitual** entre:
+Estudar:
 
 * lista;
 * pilha;
 * fila;
 * LIFO;
 * FIFO;
-* operações dessas estruturas.
+* operações das estruturas lineares.
 
 [Assistir no YouTube](https://www.youtube.com/watch?v=OwiHoj-mAi8)
 
-O vídeo explica justamente as diferenças entre essas estruturas lineares e apresenta LIFO e FIFO.
+A parte de lista, pilha e fila é especialmente relevante para o TDE.
 
 ---
 
-# 42. Estruturas de Dados com Python
+## 36.5. Estruturas de Dados com Python
 
-Também podemos utilizar:
-
-### Estruturas de Dados com Python — Lista, Pilha (LIFO), Fila (FIFO) e Árvore Binária
+### Lista, Pilha (LIFO), Fila (FIFO) e outras estruturas
 
 [Assistir no YouTube](https://www.youtube.com/watch?v=bpt21iwiq_g)
 
-O vídeo aborda estruturas de dados em Python, incluindo lista, pilha e fila. A parte de árvore não é necessária para o nosso TDE; podemos ignorá-la.
+O vídeo aborda estruturas de dados em Python. A parte de árvore binária não é necessária para este projeto.
 
 ---
 
-# 43. Bubble Sort
+## 36.6. Bubble Sort
 
-Para a parte de ordenação, podemos estudar o conceito de Bubble Sort e depois implementar nós mesmos.
+Para a parte de ordenação:
 
-Um exemplo encontrado em português:
+### Bubble Sort usando Python
 
-[Bubble Sort usando Python em Português](https://www.youtube.com/watch?v=HJUVKtaihdc)
+[Assistir no YouTube](https://www.youtube.com/watch?v=HJUVKtaihdc)
 
-O foco deve ser entender o algoritmo, e não simplesmente copiar o código.
-
----
-
-# 44. O que estudar no Curso em Vídeo antes de programar
-
-Se vocês estiverem muito enferrujados em Python, não precisam assistir um curso inteiro novamente.
-
-Priorizar:
-
-```text
-✓ Variáveis
-✓ Tipos de dados
-✓ Condicionais
-✓ Repetições
-✓ Listas
-✓ Dicionários
-✓ Funções
-✓ Módulos
-```
-
-Depois disso, começar diretamente os exercícios do projeto.
+O objetivo é entender o algoritmo e depois implementar vocês mesmos.
 
 ---
 
-# 45. Exercícios obrigatórios antes do projeto
+# 37. Exercícios obrigatórios antes do projeto
 
 Cada integrante deve conseguir fazer estes exercícios sozinho.
 
@@ -1631,7 +1553,7 @@ Todos devem entender o que aconteceu.
 
 ---
 
-# 46. Como dividir os estudos entre as pessoas
+# 38. Divisão inicial dos estudos
 
 ## Pessoa 1
 
@@ -1654,7 +1576,7 @@ Foco inicial:
 Funções
 Módulos
 Import
-Fornecedores
+Integração entre arquivos
 ```
 
 ---
@@ -1683,24 +1605,24 @@ Reposição
 Relatórios
 ```
 
+A divisão é apenas para organizar o trabalho.
+
+Todos precisam compreender o sistema inteiro.
+
 ---
 
-# 47. Mas todos precisam aprender tudo
+# 39. Todos precisam aprender tudo
 
-A divisão de tarefas serve para organizar o desenvolvimento.
-
-Não significa:
+A divisão de tarefas não significa:
 
 ```text
 Pessoa 1 sabe medicamentos.
-Pessoa 2 sabe fornecedores.
+Pessoa 2 sabe módulos.
 Pessoa 3 sabe pilha.
 Pessoa 4 sabe fila.
 ```
 
 E ninguém mais sabe nada.
-
-Isso seria perigoso para a apresentação.
 
 Todos devem saber explicar:
 
@@ -1724,7 +1646,7 @@ A divisão significa apenas:
 
 ---
 
-# 48. Fluxo de desenvolvimento
+# 40. Fluxo de desenvolvimento
 
 O desenvolvimento seguirá aproximadamente esta ordem:
 
@@ -1743,32 +1665,30 @@ O desenvolvimento seguirá aproximadamente esta ordem:
         ↓
 7. Criar CRUD de medicamentos
         ↓
-8. Criar CRUD de fornecedores
+8. Implementar estoque
         ↓
-9. Implementar estoque
+9. Implementar pilha/histórico
         ↓
-10. Implementar pilha/histórico
+10. Implementar fila/reposição
         ↓
-11. Implementar fila/reposição
+11. Criar relatórios
         ↓
-12. Criar relatórios
+12. Implementar busca
         ↓
-13. Implementar busca
+13. Implementar ordenação
         ↓
-14. Implementar ordenação
+14. Integrar tudo
         ↓
-15. Integrar tudo
+15. Testar
         ↓
-16. Testar
+16. Documentar
         ↓
-17. Documentar
-        ↓
-18. Preparar apresentação
+17. Preparar apresentação
 ```
 
 ---
 
-# 49. Regra importante durante o desenvolvimento
+# 41. Regra importante durante o desenvolvimento
 
 Não façam:
 
@@ -1804,7 +1724,7 @@ O que acontece se o usuário digitar algo inválido?
 
 ---
 
-# 50. Regra para usar IA
+# 42. Regra para usar IA
 
 A IA pode ser utilizada como ferramenta de apoio, mas o grupo precisa compreender o código entregue.
 
@@ -1829,11 +1749,11 @@ O integrante responsável deve conseguir explicar:
 7. Qual a complexidade?
 ```
 
-Isso também evita que o grupo tenha dificuldades caso o professor peça para modificar uma parte do código durante a apresentação.
+Isso também evita dificuldades caso o professor peça para modificar uma parte do código durante a apresentação.
 
 ---
 
-# 51. Fluxo final esperado do sistema
+# 43. Fluxo final esperado do sistema
 
 Um exemplo de utilização do PharmaERP será:
 
@@ -1843,8 +1763,6 @@ INICIAR
 MENU PRINCIPAL
    ↓
 Cadastrar medicamento
-   ↓
-Cadastrar fornecedor
    ↓
 Consultar medicamento
    ↓
@@ -1879,7 +1797,7 @@ FINALIZAR
 
 ---
 
-# 52. Estrutura final resumida
+# 44. Estrutura final resumida
 
 ```text
 pharma_erp/
@@ -1893,9 +1811,6 @@ pharma_erp/
 ├── medicamentos.py
 │   └── CRUD de medicamentos
 │
-├── fornecedores.py
-│   └── CRUD de fornecedores
-│
 ├── estoque.py
 │   └── entradas, saídas e histórico
 │
@@ -1908,11 +1823,11 @@ pharma_erp/
 
 ---
 
-# 53. Checklist de conhecimento
+# 45. Checklist de conhecimento
 
 Antes da entrega, cada integrante deve conseguir marcar:
 
-### Python
+## Python
 
 * [ ] Sei criar variáveis.
 * [ ] Sei utilizar `if`.
@@ -1927,7 +1842,7 @@ Antes da entrega, cada integrante deve conseguir marcar:
 * [ ] Sei usar `pop()`.
 * [ ] Sei usar `len()`.
 
-### Módulos
+## Módulos
 
 * [ ] Sei o que é um módulo.
 * [ ] Sei criar um arquivo `.py` para funcionar como módulo.
@@ -1935,7 +1850,7 @@ Antes da entrega, cada integrante deve conseguir marcar:
 * [ ] Sei utilizar `from ... import ...`.
 * [ ] Sei chamar uma função de outro arquivo.
 
-### Estruturas
+## Estruturas
 
 * [ ] Sei explicar lista.
 * [ ] Sei explicar pilha.
@@ -1945,7 +1860,7 @@ Antes da entrega, cada integrante deve conseguir marcar:
 * [ ] Sei implementar uma pilha com `append()` e `pop()`.
 * [ ] Sei implementar uma fila com `append()` e `pop(0)`.
 
-### Algoritmos
+## Algoritmos
 
 * [ ] Sei fazer busca linear.
 * [ ] Sei explicar O(1).
@@ -1953,7 +1868,7 @@ Antes da entrega, cada integrante deve conseguir marcar:
 * [ ] Sei explicar O(n²).
 * [ ] Sei explicar o funcionamento básico do Bubble Sort.
 
-### Projeto
+## Projeto
 
 * [ ] Sei explicar o papel de cada arquivo.
 * [ ] Sei explicar o CRUD.
@@ -1966,30 +1881,40 @@ Antes da entrega, cada integrante deve conseguir marcar:
 
 ---
 
-# 54. Ordem de estudo recomendada para esta semana
+# 46. Ordem de estudo recomendada
 
 Se o prazo estiver próximo, não tentem estudar Python inteiro.
 
-Façam:
+A sequência recomendada é:
 
-### Dia 1
+### Etapa 1 — Python básico
 
 ```text
+Variáveis
+Condicionais
+Loops
 Funções
-Listas
-Dicionários
 ```
 
-### Dia 2
+### Etapa 2 — Estruturas básicas
+
+```text
+Listas
+Dicionários
+append()
+pop()
+len()
+```
+
+### Etapa 3 — Organização
 
 ```text
 Módulos
 import
-from ... import
-Integração entre arquivos
+from ... import ...
 ```
 
-### Dia 3
+### Etapa 4 — Estruturas lineares
 
 ```text
 Lista
@@ -1999,35 +1924,29 @@ LIFO
 FIFO
 ```
 
-### Dia 4
+### Etapa 5 — Algoritmos
 
 ```text
-CRUD
 Busca linear
-Validações
-```
-
-### Dia 5
-
-```text
-Ordenação
 Bubble Sort
 Complexidade
 ```
 
-### Depois
+### Etapa 6 — Sistema
 
 ```text
-Implementação
+CRUD
+Estoque
+Histórico
+Reposição
+Relatórios
 Integração
 Testes
-Documentação
-Apresentação
 ```
 
 ---
 
-# 55. O que realmente precisamos dominar
+# 47. O que realmente precisamos dominar
 
 O objetivo não é sair deste trabalho sabendo Python profissionalmente.
 
