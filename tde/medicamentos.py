@@ -22,7 +22,7 @@ def buscar_medicamento(nome):
         if medicamento["nome"].lower() == nome.lower():
             return print(f"{medicamento}")
     
-    return None
+    return print("Medicamento não encontrado.")
 
 # função de alterar características do medicamento atrvés do nome digitado
 def alterar_medicamento(nome) :
@@ -55,4 +55,4 @@ def remover_medicamento(nome) :
             medicamentos.remove(medicamento)
             return print(f"{nome} removido ! ")
     
-    return None   
+    return print("Medicamento não encontrado.")  
