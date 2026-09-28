@@ -8,6 +8,11 @@
 # desfazer a última movimentação.
 
 from collections import deque 
+from estruturas import (
+    medicamentos
+)
+from medicamentos import medicamento
+
 proximo_id = 1
 def gerar_id():
     global proximo_id
@@ -16,3 +21,6 @@ def gerar_id():
     proximo_id += 1
 
     return id_atual
+
+def historico() :
+    return print(f"{medicamento}")

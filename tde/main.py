@@ -41,7 +41,7 @@ while True :
                 "categoria": input("Digite a categoria : "), 
                 "estoque": int(input("Digite a quantidade : ")), # obrigatório
                 "estoque_minimo": int(input("Estoque mínimo : ")), 
-                "preco": float(input("Digite o preço : ")),
+                "preco": float(input("Digite o preço : ")), # obrigatório
                 "id" : gerar_id() # obrigatório
             }
             cadastrar_medicamento(medicamento)
