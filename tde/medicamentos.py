@@ -15,7 +15,12 @@ def cadastrar_medicamento(nome) :
     medicamentos.append(nome)
     
 def listar_medicamentos() :
-    print(medicamentos)
+    for i in medicamentos :
+        
+        print(f"==================== {i["nome"].upper()}======================= \n")
+        print(f"quantidade : {i["estoque"]} " )  
+        print(f"preço : {i["preco"]} ")
+        print(f"ID : {i["id"]} \n")
 
 def buscar_medicamento(nome):
     for medicamento in medicamentos:
