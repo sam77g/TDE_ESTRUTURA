@@ -8,13 +8,20 @@
 
 # IMPORTS
 from collections import deque 
-from medicamentos import cadastrar_medicamento, listar_medicamentos, medicamentos
+from estruturas import medicamentos
+from medicamentos import (
+    cadastrar_medicamento,
+    listar_medicamentos,
+    buscar_medicamento,
+    remover_medicamento
+)
 
 while True :
     print("========== SISTEMA DE CONTROLE PharmaERP ============ \n")
     print("[1] - Adicionar medicamento \n",
           "[2] - Ver medicamentos \n",
-          "[3] - Sair \n")
+          "[3] - Buscar medicamento \n",
+          "[0] - Sair \n")
     opcao = int(input("Escolha uma opção: \n"))
     
     match opcao :
@@ -31,6 +38,10 @@ while True :
         case 2 : 
             listar_medicamentos()
         case 3 : 
+            busca = input("Digite o medicamento : ")
+            buscar_medicamento(busca)
+            
+        case 0 : 
             print("Até mais !")
             break
         case _ :

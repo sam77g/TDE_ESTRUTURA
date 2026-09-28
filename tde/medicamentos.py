@@ -15,3 +15,20 @@ def cadastrar_medicamento(nome) :
     
 def listar_medicamentos() :
     print(medicamentos)
+
+def buscar_medicamento(nome):
+    for medicamento in medicamentos:
+        if medicamento["nome"].lower() == nome.lower():
+            return print(f"{medicamento}")
+    
+    return None
+
+# def alterar_medicamento() :
+
+def remover_medicamento(nome) :  
+    for medicamento in medicamentos:
+        if medicamento["nome"].lower() == nome.lower():
+            medicamentos.pop(medicamento)
+            return print(f"{nome} removido ! ")
+    
+    return None   
