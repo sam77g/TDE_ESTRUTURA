@@ -27,10 +27,11 @@ from estoque import (
 
 while True :
     print("========== SISTEMA DE CONTROLE PharmaERP ============ \n")
-    print("[1] - Adicionar medicamento \n",
-          "[2] - Ver medicamentos \n",
-          "[3] - Buscar medicamento \n",
-          "[0] - Sair \n")
+    print(" [1] - Adicionar medicamento \n",
+          " [2] - Ver medicamentos \n",
+          " [3] - Buscar medicamento \n",
+          " [4] -  \n",
+          " [0] - Sair \n")
     opcao = int(input("Escolha uma opção: \n"))
     
     match opcao :
@@ -49,7 +50,6 @@ while True :
         case 3 : 
             busca = input("Digite o medicamento : ")
             buscar_medicamento(busca)
-            
         case 0 : 
             print("Até mais !")
             break
