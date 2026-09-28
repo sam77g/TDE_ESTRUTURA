@@ -52,7 +52,7 @@ def alterar_medicamento(nome) :
 def remover_medicamento(nome) :  
     for medicamento in medicamentos:
         if medicamento["nome"].lower() == nome.lower():
-            medicamentos.pop(medicamento)
+            medicamentos.remove(medicamento)
             return print(f"{nome} removido ! ")
     
     return None   

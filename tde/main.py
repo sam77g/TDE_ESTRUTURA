@@ -57,8 +57,8 @@ while True :
             alt = input("Digite o medicamento : ")
             alterar_medicamento(alt)
         case 5 :
-            remove = input("Digite o medicamento a ser removido : ")
-            remover_medicamento(remove)
+            rem = input("Digite o medicamento a ser removido : ")
+            remover_medicamento(rem)
         case 0 : 
             print("Até mais !")
             break
