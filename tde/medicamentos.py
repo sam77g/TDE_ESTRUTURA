@@ -10,6 +10,7 @@
 from collections import deque 
 from estruturas import medicamentos
 
+
 def cadastrar_medicamento(nome) :
     medicamentos.append(nome)
     

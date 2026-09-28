@@ -8,12 +8,21 @@
 
 # IMPORTS
 from collections import deque 
-from estruturas import medicamentos
+from estruturas import (medicamentos,
+    fornecedores,
+    historico,
+    fila_reposicao,
+)
 from medicamentos import (
     cadastrar_medicamento,
     listar_medicamentos,
     buscar_medicamento,
-    remover_medicamento
+    remover_medicamento, 
+)
+
+from estoque import (
+    gerar_id,
+    proximo_id
 )
 
 while True :
@@ -27,12 +36,12 @@ while True :
     match opcao :
         case 1 :
             medicamento = {
-                "nome": input("Digite o nome do medicamento : "),
-                "categoria": input("Digite a categoria : "),
-                "estoque": int(input("Digite a quantidade : ")),
-                "estoque_minimo": 10,
+                "nome": input("Digite o nome do medicamento : "), # obrigatório
+                "categoria": input("Digite a categoria : "), 
+                "estoque": int(input("Digite a quantidade : ")), # obrigatório
+                "estoque_minimo": int(input("Estoque mínimo : ")), 
                 "preco": float(input("Digite o preço : ")),
-                "id" : len(medicamentos)
+                "id" : gerar_id() # obrigatório
             }
             cadastrar_medicamento(medicamento)
         case 2 : 
