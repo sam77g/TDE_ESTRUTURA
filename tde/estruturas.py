@@ -4,7 +4,7 @@
 # fornecedores = []
 # historico = []
 # fila_reposicao = []
-
+from collections import deque 
 medicamentos = []
 fornecedores = []
 historico = []
