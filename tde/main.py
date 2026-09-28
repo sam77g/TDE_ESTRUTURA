@@ -17,6 +17,7 @@ from medicamentos import (
     cadastrar_medicamento,
     listar_medicamentos,
     buscar_medicamento,
+    alterar_medicamento,
     remover_medicamento, 
 )
 
@@ -30,7 +31,7 @@ while True :
     print(" [1] - Adicionar medicamento \n",
           " [2] - Ver medicamentos \n",
           " [3] - Buscar medicamento \n",
-          " [4] -  \n",
+          " [4] - Alterar medicamento \n",
           " [0] - Sair \n")
     opcao = int(input("Escolha uma opção: \n"))
     
@@ -50,6 +51,9 @@ while True :
         case 3 : 
             busca = input("Digite o medicamento : ")
             buscar_medicamento(busca)
+        case 4 :
+            alt = input("Digite o medicamento : ")
+            alterar_medicamento(alt)
         case 0 : 
             print("Até mais !")
             break
