@@ -18,15 +18,19 @@ def cadastrar_repo(med) :
 
     repo_existente = buscar_repo(med)
     
+    print("DEBUG")
+    print(f"Medicamento: {med['nome']}")
+    print(f"Estoque recebido: {med['estoque']}")
+    print(f"Criticidade calculada: {criticidade(med['estoque'])}")
+    
     if repo_existente is not None :
         return
     
-
     repor = {
         "medicamento" : med["nome"],
         "id_repo" : gerar_id(),
         "id_medicamento" : med["id"],
-        "criticidade" : criticidade(med["estoque"])         
+        "criticidade" : criticidade(med["estoque"])
     }
 
     solicitacoes_reposicao.append(repor)
@@ -34,13 +38,10 @@ def cadastrar_repo(med) :
 
 # função auxiliar 
 def criticidade(estoque) :
-
     if estoque < 5:
         return "CRÍTICO"
-
     elif estoque < 10:
         return "ALERTA"
-
     elif estoque < 15:
         return "AVISO"
 

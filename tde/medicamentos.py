@@ -41,15 +41,15 @@ def alterar_medicamento(nome) :
                     return print("Categoria alterada com sucesso") # printa para o usuário 
                 
                 case 2 :
-                    nova_quantidade = input("Digite a nova quantidade : ")
+                    nova_quantidade = int(input("Digite a nova quantidade : "))
+                    medicamento["estoque"] = nova_quantidade # altera a quantidade em estoque do sistema
                     
                     if nova_quantidade < 15 :
                         print("---- Quantidade abaixo do estoque mínimo ! ---")
                         print("Criando pedido de reposição ... ")
-                        time.sleep(1.5) # espera 1.5 segundos
-                        cadastrar_repo(nome) # cria um novo pedido de reposição
+                        time.sleep(0.75) # espera 1.5 segundos
+                        cadastrar_repo(medicamento) # cria um novo pedido de reposição
                         
-                    medicamento["estoque"] = nova_quantidade # altera a quantidade em estoque do sistema
                     return print("Quantidade alterada com sucesso") # printa para o usuário 
                 
                 case 3 :
@@ -61,7 +61,7 @@ def alterar_medicamento(nome) :
 # função para remover o medicamento
 def remover_medicamento(nome) :  
     for medicamento in medicamentos:
-        if medicamento["nome"].lower() == nome.lower(): # co
+        if medicamento["nome"].lower() == nome.lower(): # compara os nomes 
             medicamentos.remove(medicamento)
             return print(f"{nome} removido ! ")
     

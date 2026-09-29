@@ -29,7 +29,7 @@ from estoque import (
 
 from reposicao import (
     cadastrar_repo,
-    consultar_repo,
+    buscar_repo,
     remover_repo,
     alterar_repo,
     listar_repo
