@@ -16,16 +16,20 @@ from medicamentos import medicamentos
 def cadastrar_repo(med) :
     # pega o ID e nome do remédio 
 
-    buscar_repo(med)
+    repo_existente = buscar_repo(med)
+    
+    if repo_existente is not None :
+        return
+    
 
     repor = {
         "medicamento" : med["nome"],
-        "id_repo" : gerar_id,
+        "id_repo" : gerar_id(),
         "id_medicamento" : med["id"],
         "criticidade" : criticidade(med["estoque"])         
     }
 
-    solicitacoes_reposicao.append(repor["medicamento"])
+    solicitacoes_reposicao.append(repor)
     return print(repor)
 
 # função auxiliar 
@@ -43,8 +47,9 @@ def criticidade(estoque) :
 # consulta/busca uma reposição específica
 def buscar_repo(med) :
     for repo in solicitacoes_reposicao :
-        repo["id_medicamento"] == med["id"]
-        return repo
+        if repo["id_medicamento"] == med["id"] :
+            return repo
+            
     return None
         
 

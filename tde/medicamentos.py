@@ -9,7 +9,8 @@
 # Também terá algumas validações
 from collections import deque 
 from estruturas import medicamentos
-
+from reposicao import cadastrar_repo
+import time
 
 def cadastrar_medicamento(nome) :
     medicamentos.append(nome)
@@ -38,10 +39,19 @@ def alterar_medicamento(nome) :
                     nova_categoria = input("Digite a nova categoria : ")
                     medicamento["categoria"] = nova_categoria # altera a categoria do medicamento
                     return print("Categoria alterada com sucesso") # printa para o usuário 
+                
                 case 2 :
                     nova_quantidade = input("Digite a nova quantidade : ")
+                    
+                    if nova_quantidade < 15 :
+                        print("---- Quantidade abaixo do estoque mínimo ! ---")
+                        print("Criando pedido de reposição ... ")
+                        time.sleep(1.5) # espera 1.5 segundos
+                        cadastrar_repo(nome) # cria um novo pedido de reposição
+                        
                     medicamento["estoque"] = nova_quantidade # altera a quantidade em estoque do sistema
                     return print("Quantidade alterada com sucesso") # printa para o usuário 
+                
                 case 3 :
                     novo_preco = float(input("Digite o novo preço : "))
                     medicamento["preco"] = novo_preco # altera o preço do medicamento
@@ -51,7 +61,7 @@ def alterar_medicamento(nome) :
 # função para remover o medicamento
 def remover_medicamento(nome) :  
     for medicamento in medicamentos:
-        if medicamento["nome"].lower() == nome.lower():
+        if medicamento["nome"].lower() == nome.lower(): # co
             medicamentos.remove(medicamento)
             return print(f"{nome} removido ! ")
     
