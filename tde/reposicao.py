@@ -8,11 +8,30 @@
 # Listar
 # Sam77g : vou adicionar as validações após criar o CRUD inicial
 from collections import deque 
-from estruturas import fila_reposicao
+from estruturas import fila_reposicao, solicitacoes_reposicao
 
 # cria/cadastra um novo pedido de reposição
-def cadastrar_repo() :
-    return 
+def cadastrar_repo(med) :
+    # pega o ID e nome do remédio 
+    repor = {
+        "medicamento" : med["nome"],
+        "ID_repo" : med["id"],
+        "criticidade" : criticidade(med["estoque"])
+            
+    }
+    return print(repor)
+
+# função auxiliar 
+def criticidade(estoque) :
+
+    if estoque < 5:
+        return "CRÍTICO"
+
+    elif estoque < 10:
+        return "ALERTA"
+
+    elif estoque < 15:
+        return "AVISO"
 
 # consulta/busca uma reposição específica
 def consultar_repo() :
