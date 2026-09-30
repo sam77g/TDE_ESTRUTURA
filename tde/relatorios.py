@@ -11,4 +11,3 @@ def retirada(med) :
     historico.pop()
     return print(f"O {med["nome"].upper()} foi retirado ")
 
-
