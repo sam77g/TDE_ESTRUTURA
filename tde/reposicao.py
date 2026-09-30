@@ -7,10 +7,14 @@
 # Remover
 # Listar
 # Sam77g : vou adicionar as validações após criar o CRUD inicial
+
+# =========== IMPORTS ===========
 from collections import deque 
 from estoque import gerar_id
 from estruturas import fila_reposicao, solicitacoes_reposicao
 from medicamentos import medicamentos
+
+# =========== FUNÇÕES PRINCIPAIS / CRUD ===========
 
 # cria/cadastra um novo pedido de reposição
 def cadastrar_repo(med) :

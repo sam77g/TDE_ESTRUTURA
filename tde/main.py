@@ -34,8 +34,9 @@ from reposicao import (
     alterar_repo,
     listar_repo
 )
-
+# =========== SISTEMA PRINCIPAL ===========
 while True :
+    # MENU DO SISTEMA
     print("========== SISTEMA DE CONTROLE PharmaERP ============ \n")
     print(" [1] - Adicionar medicamento \n",
           "[2] - Ver medicamentos \n",
@@ -44,9 +45,11 @@ while True :
           "[5] - Remover medicamento \n",
           " [0] - Sair \n")
     print("===================================================\n")
-    opcao = int(input("Escolha uma opção: "))
-    
+    opcao = int(input("Escolha uma opção: ")) # OPÇÃO ESCOLHIDA
+
+    # MATCH CASE PARA A OPÇÃO DIGITADA
     match opcao :
+        # ADICIONAR MEDICAMENTO A LISTA DE MEDICAMENTOS
         case 1 :
             medicamento = {
                 "nome": input("Digite o nome do medicamento : "), # obrigatório
@@ -55,7 +58,7 @@ while True :
                 "preco": float(input("Digite o preço : ")),
                 "id" : gerar_id() # obrigatório
             }
-            cadastrar_medicamento(medicamento)
+            cadastrar_medicamento(medicamento) # CADASTRA 
             # verifica se o estoque disponível está menor do que o estoque mínimo
             if medicamento["estoque"] < 15 : 
                 # se for menor, ele cadastra automaticamente o pedido de reposição
