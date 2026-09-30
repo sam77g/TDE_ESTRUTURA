@@ -9,7 +9,7 @@
 # Também terá algumas validações
 from collections import deque 
 from estruturas import medicamentos
-from reposicao import cadastrar_repo, buscar_repo, remover_repo
+from reposicao import cadastrar_repo, buscar_repo, remover_repo, remove_fila_repo
 import time
 
 def cadastrar_medicamento(nome) :
@@ -51,6 +51,7 @@ def alterar_medicamento(nome) :
                         cadastrar_repo(medicamento) # cria um novo pedido de reposição
                     elif buscar_repo(medicamento) != None :
                         remover_repo(medicamento)
+                        
                         
                     
                     return print("Quantidade alterada com sucesso") # printa para o usuário 

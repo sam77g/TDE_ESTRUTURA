@@ -7,6 +7,7 @@
 
 
 # IMPORTS
+import time
 from collections import deque 
 from estruturas import (
     medicamentos,
@@ -44,7 +45,7 @@ while True :
           "[3] - Buscar medicamento \n",
           "[4] - Alterar medicamento \n",
           "[5] - Remover medicamento \n",
-          "[6] - Menu Reposição \n"
+          "[6] - Fila de reposição \n"
           " [0] - Sair \n")
     print("===================================================\n")
     opcao = int(input("Escolha uma opção: ")) # OPÇÃO ESCOLHIDA
@@ -80,28 +81,8 @@ while True :
             rem = input("Digite o medicamento a ser removido : ")
             remover_medicamento(rem) # CHAMADA DA FUNÇÃO DE REMOÇÃO 
         case 6 :
-            print(" [1] - remover o primeiro item da fila de reposição \n",
-                  "[2] - mostrar a fila de reposição")
-            opc = int(input("digite : "))
-            if opc == 1 :
-                remove_fila_repo()
-            else :
-                mostrar_fila_repo()
-            # print("========= MENU DE REPOSIÇÃO ======== \n")
-            # print(" [1] - Buscar solitação de reposição \n",
-            #       " [2] - Remover reposição \n", )
-            
-            # repo_op = int(input(" O QUE DESEJA FAZER  : ")) # OPÇÃO DO USUÁRIO SALVA EM UMA VÁRIAVEL
-            
-            # if repo_op == 1 :
-            #     busca_r = input("DIGITE O MEDICAMENTO : ")
-            #     buscar_repo(busca_r) # CHAMADA DA FUNÇÃO DE BUSCA
-            # elif repo_op == 2 :
-            #     remove_r = input("DIGITE O MEDICAMENTO : ")
-            #     remover_repo(remove_r) # CHAMADA DA FUNÇÃO DE REMOÇÃO DE REPOSIÇÃO
-            # else : 
-            #     print(" [ERRO] - Você digitou o número errado ! ")
-            
+            print("nada ainda ...")
+            time.sleep(1.0)
         case 0 : 
             print("Até mais !")
             break

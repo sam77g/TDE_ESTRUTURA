@@ -25,7 +25,7 @@ def cadastrar_repo(med) :
     
     if repo_existente is not None :
         return
-    
+    # DICIONÁRIO PARA CADA MEDICAMENTO
     repor = {
         "medicamento" : med["medicamento"],
         "id_repo" : gerar_id(),
@@ -33,12 +33,14 @@ def cadastrar_repo(med) :
         "criticidade" : criticidade(med["estoque"])
     }
 
+    # LISTA DE SOLICITAÇÕES
     solicitacoes_reposicao.append({
         "id_repo" : repor["id_repo"],
         "medicamento" : repor["medicamento"],
         "criticidade" : repor["criticidade"]
     })
     
+    # ADICIONA A FILA DE REPOSIÇÃO
     fila_reposicao.append({
         "id_repo" : repor["id_repo"],
         "medicamento" : repor["medicamento"]
@@ -68,9 +70,10 @@ def buscar_repo(med) :
 # função para remover uma solicitação de reposição
 def remover_repo(nome) :
     for medicamento in solicitacoes_reposicao:
-        if medicamento["medicamento"].lower() == nome["medicamento"].lower(): # compara os nomes 
+        if medicamento["medicamento"].lower() == nome["medicamento"].lower() : # compara os nomes 
             solicitacoes_reposicao.remove(medicamento)
             print(f"{nome} removido ! ")
+            
             
 
 #função de listar as solicitações de reposição
@@ -82,6 +85,8 @@ def listar_repo() :
               f"criticidae : {medicamento["criticidade"]}\n")
         print(" ---------------------------------------- \n")
 
+# --------- FILA DE REPOSIÇÃO ---------
+# Não será usada atualmente (30/09/2026). Ass.: Samuel - sam77g
 # FUNÇÃO PARA RETIRAR UM ELEMENTO NA FILA DE REPOSIÇAO
 def remove_fila_repo() :
     print(f"remover o medicamento : {fila_reposicao[0]["medicamento"]}")
@@ -101,3 +106,10 @@ def mostrar_fila_repo() :
         print(f" nome : {medicamento["medicamento"]} \n",
               f"id de reposição : {medicamento["id_repo"]} \n",)
         print(" ---------------------------------------- \n")
+# Inutilizado na main para o menu
+    # mostrar_fila_repo()
+    # print(" [s/n] - remover o primeiro item da fila de reposição ? \n")
+    # opc = str(input("digite : ").strip().lower())
+    # if opc == "s" :
+    #     remove_fila_repo()
+            
