@@ -35,12 +35,18 @@ def cadastrar_repo(med) :
 
     solicitacoes_reposicao.append({
         "id_repo" : repor["id_repo"],
+        "medicamento" : repor["medicamento"],
+        "criticidade" : repor["criticidade"]
+    })
+    
+    fila_reposicao.append({
+        "id_repo" : repor["id_repo"],
         "medicamento" : repor["medicamento"]
     })
-    fila_reposicao.append(repor)
-    return print(f" medicamento : {repor["medicamento"].upper()} \n",
-                 f"criticidade : {repor["criticidade"]} \n",
-                 f"ID de reposição : {repor["id_repo"]} \n",)
+    print(f" medicamento : {repor["medicamento"].upper()} \n",
+        f"criticidade : {repor["criticidade"]} \n",
+        f"ID de reposição : {repor["id_repo"]} \n",)
+
 
 # função auxiliar 
 def criticidade(estoque) :
@@ -64,7 +70,8 @@ def remover_repo(nome) :
     for medicamento in solicitacoes_reposicao:
         if medicamento["medicamento"].lower() == nome["medicamento"].lower(): # compara os nomes 
             solicitacoes_reposicao.remove(medicamento)
-            return print(f"{nome} removido ! ")
+            print(f"{nome} removido ! ")
+            
 
 #função de listar as solicitações de reposição
 def listar_repo() :
@@ -74,8 +81,8 @@ def listar_repo() :
               f"id de reposição : {medicamento["id_repo"]} \n",
               f"criticidae : {medicamento["criticidade"]}\n")
         print(" ---------------------------------------- \n")
-    # for med in fila_reposicao :
 
+# FUNÇÃO PARA RETIRAR UM ELEMENTO NA FILA DE REPOSIÇAO
 def remove_fila_repo() :
     print(f"remover o medicamento : {fila_reposicao[0]["medicamento"]}")
     yes_or_no = str(input("Vocẽ realmente deseja retirar esse medicamento da fila de reposição ? [s/n] : ").strip().lower())
@@ -86,7 +93,8 @@ def remove_fila_repo() :
         print(" ---- Item removido com sucesso !! ----")
     else : 
         print("O medicamento continua na FILA ! \n")
-        
+
+# FUNÇÃO PARA MOSTRAR A FILA DE REPOSIÇÃO
 def mostrar_fila_repo() :
     print("=========================== FILA DE REPOSIÇAO ================================== \n")
     for medicamento in fila_reposicao :
