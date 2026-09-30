@@ -31,7 +31,6 @@ from reposicao import (
     cadastrar_repo,
     buscar_repo,
     remover_repo,
-    alterar_repo,
     listar_repo
 )
 # =========== SISTEMA PRINCIPAL ===========
@@ -53,8 +52,8 @@ while True :
         # ADICIONAR MEDICAMENTO A LISTA DE MEDICAMENTOS
         case 1 :
             medicamento = {
-                "medicamento": input("Digite o nome do medicamento : "), # obrigatório
-                "categoria": input("Digite a categoria : "), 
+                "medicamento": str(input("Digite o nome do medicamento : ")), # obrigatório
+                "categoria": str(input("Digite a categoria : ")), 
                 "estoque": int(input("Digite a quantidade : ")), # obrigatório
                 "preco": float(input("Digite o preço : ")),
                 "id" : gerar_id() # obrigatório
@@ -63,9 +62,9 @@ while True :
             # verifica se o estoque disponível está menor do que o estoque mínimo
             if medicamento["estoque"] < 15 : 
                 # se for menor, ele cadastra automaticamente o pedido de reposição
-                cadastrar_repo(medicamento)
                 print("Estoque menor que o estoque mínimo !")
-                print(f"Criando pedido de reposição para {medicamento['medicamento'].upper()} !")
+                print(f"Criando pedido de reposição para {medicamento['medicamento'].upper()} ! \n")
+                cadastrar_repo(medicamento)
 
         case 2 : 
             listar_medicamentos()
@@ -79,6 +78,7 @@ while True :
             rem = input("Digite o medicamento a ser removido : ")
             remover_medicamento(rem) # CHAMADA DA FUNÇÃO DE REMOÇÃO 
         case 6 :
+            listar_repo()
             # print("========= MENU DE REPOSIÇÃO ======== \n")
             # print(" [1] - Buscar solitação de reposição \n",
             #       " [2] - Remover reposição \n", )
@@ -93,7 +93,6 @@ while True :
             #     remover_repo(remove_r) # CHAMADA DA FUNÇÃO DE REMOÇÃO DE REPOSIÇÃO
             # else : 
             #     print(" [ERRO] - Você digitou o número errado ! ")
-            break
             
         case 0 : 
             print("Até mais !")

@@ -33,7 +33,9 @@ def cadastrar_repo(med) :
     }
 
     solicitacoes_reposicao.append(repor)
-    return print(repor)
+    return print(f" medicamento : {repor["medicamento"].upper()} \n",
+                 f"criticidade : {repor["criticidade"]} \n",
+                 f"ID de reposição : {repor["id_repo"]} \n",)
 
 # função auxiliar 
 def criticidade(estoque) :
@@ -51,12 +53,6 @@ def buscar_repo(med) :
             return repo
             
     return None
-        
-
-# função de alterar um pedido de reposição
-def alterar_repo() :
-    
-    return
 
 # função para remover uma solicitação de reposição
 def remover_repo(nome) :
@@ -68,6 +64,9 @@ def remover_repo(nome) :
 #função de listar as solicitações de reposição
 def listar_repo() :
     print("=========================== SOLITAÇÕES DE REPOSIÇAO ================================== \n")
+    for medicamento in solicitacoes_reposicao :
+        print(f" nome : {medicamento["medicamento"]} \n",
+              f"id de reposição : {medicamento["id_repo"]} \n",
+              f"criticidae : {medicamento["criticidade"]}\n")
+        print(" ---------------------------------------- \n")
     # for med in fila_reposicao :
-
-    return
