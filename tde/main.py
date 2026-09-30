@@ -6,8 +6,7 @@
 #     controlar o fluxo geral do programa.
 
 
-# ================ IMPORTS ===================
-# funções essencias para o sistema funcionar
+# IMPORTS
 from collections import deque 
 from estruturas import (
     medicamentos,
@@ -36,23 +35,19 @@ from reposicao import (
     listar_repo
 )
 
-# ================== Sistema principal ==================
 while True :
-    # Menu do sistema
     print("========== SISTEMA DE CONTROLE PharmaERP ============ \n")
     print(" [1] - Adicionar medicamento \n",
           "[2] - Ver medicamentos \n",
           "[3] - Buscar medicamento \n",
           "[4] - Alterar medicamento \n",
           "[5] - Remover medicamento \n",
-          "[0] - Sair \n")
+          " [0] - Sair \n")
     print("===================================================\n")
-    opcao = int(input("Escolha uma opção: ")) # salva o que foi digitado pelo usuário
-
-    # Match case para cada opção/função
+    opcao = int(input("Escolha uma opção: "))
+    
     match opcao :
         case 1 :
-            # Dicionário que salva as informações do medicamento a ser adicionado
             medicamento = {
                 "nome": input("Digite o nome do medicamento : "), # obrigatório
                 "categoria": input("Digite a categoria : "), 
@@ -60,27 +55,27 @@ while True :
                 "preco": float(input("Digite o preço : ")),
                 "id" : gerar_id() # obrigatório
             }
-            cadastrar_medicamento(medicamento) # chamada da função para o cadastro do medicamento
-
+            cadastrar_medicamento(medicamento)
             # verifica se o estoque disponível está menor do que o estoque mínimo
             if medicamento["estoque"] < 15 : 
-                cadastrar_repo(medicamento) # se for menor, ele cadastra automaticamente o pedido de reposição
+                # se for menor, ele cadastra automaticamente o pedido de reposição
+                cadastrar_repo(medicamento)
                 print("Estoque menor que o estoque mínimo !")
                 print(f"Criando pedido de reposição para {medicamento['nome'].upper()} !")
 
         case 2 : 
-            listar_medicamentos() # Printa todos os medicamentos presentes na lista de medicamentos
+            listar_medicamentos()
         case 3 : 
-            busca = input("Digite o medicamento : ") # salva o nome para a busca
-            buscar_medicamento(busca) # chamada da função resente em medicamentos.py
+            busca = input("Digite o medicamento : ")
+            buscar_medicamento(busca)
         case 4 :
-            alt = input("Digite o medicamento : ") # salva o nome para alterar um medicamento
-            alterar_medicamento(alt)# chamada da função resente em medicamentos.py
+            alt = input("Digite o medicamento : ")
+            alterar_medicamento(alt)
         case 5 :
-            rem = input("Digite o medicamento a ser removido : ") # salva o nome para remoção de medicamento
-            remover_medicamento(rem) # chamada da função resente em medicamentos.py
+            rem = input("Digite o medicamento a ser removido : ")
+            remover_medicamento(rem)
         case 0 : 
-            print("Até mais !") # print quando o usuário digitar para sair
+            print("Até mais !")
             break
         case _ :
-            print("Número errado - sistema encerrado") # print caso o usuário digite o número errado
+            print("Número errado - sistema encerrado")
