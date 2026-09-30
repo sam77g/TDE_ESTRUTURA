@@ -40,11 +40,12 @@ def cadastrar_repo(med) :
         "criticidade" : repor["criticidade"]
     })
     
+    #  fila inutilizada
     # ADICIONA A FILA DE REPOSIÇÃO
-    fila_reposicao.append({
-        "id_repo" : repor["id_repo"],
-        "medicamento" : repor["medicamento"]
-    })
+    # fila_reposicao.append({
+    #     "id_repo" : repor["id_repo"],
+    #     "medicamento" : repor["medicamento"]
+    # })
     print(f" medicamento : {repor["medicamento"].upper()} \n",
         f"criticidade : {repor["criticidade"]} \n",
         f"ID de reposição : {repor["id_repo"]} \n",)
