@@ -1,6 +1,7 @@
 # consultas e relatórios
 # Esse arquivo será responsável pelas funcionalidades que analisam os dados.
 from collections import deque 
+<<<<<<< HEAD
 from estruturas import historico
 
 def entrada(med) :
@@ -10,3 +11,6 @@ def entrada(med) :
 def retirada(med) :
     historico.pop()
     return print(f"O {med["nome"].upper()} foi retirado ")
+=======
+from estruturas import historico
+>>>>>>> develop
