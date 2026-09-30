@@ -31,7 +31,9 @@ from reposicao import (
     cadastrar_repo,
     buscar_repo,
     remover_repo,
-    listar_repo
+    listar_repo,
+    remove_fila_repo,
+    mostrar_fila_repo
 )
 # =========== SISTEMA PRINCIPAL ===========
 while True :
@@ -78,7 +80,13 @@ while True :
             rem = input("Digite o medicamento a ser removido : ")
             remover_medicamento(rem) # CHAMADA DA FUNÇÃO DE REMOÇÃO 
         case 6 :
-            listar_repo()
+            print(" [1] - remover o primeiro item da fila de reposição \n",
+                  "[2] - mostrar a fila de reposição")
+            opc = int(input("digite : "))
+            if opc == 1 :
+                remove_fila_repo()
+            else :
+                mostrar_fila_repo()
             # print("========= MENU DE REPOSIÇÃO ======== \n")
             # print(" [1] - Buscar solitação de reposição \n",
             #       " [2] - Remover reposição \n", )

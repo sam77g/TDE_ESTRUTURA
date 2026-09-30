@@ -13,6 +13,7 @@ from collections import deque
 from estoque import gerar_id
 from estruturas import fila_reposicao, solicitacoes_reposicao
 from medicamentos import medicamentos
+import time
 
 # =========== FUNÇÕES PRINCIPAIS / CRUD ===========
 
@@ -32,7 +33,11 @@ def cadastrar_repo(med) :
         "criticidade" : criticidade(med["estoque"])
     }
 
-    solicitacoes_reposicao.append(repor)
+    solicitacoes_reposicao.append({
+        "id_repo" : repor["id_repo"],
+        "medicamento" : repor["medicamento"]
+    })
+    fila_reposicao.append(repor)
     return print(f" medicamento : {repor["medicamento"].upper()} \n",
                  f"criticidade : {repor["criticidade"]} \n",
                  f"ID de reposição : {repor["id_repo"]} \n",)
@@ -70,3 +75,21 @@ def listar_repo() :
               f"criticidae : {medicamento["criticidade"]}\n")
         print(" ---------------------------------------- \n")
     # for med in fila_reposicao :
+
+def remove_fila_repo() :
+    print(f"remover o medicamento : {fila_reposicao[0]["medicamento"]}")
+    yes_or_no = str(input("Vocẽ realmente deseja retirar esse medicamento da fila de reposição ? [s/n] : ").strip().lower())
+    if yes_or_no == "s" :
+        fila_reposicao.popleft() # retira o primeiro
+        print("REMOVENDO ...")
+        time.sleep(0.5)
+        print(" ---- Item removido com sucesso !! ----")
+    else : 
+        print("O medicamento continua na FILA ! \n")
+        
+def mostrar_fila_repo() :
+    print("=========================== FILA DE REPOSIÇAO ================================== \n")
+    for medicamento in fila_reposicao :
+        print(f" nome : {medicamento["medicamento"]} \n",
+              f"id de reposição : {medicamento["id_repo"]} \n",)
+        print(" ---------------------------------------- \n")
