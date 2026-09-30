@@ -9,7 +9,7 @@
 # Também terá algumas validações
 from collections import deque 
 from estruturas import medicamentos
-from reposicao import cadastrar_repo
+from reposicao import cadastrar_repo, buscar_repo, remover_repo
 import time
 
 def cadastrar_medicamento(nome) :
@@ -20,7 +20,7 @@ def listar_medicamentos() :
 
 def buscar_medicamento(nome):
     for medicamento in medicamentos:
-        if medicamento["nome"].lower() == nome.lower():
+        if medicamento["medicamento"].lower() == nome.lower():
             return print(f"{medicamento}")
     
     return print("Medicamento não encontrado.")
@@ -28,7 +28,7 @@ def buscar_medicamento(nome):
 # função de alterar características do medicamento atrvés do nome digitado
 def alterar_medicamento(nome) :
     for medicamento in medicamentos: # percorre a lista de medicamentos
-        if medicamento["nome"].lower() == nome.lower(): # verifica se o nome digitado está presente na lista
+        if medicamento["medicamento"].lower() == nome.lower(): # verifica se o nome digitado está presente na lista
             print(f" ----- ALTERAR {nome.upper()} ----- \n")
             print("[1] - Categoria \n",
                   "[2] - Estoque / Quantidade \n",
@@ -49,7 +49,10 @@ def alterar_medicamento(nome) :
                         print("Criando pedido de reposição ... ")
                         time.sleep(0.75) # espera 1.5 segundos
                         cadastrar_repo(medicamento) # cria um novo pedido de reposição
+                    elif buscar_repo(medicamento) != None :
+                        remover_repo(medicamento)
                         
+                    
                     return print("Quantidade alterada com sucesso") # printa para o usuário 
                 
                 case 3 :
@@ -61,7 +64,7 @@ def alterar_medicamento(nome) :
 # função para remover o medicamento
 def remover_medicamento(nome) :  
     for medicamento in medicamentos:
-        if medicamento["nome"].lower() == nome.lower(): # compara os nomes 
+        if medicamento["medicamento"].lower() == nome.lower(): # compara os nomes 
             medicamentos.remove(medicamento)
             return print(f"{nome} removido ! ")
     

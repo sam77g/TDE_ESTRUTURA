@@ -43,6 +43,7 @@ while True :
           "[3] - Buscar medicamento \n",
           "[4] - Alterar medicamento \n",
           "[5] - Remover medicamento \n",
+          "[6] - Menu Reposição \n"
           " [0] - Sair \n")
     print("===================================================\n")
     opcao = int(input("Escolha uma opção: ")) # OPÇÃO ESCOLHIDA
@@ -52,7 +53,7 @@ while True :
         # ADICIONAR MEDICAMENTO A LISTA DE MEDICAMENTOS
         case 1 :
             medicamento = {
-                "nome": input("Digite o nome do medicamento : "), # obrigatório
+                "medicamento": input("Digite o nome do medicamento : "), # obrigatório
                 "categoria": input("Digite a categoria : "), 
                 "estoque": int(input("Digite a quantidade : ")), # obrigatório
                 "preco": float(input("Digite o preço : ")),
@@ -64,19 +65,36 @@ while True :
                 # se for menor, ele cadastra automaticamente o pedido de reposição
                 cadastrar_repo(medicamento)
                 print("Estoque menor que o estoque mínimo !")
-                print(f"Criando pedido de reposição para {medicamento['nome'].upper()} !")
+                print(f"Criando pedido de reposição para {medicamento['medicamento'].upper()} !")
 
         case 2 : 
             listar_medicamentos()
         case 3 : 
             busca = input("Digite o medicamento : ")
-            buscar_medicamento(busca)
+            buscar_medicamento(busca) # CHAMADA DA FUNÇÃO DE BUSCA
         case 4 :
             alt = input("Digite o medicamento : ")
-            alterar_medicamento(alt)
+            alterar_medicamento(alt) # CHAMADA DA FUNÇÃO DE ALTERAÇÃO
         case 5 :
             rem = input("Digite o medicamento a ser removido : ")
-            remover_medicamento(rem)
+            remover_medicamento(rem) # CHAMADA DA FUNÇÃO DE REMOÇÃO 
+        case 6 :
+            # print("========= MENU DE REPOSIÇÃO ======== \n")
+            # print(" [1] - Buscar solitação de reposição \n",
+            #       " [2] - Remover reposição \n", )
+            
+            # repo_op = int(input(" O QUE DESEJA FAZER  : ")) # OPÇÃO DO USUÁRIO SALVA EM UMA VÁRIAVEL
+            
+            # if repo_op == 1 :
+            #     busca_r = input("DIGITE O MEDICAMENTO : ")
+            #     buscar_repo(busca_r) # CHAMADA DA FUNÇÃO DE BUSCA
+            # elif repo_op == 2 :
+            #     remove_r = input("DIGITE O MEDICAMENTO : ")
+            #     remover_repo(remove_r) # CHAMADA DA FUNÇÃO DE REMOÇÃO DE REPOSIÇÃO
+            # else : 
+            #     print(" [ERRO] - Você digitou o número errado ! ")
+            break
+            
         case 0 : 
             print("Até mais !")
             break

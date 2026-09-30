@@ -22,16 +22,11 @@ def cadastrar_repo(med) :
 
     repo_existente = buscar_repo(med)
     
-    print("DEBUG")
-    print(f"Medicamento: {med['nome']}")
-    print(f"Estoque recebido: {med['estoque']}")
-    print(f"Criticidade calculada: {criticidade(med['estoque'])}")
-    
     if repo_existente is not None :
         return
     
     repor = {
-        "medicamento" : med["nome"],
+        "medicamento" : med["medicamento"],
         "id_repo" : gerar_id(),
         "id_medicamento" : med["id"],
         "criticidade" : criticidade(med["estoque"])
@@ -52,7 +47,7 @@ def criticidade(estoque) :
 # consulta/busca uma reposição específica
 def buscar_repo(med) :
     for repo in solicitacoes_reposicao :
-        if repo["id_medicamento"] == med["id"] :
+        if repo["medicamento"] == med["medicamento"] :
             return repo
             
     return None
@@ -60,11 +55,15 @@ def buscar_repo(med) :
 
 # função de alterar um pedido de reposição
 def alterar_repo() :
+    
     return
 
 # função para remover uma solicitação de reposição
-def remover_repo() :
-    return
+def remover_repo(nome) :
+    for medicamento in solicitacoes_reposicao:
+        if medicamento["medicamento"].lower() == nome["medicamento"].lower(): # compara os nomes 
+            solicitacoes_reposicao.remove(medicamento)
+            return print(f"{nome} removido ! ")
 
 #função de listar as solicitações de reposição
 def listar_repo() :
