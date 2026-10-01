@@ -46,14 +46,14 @@ while True:
     # MENU DO SISTEMA
     print("========== SISTEMA DE CONTROLE PharmaERP ============ \n")
     print(
-        " [1] - Adicionar medicamento \n",
+        "  [1] - Adicionar medicamento \n",
         " [2] - Ver medicamentos \n",
         " [3] - Buscar medicamento \n",
         " [4] - Alterar medicamento \n",
         " [5] - Remover medicamento \n",
         " [6] - Fila de reposição \n",
-        " [7] - Histórico no menu \n"
-        " [0] - Sair \n"
+        " [6] - Histórico no menu \n"
+        "  [0] - Sair \n"
     )
     print("===================================================\n")
     opcao = int(input("Escolha uma opção: "))
@@ -110,11 +110,8 @@ while True:
             remover_medicamento(rem)
 
         case 6:
-            mostrar_fila_repo()
-            
-        case 7:  
             listar_historico()
-
+        
         # SAIR
         case 0:
             print("Até mais!")
