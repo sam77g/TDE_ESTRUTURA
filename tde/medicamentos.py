@@ -12,21 +12,27 @@ from estruturas import medicamentos
 from reposicao import cadastrar_repo, buscar_repo, remover_repo, remove_fila_repo
 import time
 
+# FUNÇAO DE CADASTRO DE MEDICAMENTOS
 def cadastrar_medicamento(nome) :
-    medicamentos.append(nome)
-    
+    medicamentos.append(nome) # adiciona o medicamento a lista
+
+# FUNÇAO DE LISTAR TODOS OS MEDICAMENTOS
 def listar_medicamentos() :
     for i in medicamentos :
         
-        print(f"==================== {i["nome"].upper()} ======================= \n")
+        print(f"==================== {i["medicamento"].upper()} ======================= \n")
         print(f"quantidade : {i["estoque"]} " )  
         print(f"preço : {i["preco"]} ")
         print(f"ID : {i["id"]} \n")
 
+# FUNÇÃO DE BUSCAR MEDICAMENTOS
 def buscar_medicamento(nome):
-    for medicamento in medicamentos:
-        if medicamento["medicamento"].lower() == nome.lower():
-            return print(f"{medicamento}")
+    for i in medicamentos :
+            
+        print(f"==================== {i["medicamento"].upper()} ======================= \n")
+        print(f"quantidade : {i["estoque"]} " )  
+        print(f"preço : {i["preco"]} ")
+        print(f"ID : {i["id"]} \n")
     
     return print("Medicamento não encontrado.")
 
