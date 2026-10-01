@@ -8,7 +8,12 @@
 
 # IMPORTS
 import time
-from utils.validar import validar_medicamento
+from validar import validar_medicamento
+from relatorios import (
+    listar_historico,
+    retirada,
+    entrada
+)
 from estruturas import (
     medicamentos,
     historico,
@@ -47,6 +52,7 @@ while True:
         " [4] - Alterar medicamento \n",
         " [5] - Remover medicamento \n",
         " [6] - Fila de reposição \n",
+        " [7] - Histórico no menu \n"
         " [0] - Sair \n"
     )
     print("===================================================\n")
@@ -103,10 +109,11 @@ while True:
             rem = input("Digite o medicamento a ser removido: ")
             remover_medicamento(rem)
 
-        # FILA DE REPOSIÇÃO
         case 6:
-            print("nada ainda ...")
-            time.sleep(1.0)
+            mostrar_fila_repo()
+            
+        case 7:  
+            listar_historico()
 
         # SAIR
         case 0:
