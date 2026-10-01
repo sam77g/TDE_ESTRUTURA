@@ -12,7 +12,7 @@
 from collections import deque 
 from estoque import gerar_id, gerar_id_repo
 from estruturas import fila_reposicao, solicitacoes_reposicao
-from medicamentos import medicamentos
+from estruturas import medicamentos
 import time
 
 # =========== FUNÇÕES PRINCIPAIS / CRUD ===========
@@ -53,13 +53,12 @@ def cadastrar_repo(med) :
 
 
 # função auxiliar 
-def criticidade(estoque) :
+def criticidade(estoque):
     if estoque < 5:
         return "CRÍTICO"
     elif estoque < 10:
         return "ALERTA"
-    elif estoque < 15:
-        return "AVISO"
+    return "AVISO"
 
 # consulta/busca uma reposição específica
 def buscar_repo(med) :
