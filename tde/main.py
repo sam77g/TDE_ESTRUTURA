@@ -9,7 +9,7 @@
 # IMPORTS
 import time
 from collections import deque 
-from validar import validar_texto
+from tde.utils.validar import validar_medicamento
 from estruturas import (
     medicamentos,
     historico,
@@ -62,8 +62,11 @@ while True :
                 "preco": float(input("Digite o preço : ")),
                 "id" : gerar_id() # obrigatório
             }
-            if is_nome_vazio(medicamento) == True :
+            if validar_medicamento(medicamento) :
                 cadastrar_medicamento(medicamento) # CADASTRA 
+                print("Medicamento cadastrado com sucesso!")
+            else:
+                print("Erro: dados do medicamento inválidos!")
                 
             # verifica se o estoque disponível está menor do que o estoque mínimo
             if medicamento["estoque"] < 15 : 
