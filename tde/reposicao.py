@@ -46,6 +46,7 @@ def cadastrar_repo(med) :
     #     "id_repo" : repor["id_repo"],
     #     "medicamento" : repor["medicamento"]
     # })
+    
     print(f" medicamento : {repor["medicamento"].upper()} \n",
         f"criticidade : {repor["criticidade"]} \n",
         f"ID de reposição : {repor["id_repo"]} \n",)
