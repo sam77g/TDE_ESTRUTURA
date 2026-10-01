@@ -9,6 +9,7 @@
 # Também terá algumas validações
 
 from collections import deque 
+from utils.validar import validar_medicamento, validar_texto, validar_estoque, validar_nome
 from estruturas import medicamentos
 from reposicao import cadastrar_repo, buscar_repo, remover_repo, remove_fila_repo
 import time
