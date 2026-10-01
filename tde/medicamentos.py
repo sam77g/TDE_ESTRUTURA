@@ -9,30 +9,37 @@
 # Também terá algumas validações
 from collections import deque 
 from estruturas import medicamentos
+from reposicao import cadastrar_repo, buscar_repo, remover_repo, remove_fila_repo
+import time
 
-
+# FUNÇAO DE CADASTRO DE MEDICAMENTOS
 def cadastrar_medicamento(nome) :
-    medicamentos.append(nome)
-    
+    medicamentos.append(nome) # adiciona o medicamento a lista
+
+# FUNÇAO DE LISTAR TODOS OS MEDICAMENTOS
 def listar_medicamentos() :
     for i in medicamentos :
         
-        print(f"==================== {i["nome"].upper()} ======================= \n")
+        print(f"==================== {i["medicamento"].upper()} ======================= \n")
         print(f"quantidade : {i["estoque"]} " )  
         print(f"preço : {i["preco"]} ")
         print(f"ID : {i["id"]} \n")
 
+# FUNÇÃO DE BUSCAR MEDICAMENTOS
 def buscar_medicamento(nome):
-    for medicamento in medicamentos:
-        if medicamento["nome"].lower() == nome.lower():
-            return print(f"{medicamento}")
+    for i in medicamentos :
+            
+        print(f"==================== {i["medicamento"].upper()} ======================= \n")
+        print(f"quantidade : {i["estoque"]} " )  
+        print(f"preço : {i["preco"]} ")
+        print(f"ID : {i["id"]} \n")
     
-    return None
+    return print("Medicamento não encontrado.")
 
 # função de alterar características do medicamento atrvés do nome digitado
 def alterar_medicamento(nome) :
     for medicamento in medicamentos: # percorre a lista de medicamentos
-        if medicamento["nome"].lower() == nome.lower(): # verifica se o nome digitado está presente na lista
+        if medicamento["medicamento"].lower() == nome.lower(): # verifica se o nome digitado está presente na lista
             print(f" ----- ALTERAR {nome.upper()} ----- \n")
             print("[1] - Categoria \n",
                   "[2] - Estoque / Quantidade \n",
@@ -43,10 +50,23 @@ def alterar_medicamento(nome) :
                     nova_categoria = input("Digite a nova categoria : ")
                     medicamento["categoria"] = nova_categoria # altera a categoria do medicamento
                     return print("Categoria alterada com sucesso") # printa para o usuário 
+                
                 case 2 :
-                    nova_quantidade = input("Digite a nova quantidade : ")
+                    nova_quantidade = int(input("Digite a nova quantidade : "))
                     medicamento["estoque"] = nova_quantidade # altera a quantidade em estoque do sistema
+                    
+                    if nova_quantidade < 15 :
+                        print("---- Quantidade abaixo do estoque mínimo ! ---")
+                        print("Criando pedido de reposição ... ")
+                        time.sleep(0.75) # espera 1.5 segundos
+                        cadastrar_repo(medicamento) # cria um novo pedido de reposição
+                    elif buscar_repo(medicamento) != None :
+                        remover_repo(medicamento)
+                        
+                        
+                    
                     return print("Quantidade alterada com sucesso") # printa para o usuário 
+                
                 case 3 :
                     novo_preco = float(input("Digite o novo preço : "))
                     medicamento["preco"] = novo_preco # altera o preço do medicamento
@@ -56,8 +76,8 @@ def alterar_medicamento(nome) :
 # função para remover o medicamento
 def remover_medicamento(nome) :  
     for medicamento in medicamentos:
-        if medicamento["nome"].lower() == nome.lower():
+        if medicamento["medicamento"].lower() == nome.lower(): # compara os nomes 
             medicamentos.remove(medicamento)
             return print(f"{nome} removido ! ")
     
-    return None   
+    return print("Medicamento não encontrado.")  
