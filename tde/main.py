@@ -51,7 +51,6 @@ while True:
         " [3] - Buscar medicamento \n",
         " [4] - Alterar medicamento \n",
         " [5] - Remover medicamento \n",
-        " [6] - Fila de reposição \n",
         " [6] - Histórico no menu \n"
         "  [0] - Sair \n"
     )
@@ -75,7 +74,7 @@ while True:
                 medicamentos
             )
             if resultado is True:
-                # CADASTRA O MEDICAMENTO
+                # CADASTRA O MEDICAMENTOW
                 cadastrar_medicamento(medicamento)
                 print("\nMedicamento cadastrado com sucesso!")
 
