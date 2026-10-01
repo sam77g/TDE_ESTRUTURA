@@ -61,7 +61,7 @@ while True:
                 "categoria": input("Digite a categoria: "),
                 "estoque": int(input("Digite a quantidade: ")),
                 "preco": float(input("Digite o preço: ")),
-                "id": gerar_id()
+                "id": gerar_id() # gera um ID único
             }
             # VALIDA OS DADOS DO MEDICAMENTO
             resultado = validar_medicamento(
