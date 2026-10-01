@@ -1,5 +1,6 @@
 # gitignore
 .env
+# ignora os arquivos temporários de python
 __pycache__/
 *.pyc
 *.pyo
