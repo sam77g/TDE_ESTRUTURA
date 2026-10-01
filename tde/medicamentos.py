@@ -83,6 +83,5 @@ def remover_medicamento(nome):
             retirada(medicamento)
             if buscar_repo(medicamento) is not None:
                 remover_repo(medicamento)  # limpa o pedido de reposição pendente
-            return print(f"{nome} removido ! ")
     print("medicamento não encontrado !")
     
