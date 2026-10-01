@@ -8,7 +8,12 @@
 
 # IMPORTS
 import time
-from utils.validar import validar_medicamento
+from validar import validar_medicamento
+from relatorios import (
+    listar_historico,
+    retirada,
+    entrada
+)
 from estruturas import (
     medicamentos,
     historico,
@@ -41,13 +46,13 @@ while True:
     # MENU DO SISTEMA
     print("========== SISTEMA DE CONTROLE PharmaERP ============ \n")
     print(
-        " [1] - Adicionar medicamento \n",
+        "  [1] - Adicionar medicamento \n",
         " [2] - Ver medicamentos \n",
         " [3] - Buscar medicamento \n",
         " [4] - Alterar medicamento \n",
         " [5] - Remover medicamento \n",
-        " [6] - Fila de reposição \n",
-        " [0] - Sair \n"
+        " [6] - Histórico no menu \n"
+        "  [0] - Sair \n"
     )
     print("===================================================\n")
     opcao = int(input("Escolha uma opção: "))
@@ -69,7 +74,7 @@ while True:
                 medicamentos
             )
             if resultado is True:
-                # CADASTRA O MEDICAMENTO
+                # CADASTRA O MEDICAMENTOW
                 cadastrar_medicamento(medicamento)
                 print("\nMedicamento cadastrado com sucesso!")
 
@@ -103,11 +108,9 @@ while True:
             rem = input("Digite o medicamento a ser removido: ")
             remover_medicamento(rem)
 
-        # FILA DE REPOSIÇÃO
         case 6:
-            print("nada ainda ...")
-            time.sleep(1.0)
-
+            listar_historico()
+        
         # SAIR
         case 0:
             print("Até mais!")

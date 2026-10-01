@@ -5,13 +5,9 @@
 # fila_reposicao = []
 from collections import deque 
 
-
-medicamentos = [] # medicamentos.py
-historico = deque() # relatórios.py
-fila_reposicao = deque() # reposição.py - armazenará os IDs das solicitações pendentes
-solicitacoes_reposicao = deque() # reposição.py - representa o cadastro da entidade
-medicamentos = []
+medicamentos = []  # medicamentos.py
+historico = []  # relatorios.py
+fila_reposicao = deque()  # reposicao.py
+solicitacoes_reposicao = deque()  # reposicao.py
 fornecedores = []
-historico = []
-fila_reposicao = []
 
