@@ -9,6 +9,7 @@
 # IMPORTS
 import time
 from collections import deque 
+from validar import validar_texto
 from estruturas import (
     medicamentos,
     historico,
@@ -61,7 +62,9 @@ while True :
                 "preco": float(input("Digite o preço : ")),
                 "id" : gerar_id() # obrigatório
             }
-            cadastrar_medicamento(medicamento) # CADASTRA 
+            if is_nome_vazio(medicamento) == True :
+                cadastrar_medicamento(medicamento) # CADASTRA 
+                
             # verifica se o estoque disponível está menor do que o estoque mínimo
             if medicamento["estoque"] < 15 : 
                 # se for menor, ele cadastra automaticamente o pedido de reposição

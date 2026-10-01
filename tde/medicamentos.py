@@ -7,6 +7,7 @@
 # alterar_medicamento()
 # remover_medicamento()
 # Também terá algumas validações
+
 from collections import deque 
 from estruturas import medicamentos
 from reposicao import cadastrar_repo, buscar_repo, remover_repo, remove_fila_repo
@@ -62,9 +63,6 @@ def alterar_medicamento(nome) :
                         cadastrar_repo(medicamento) # cria um novo pedido de reposição
                     elif buscar_repo(medicamento) != None :
                         remover_repo(medicamento)
-                        
-                        
-                    
                     return print("Quantidade alterada com sucesso") # printa para o usuário 
                 
                 case 3 :
@@ -77,7 +75,7 @@ def alterar_medicamento(nome) :
 def remover_medicamento(nome) :  
     for medicamento in medicamentos:
         if medicamento["medicamento"].lower() == nome.lower(): # compara os nomes 
-            medicamentos.remove(medicamento)
+            medicamentos.remove(medicamento) # remove o medicamento da lista
             return print(f"{nome} removido ! ")
     
-    return print("Medicamento não encontrado.")  
+    return print("Medicamento não encontrado.")  # printa caso não encontre o medicamento
