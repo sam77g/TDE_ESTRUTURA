@@ -9,14 +9,18 @@
 # Também terá algumas validações
 
 from collections import deque 
-from utils.validar import validar_medicamento, validar_texto, validar_estoque, validar_nome
+from validar import validar_medicamento, validar_texto, validar_estoque, validar_nome
 from estruturas import medicamentos
+from relatorios import entrada, retirada
 from reposicao import cadastrar_repo, buscar_repo, remover_repo, remove_fila_repo
 import time
 
 # FUNÇAO DE CADASTRO DE MEDICAMENTOS
-def cadastrar_medicamento(nome) :
-    medicamentos.append(nome) # adiciona o medicamento a lista
+def cadastrar_medicamento(med) :
+    medicamentos.append(med) # adiciona o medicamento a lista
+    entrada(med) # REGISTRA A ENTRADA
+    
+    
 
 # FUNÇAO DE LISTAR TODOS OS MEDICAMENTOS
 def listar_medicamentos() :
@@ -72,11 +76,12 @@ def alterar_medicamento(nome) :
                     
 
 # função para remover o medicamento
-def remover_medicamento(nome) :  
+def remover_medicamento(nome):
     for medicamento in medicamentos:
-        if medicamento["medicamento"].lower() == nome.lower(): # compara os nomes 
-            medicamentos.remove(medicamento) # remove o medicamento da lista
-            return print(f"{nome} removido ! ")
-        else :
-            return print("Medicamento não encontrado.")  # printa caso não encontre o medicamento
+        if medicamento["medicamento"].lower() == nome.lower():
+            medicamentos.remove(medicamento)
+            retirada(medicamento)
+            if buscar_repo(medicamento) is not None:
+                remover_repo(medicamento)  # limpa o pedido de reposição pendente
+    print("medicamento não encontrado !")
     

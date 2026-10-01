@@ -12,7 +12,7 @@
 from collections import deque 
 from estoque import gerar_id, gerar_id_repo
 from estruturas import fila_reposicao, solicitacoes_reposicao
-from medicamentos import medicamentos
+from estruturas import medicamentos
 import time
 
 # =========== FUNÇÕES PRINCIPAIS / CRUD ===========
@@ -53,13 +53,12 @@ def cadastrar_repo(med) :
 
 
 # função auxiliar 
-def criticidade(estoque) :
+def criticidade(estoque):
     if estoque < 5:
         return "CRÍTICO"
     elif estoque < 10:
         return "ALERTA"
-    elif estoque < 15:
-        return "AVISO"
+    return "AVISO"
 
 # consulta/busca uma reposição específica
 def buscar_repo(med) :
@@ -70,11 +69,12 @@ def buscar_repo(med) :
     return None
 
 # função para remover uma solicitação de reposição
-def remover_repo(nome) :
-    for medicamento in solicitacoes_reposicao:
-        if medicamento["medicamento"].lower() == nome["medicamento"].lower() : # compara os nomes 
-            solicitacoes_reposicao.remove(medicamento)
-            print(f"{nome} removido ! ")
+def remover_repo(med):
+    for repo in solicitacoes_reposicao:
+        if repo["medicamento"].lower() == med["medicamento"].lower():
+            solicitacoes_reposicao.remove(repo)
+            print(f"Reposição de {med['medicamento'].upper()} removida!")
+            return
             
             
 
