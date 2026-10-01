@@ -7,7 +7,7 @@ from estruturas import historico
 # FUNÇÃO DE REGISTRO DE ENTRADA NO ESTOQUE
 def entrada(med) :
     agora = datetime.now()
-    data_formatada = agora.strftime("%d/%m/%Y %H:%M")
+    data_formatada = agora.strftime("%d/%m/%Y %H:%M") # SALVA O DIA E HORA DE ENTRADA
     
     entry_med = {
         "medicamento" : med["medicamento"],
@@ -23,7 +23,7 @@ def entrada(med) :
 # FUNÇAO DE REGISTRO DE SAÍDA NO ESTOQUE
 def retirada(med):
     agora = datetime.now()
-    data_formatada = agora.strftime("%d/%m/%Y %H:%M")
+    data_formatada = agora.strftime("%d/%m/%Y %H:%M") # SALVA O DIA E HORA DE RETIRADA
     out_med = {
         "medicamento": med["medicamento"],
         "id_medicamento": med["id"],
@@ -34,6 +34,7 @@ def retirada(med):
     historico.append(out_med)  # registra a saída (antes era historico.pop())
     return print(f"O {med['medicamento'].upper()} foi retirado ")
 
+# FUNÇÃO PARA LISTAR O HISTÓRICO
 def listar_historico() :
     for i in historico :
         print(f"==================== {i['medicamento'].upper()} ({i['tipo']}) =======================\n")
