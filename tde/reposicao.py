@@ -10,7 +10,7 @@
 
 # =========== IMPORTS ===========
 from collections import deque 
-from estoque import gerar_id
+from estoque import gerar_id, gerar_id_repo
 from estruturas import fila_reposicao, solicitacoes_reposicao
 from medicamentos import medicamentos
 import time
@@ -28,7 +28,7 @@ def cadastrar_repo(med) :
     # DICIONÁRIO PARA CADA MEDICAMENTO
     repor = {
         "medicamento" : med["medicamento"],
-        "id_repo" : gerar_id(),
+        "id_repo" : gerar_id_repo(),
         "id_medicamento" : med["id"],
         "criticidade" : criticidade(med["estoque"])
     }
@@ -46,6 +46,7 @@ def cadastrar_repo(med) :
     #     "id_repo" : repor["id_repo"],
     #     "medicamento" : repor["medicamento"]
     # })
+    
     print(f" medicamento : {repor["medicamento"].upper()} \n",
         f"criticidade : {repor["criticidade"]} \n",
         f"ID de reposição : {repor["id_repo"]} \n",)

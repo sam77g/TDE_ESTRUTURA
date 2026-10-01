@@ -7,7 +7,9 @@
 # alterar_medicamento()
 # remover_medicamento()
 # Também terá algumas validações
+
 from collections import deque 
+from utils.validar import validar_medicamento, validar_texto, validar_estoque, validar_nome
 from estruturas import medicamentos
 from reposicao import cadastrar_repo, buscar_repo, remover_repo, remove_fila_repo
 import time
@@ -19,7 +21,6 @@ def cadastrar_medicamento(nome) :
 # FUNÇAO DE LISTAR TODOS OS MEDICAMENTOS
 def listar_medicamentos() :
     for i in medicamentos :
-        
         print(f"==================== {i["medicamento"].upper()} ======================= \n")
         print(f"quantidade : {i["estoque"]} " )  
         print(f"preço : {i["preco"]} ")
@@ -28,13 +29,13 @@ def listar_medicamentos() :
 # FUNÇÃO DE BUSCAR MEDICAMENTOS
 def buscar_medicamento(nome):
     for i in medicamentos :
-            
-        print(f"==================== {i["medicamento"].upper()} ======================= \n")
-        print(f"quantidade : {i["estoque"]} " )  
-        print(f"preço : {i["preco"]} ")
-        print(f"ID : {i["id"]} \n")
+        if i["medicamento"].lower() == nome.lower(): # compara os nomes 
+            print(f"==================== {i["medicamento"].upper()} ======================= \n")
+            print(f"quantidade : {i["estoque"]} " )  
+            print(f"preço : {i["preco"]} ")
+            print(f"ID : {i["id"]} \n")
+
     
-    return print("Medicamento não encontrado.")
 
 # função de alterar características do medicamento atrvés do nome digitado
 def alterar_medicamento(nome) :
@@ -62,9 +63,6 @@ def alterar_medicamento(nome) :
                         cadastrar_repo(medicamento) # cria um novo pedido de reposição
                     elif buscar_repo(medicamento) != None :
                         remover_repo(medicamento)
-                        
-                        
-                    
                     return print("Quantidade alterada com sucesso") # printa para o usuário 
                 
                 case 3 :
@@ -77,7 +75,8 @@ def alterar_medicamento(nome) :
 def remover_medicamento(nome) :  
     for medicamento in medicamentos:
         if medicamento["medicamento"].lower() == nome.lower(): # compara os nomes 
-            medicamentos.remove(medicamento)
+            medicamentos.remove(medicamento) # remove o medicamento da lista
             return print(f"{nome} removido ! ")
+        else :
+            return print("Medicamento não encontrado.")  # printa caso não encontre o medicamento
     
-    return print("Medicamento não encontrado.")  
