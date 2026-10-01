@@ -70,11 +70,12 @@ def buscar_repo(med) :
     return None
 
 # função para remover uma solicitação de reposição
-def remover_repo(nome) :
-    for medicamento in solicitacoes_reposicao:
-        if medicamento["medicamento"].lower() == nome["medicamento"].lower() : # compara os nomes 
-            solicitacoes_reposicao.remove(medicamento)
-            print(f"{nome} removido ! ")
+def remover_repo(med):
+    for repo in solicitacoes_reposicao:
+        if repo["medicamento"].lower() == med["medicamento"].lower():
+            solicitacoes_reposicao.remove(repo)
+            print(f"Reposição de {med['medicamento'].upper()} removida!")
+            return
             
             
 
