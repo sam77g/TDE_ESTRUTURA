@@ -21,7 +21,6 @@ def cadastrar_medicamento(nome) :
 # FUNÇAO DE LISTAR TODOS OS MEDICAMENTOS
 def listar_medicamentos() :
     for i in medicamentos :
-        
         print(f"==================== {i["medicamento"].upper()} ======================= \n")
         print(f"quantidade : {i["estoque"]} " )  
         print(f"preço : {i["preco"]} ")
@@ -30,13 +29,13 @@ def listar_medicamentos() :
 # FUNÇÃO DE BUSCAR MEDICAMENTOS
 def buscar_medicamento(nome):
     for i in medicamentos :
-            
-        print(f"==================== {i["medicamento"].upper()} ======================= \n")
-        print(f"quantidade : {i["estoque"]} " )  
-        print(f"preço : {i["preco"]} ")
-        print(f"ID : {i["id"]} \n")
+        if i["medicamento"].lower() == nome.lower(): # compara os nomes 
+            print(f"==================== {i["medicamento"].upper()} ======================= \n")
+            print(f"quantidade : {i["estoque"]} " )  
+            print(f"preço : {i["preco"]} ")
+            print(f"ID : {i["id"]} \n")
+
     
-    return print("Medicamento não encontrado.")
 
 # função de alterar características do medicamento atrvés do nome digitado
 def alterar_medicamento(nome) :
@@ -78,5 +77,6 @@ def remover_medicamento(nome) :
         if medicamento["medicamento"].lower() == nome.lower(): # compara os nomes 
             medicamentos.remove(medicamento) # remove o medicamento da lista
             return print(f"{nome} removido ! ")
+        else :
+            return print("Medicamento não encontrado.")  # printa caso não encontre o medicamento
     
-    return print("Medicamento não encontrado.")  # printa caso não encontre o medicamento

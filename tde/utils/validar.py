@@ -105,20 +105,6 @@ def validar_medicamento(medicamento, lista_medicamentos, ignorar_id=None):
     if not validar_preco(medicamento["preco"]):
         return "Erro: o preço deve ser um número positivo ou zero."
 
-    # Valida o ID
-    if not validar_texto(medicamento["id"]):
-        return "Erro: o ID do medicamento é inválido."
 
-    if not validar_id(medicamento["id"], lista_medicamentos):
-        if medicamento["id"] != ignorar_id:
-            return "Erro: já existe um medicamento cadastrado com esse ID."
-
-    # Valida se o nome já existe
-    if not validar_nome(
-        medicamento["medicamento"],
-        lista_medicamentos,
-        ignorar_id
-    ):
-        return "Erro: já existe um medicamento cadastrado com esse nome."
 
     return True

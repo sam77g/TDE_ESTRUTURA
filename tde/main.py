@@ -8,7 +8,7 @@
 
 # IMPORTS
 import time
-from tde.utils.validar import validar_medicamento
+from utils.validar import validar_medicamento
 from estruturas import (
     medicamentos,
     historico,
