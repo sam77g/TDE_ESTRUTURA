@@ -9,7 +9,7 @@
 # IMPORTS
 import time
 from validar import validar_medicamento
-from relatorios import menu_hist
+from relatorios import listar_historico
 from estruturas import limpar_tela
 from medicamentos import menu_med
 from estoque import gerar_id, menu_estoque
@@ -40,7 +40,7 @@ while True:
         case 3 :
             menu_repo()
         case 4 :
-            menu_hist()
+            listar_historico()
         # SAIR
         case 0:
             print("Até mais!")
