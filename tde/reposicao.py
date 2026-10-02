@@ -98,13 +98,6 @@ def cadastrar_repo(med) :
         "criticidade" : repor["criticidade"]
     })
     
-    #  fila inutilizada
-    # ADICIONA A FILA DE REPOSIÇÃO
-    # fila_reposicao.append({
-    #     "id_repo" : repor["id_repo"],
-    #     "medicamento" : repor["medicamento"]
-    # })
-    
     print(f" medicamento : {repor["medicamento"].upper()} \n",
         f"criticidade : {repor["criticidade"]} \n",
         f"ID de reposição : {repor["id_repo"]} \n",)
@@ -144,7 +137,7 @@ def remover_repo(med):
             
 
 # --------- FILA DE REPOSIÇÃO ---------
-# Não será usada atualmente (30/09/2026). Ass.: Samuel - sam77g
+
 # FUNÇÃO PARA RETIRAR UM ELEMENTO NA FILA DE REPOSIÇAO
 def remove_fila_repo() :
     print(f"remover o medicamento : {fila_reposicao[0]["medicamento"]}")
@@ -164,10 +157,5 @@ def mostrar_fila_repo() :
         print(f" nome : {medicamento["medicamento"]} \n",
               f"id de reposição : {medicamento["id_repo"]} \n",)
         print(" ---------------------------------------- \n")
-# Inutilizado na main para o menu
-    # mostrar_fila_repo()
-    # print(" [s/n] - remover o primeiro item da fila de reposição ? \n")
-    # opc = str(input("digite : ").strip().lower())
-    # if opc == "s" :
-    #     remove_fila_repo()
+
             
