@@ -201,7 +201,6 @@ def alterar_medicamento(nome) :
                 
                 case 2 :
                     nova_quantidade = int(input("Digite a nova quantidade : "))
-                    medicamento["estoque"] = nova_quantidade # altera a quantidade em estoque do sistema
                     
                     if nova_quantidade < 15 :
                         print("---- Quantidade abaixo do estoque mínimo ! ---")
@@ -211,6 +210,9 @@ def alterar_medicamento(nome) :
                     elif buscar_repo(medicamento) != None :
                         remover_repo(medicamento)
                         time.sleep(0.5)
+
+                    medicamento["estoque_central"] = nova_quantidade # altera a quantidade em estoque do sistema
+                    distribuir_inicial(nome)
                     return print("Quantidade alterada com sucesso") # printa para o usuário 
                 
                 case 3 :
