@@ -79,7 +79,8 @@ def validar_medicamento(medicamento, lista_medicamentos, ignorar_id=None):
     campos_obrigatorios = [
         "medicamento",
         "categoria",
-        "estoque",
+        "estoque_central",
+        "estoque_balcão",
         "preco",
         "id"
     ]
@@ -98,8 +99,15 @@ def validar_medicamento(medicamento, lista_medicamentos, ignorar_id=None):
         return "Erro: a categoria não pode estar vazia."
 
     # Valida o estoque
-    if not validar_estoque(medicamento["estoque"]):
+    if not validar_estoque(medicamento["estoque_central"]):
         return "Erro: o estoque deve ser um número inteiro positivo ou zero."
+
+    
+    # Valida o balcão
+    if not validar_estoque(medicamento["estoque_balcão"]):
+        return "Erro: o estoque deve ser um número inteiro positivo ou zero."
+
+
 
     # Valida o preço
     if not validar_preco(medicamento["preco"]):

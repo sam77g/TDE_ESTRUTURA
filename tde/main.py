@@ -26,7 +26,7 @@ while True:
         " [3] - Reposição \n",
         " [4] - Histórico \n",
         " [5] - DEBUG \n"
-        " [0] - Sair \n"
+        "  [0] - Sair \n"
     )
     print("=================================================== \n")
     opcao = int(input("Escolha uma opção: "))

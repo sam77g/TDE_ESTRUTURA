@@ -55,7 +55,8 @@ def menu_med() :
                 medicamento = {
                     "medicamento": input("Digite o nome do medicamento: "),
                     "categoria": categoria(),
-                    "estoque": int(input("Digite a quantidade: ")),
+                    "estoque_central": int(input("Digite a quantidade: ")),
+                    "estoque_balcão"  : 0,
                     "preco": float(input("Digite o preço: ")),
                     "id": gerar_id() # gera um ID único
                 }
@@ -70,7 +71,7 @@ def menu_med() :
                     print("\nMedicamento cadastrado com sucesso!")
 
                     # VERIFICA SE O ESTOQUE ESTÁ ABAIXO DO MÍNIMO
-                    if medicamento["estoque"] < 15:
+                    if medicamento["estoque_central"] < 15:
                         print("\nEstoque menor que o estoque mínimo!")
                         print(
                             f"Criando pedido de reposição para "
@@ -129,8 +130,9 @@ def listar_medicamentos() :
     while True :
         for i in medicamentos :
             print(f"==================== {i["medicamento"].upper()} ======================= \n")
-            print(f"quantidade : {i["estoque"]} " )  
-            print(f"preço : {i["preco"]} ")
+            print(f"Estoque : {i["estoque_central"]} " )  
+            print(f"Balcão : {i["estoque_balcão"]}")
+            print(f"Preço : {i["preco"]} ")
             print(f"categoria : {i["categoria"]} \n")
         op_listar = int(input("[ Digite 0 para SAIR ] : "))
         if op_listar == 0 :
@@ -160,8 +162,9 @@ def buscar_medicamento_cat(categoria_nome):
     print(f"=========== CATEGORIA: {categoria_nome.upper()} ({len(encontrados)}) ===========\n")
     for i in encontrados:
         print(f"==================== {i['medicamento'].upper()} ======================= \n")
-        print(f"quantidade : {i['estoque']} ")
-        print(f"preço : {i['preco']} ")
+        print(f"Estoque : {i["estoque_central"]} " )  
+        print(f"Balcão : {i["estoque_balcão"]}")
+        print(f"Preço : {i['preco']} ")
         print(f"ID : {i['id']} \n")
 
     return encontrados
