@@ -27,19 +27,3 @@ def gerar_id_repo():
     proximo_id_repo += 1
 
     return id_atual
-
-def menu_estoque() :
-    print("========================================= ")
-    print("             MENU DE ESTOQUE              ")
-    print("========================================= \n")
-    print("[1] - Listar estoque \n",
-          "[2] - Buscar em estoque \n",
-          "[0] - Sair")
-    op_estq = int(input("Digite sua ação : "))
-    match op_estq :
-        case 1 :
-            print(" ------- ESTOQUE PharmaERP ------- \n")
-        case 0 :
-            print("Bye ...")
-            time.sleep(1.5)
-            return

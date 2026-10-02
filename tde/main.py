@@ -11,7 +11,6 @@ import time
 from relatorios import listar_historico
 from estruturas import  DEBUG
 from medicamentos import menu_med
-from estoque import  menu_estoque
 from reposicao import  menu_repo
 
 # =========== SISTEMA PRINCIPAL ===========
@@ -54,5 +53,4 @@ while True:
 
         # OPÇÃO INVÁLIDA
         case _:
-
             print("Opção inválida! Tente novamente.")
