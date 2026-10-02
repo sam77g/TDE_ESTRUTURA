@@ -202,7 +202,7 @@ def buscar_medicamento_cat(categoria_nome):
 def buscar_medicamento(nome):
     
     for i in medicamentos :
-        if i["medicamento"].lower() == nome.lower(): # compara os nomes 
+        if i["medicamento"].strip().lower() == nome.strip().lower(): # compara os nomes 
             print(f"==================== {i["medicamento"].upper()} ======================= \n")
             print(f"Estoque central : {i["estoque_central"]} " )  
             print(f"Balcão : {i["estoque_balcão"]}")
@@ -216,7 +216,7 @@ def buscar_medicamento(nome):
 # função de alterar características do medicamento atrvés do nome digitado
 def alterar_medicamento(nome) :
     for medicamento in medicamentos: # percorre a lista de medicamentos
-        if medicamento["medicamento"].lower() == nome.lower(): # verifica se o nome digitado está presente na lista
+        if medicamento["medicamento"].strip().lower() == nome.strip().lower(): # verifica se o nome digitado está presente na lista
             print(f" ----- ALTERAR {nome.upper()} ----- ")
             print(" [1] - Categoria \n",
                   "[2] - Estoque / Quantidade \n",
@@ -261,7 +261,7 @@ def alterar_medicamento(nome) :
 # função para remover o medicamento
 def remover_medicamento(nome):
     for medicamento in medicamentos:
-        if medicamento["medicamento"].lower() == nome.lower():
+        if medicamento["medicamento"].strip().lower() == nome.strip().lower():
             medicamentos.remove(medicamento)
             retirada(medicamento)
             if buscar_repo(medicamento) is not None:
