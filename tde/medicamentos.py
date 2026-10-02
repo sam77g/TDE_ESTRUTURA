@@ -198,6 +198,7 @@ def alterar_medicamento(nome) :
                     medicamento["categoria"] = nova_categoria # altera a categoria do medicamento
                     time.sleep(0.5)
                     return print("Categoria alterada com sucesso") # printa para o usuário 
+                
                 # nova quantidade total do estoque central.
                 case 2:
                     nova_quantidade = int(input("Digite a nova quantidade do estoque central: "))
@@ -249,3 +250,13 @@ def distribuir_inicial(med) :
         print(f" ESTOQUE CENTRAL : {med["estoque_central"]}")
         print(f" BALCÃO : {med["estoque_balcão"]}")
         return print("Transferência Realizada")
+
+def adicionar_estoque(med, quantidade):
+    if quantidade <= 0:
+        return False
+    med["estoque_central"] += quantidade
+    print("Entrada registrada com sucesso!")
+    
+    # ADICIONAR O PROCESSAMENTO DA FILA DE REPOSIÇÃO
+
+    return True
