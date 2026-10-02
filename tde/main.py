@@ -20,17 +20,8 @@ from estruturas import (
     fila_reposicao,
     solicitacoes_reposicao
 )
-from medicamentos import (
-    cadastrar_medicamento,
-    listar_medicamentos,
-    buscar_medicamento,
-    alterar_medicamento,
-    remover_medicamento,
-)
-from estoque import (
-    gerar_id,
-    proximo_id
-)
+from medicamentos import menu_med
+from estoque import gerar_id
 from reposicao import (
     cadastrar_repo,
     buscar_repo,
@@ -46,7 +37,7 @@ while True:
     # MENU DO SISTEMA
     print("========== SISTEMA DE CONTROLE PharmaERP ============ \n")
     print(
-        "  [1] - Adicionar medicamento \n",
+        "  [1] - Menu Medicamentos\n",
         " [2] - Estoque \n",
         " [3] - Reposição \n",
         " [4] - Histórico \n",
@@ -57,58 +48,9 @@ while True:
 
     # MATCH CASE PARA A OPÇÃO DIGITADA
     match opcao:
-        # ADICIONAR MEDICAMENTO
+        # vai para o menu de medicamentos
         case 1:
-            medicamento = {
-                "medicamento": input("Digite o nome do medicamento: "),
-                "categoria": input("Digite a categoria: "),
-                "estoque": int(input("Digite a quantidade: ")),
-                "preco": float(input("Digite o preço: ")),
-                "id": gerar_id() # gera um ID único
-            }
-            # VALIDA OS DADOS DO MEDICAMENTO
-            resultado = validar_medicamento(
-                medicamento,
-                medicamentos
-            )
-            if resultado is True:
-                # CADASTRA O MEDICAMENTOW
-                cadastrar_medicamento(medicamento)
-                print("\nMedicamento cadastrado com sucesso!")
-
-                # VERIFICA SE O ESTOQUE ESTÁ ABAIXO DO MÍNIMO
-                if medicamento["estoque"] < 15:
-                    print("\nEstoque menor que o estoque mínimo!")
-                    print(
-                        f"Criando pedido de reposição para "
-                        f"{medicamento['medicamento'].upper()}!\n"
-                    )
-                    cadastrar_repo(medicamento)
-            else:
-                print(f"\n{resultado}")
-
-        # LISTAR MEDICAMENTOS
-        case 2:
-            listar_medicamentos()
-
-        # BUSCAR MEDICAMENTO
-        case 3:
-            busca = input("Digite o medicamento: ")
-            buscar_medicamento(busca)
-
-        # ALTERAR MEDICAMENTO
-        case 4:
-            alt = input("Digite o medicamento: ")
-            alterar_medicamento(alt)
-
-        # REMOVER MEDICAMENTO
-        case 5:
-            rem = input("Digite o medicamento a ser removido: ")
-            remover_medicamento(rem)
-
-        case 6:
-            listar_historico()
-        
+            menu_med()
         # SAIR
         case 0:
             print("Até mais!")

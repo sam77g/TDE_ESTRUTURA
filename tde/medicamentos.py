@@ -28,7 +28,8 @@ def menu_med() :
     print("[1] - Adicionar medicamento \n",
           "[2] - Alterar medicamento \n",
           "[3] - Remover medicamento \n",
-          "[4] - Listar medicamentos \n"
+          "[4] - Listar medicamentos \n",
+          "[5] - Buscar medicamento \n"
           "[0] - Voltar")
     op_med = int(input("Digite sua ação : "))
     
@@ -65,20 +66,27 @@ def menu_med() :
         
         # ALTERAÇÃO DE MEDICAMENTO
         case 2 :
-            alterar_medicamento()
+            alt = input("Digite o medicamento: ")
+            alterar_medicamento(alt)
         
         # REMOÇÃO DE MEDICAMENTO
         case 3 :
-            remover_medicamento()
+            rem = input("Digite o medicamento a ser removido: ")
+            remover_medicamento(rem)
             
         # LISTA TODOS OS MEDICAMENTOS CADASTRADOS
         case 4 :
             listar_medicamentos()
-            
+        
+        # BUSCA DE MEDICAMENTO
+        case 5 :
+            busca = input("Digite o medicamento: ")
+            buscar_medicamento(busca)
+        # SAÍDA
         case _ :
             print(" -- SAINDO DE MEDICAMENTOS --")
             time.sleep(0.5)
-            return print(" [SUCESS EX]")
+            return print(" [ SUCESS EXIT ! ]")
             
                 
 
