@@ -198,22 +198,27 @@ def alterar_medicamento(nome) :
                     medicamento["categoria"] = nova_categoria # altera a categoria do medicamento
                     time.sleep(0.5)
                     return print("Categoria alterada com sucesso") # printa para o usuário 
-                
-                case 2 :
-                    nova_quantidade = int(input("Digite a nova quantidade : "))
-                    
-                    if nova_quantidade < 15 :
-                        print("---- Quantidade abaixo do estoque mínimo ! ---")
-                        print("Criando pedido de reposição ... ")
-                        time.sleep(0.5) # espera 0.5 segundos
-                        cadastrar_repo(medicamento) # cria um novo pedido de reposição
-                    elif buscar_repo(medicamento) != None :
-                        remover_repo(medicamento)
-                        time.sleep(0.5)
+                # nova quantidade total do estoque central.
+                case 2:
+                    nova_quantidade = int(input("Digite a nova quantidade do estoque central: "))
+                    if nova_quantidade < 0:
+                        print("Quantidade inválida!")
+                        return
 
-                    medicamento["estoque_central"] = nova_quantidade # altera a quantidade em estoque do sistema
-                    distribuir_inicial(nome)
-                    return print("Quantidade alterada com sucesso") # printa para o usuário 
+                    # Atualiza somente o estoque central
+                    medicamento["estoque_central"] = nova_quantidade
+
+                    print("\nEstoque central atualizado!")
+                    print(f"Estoque central: {medicamento['estoque_central']}")
+                    print(f"Estoque balcão: {medicamento['estoque_balcão']}")
+
+                    # Verifica se o balcão precisa de reposição
+                    if medicamento["estoque_balcão"] < 15:
+                        if buscar_repo(medicamento) is None:
+                            cadastrar_repo(medicamento)
+                            print("\nPedido de reposição criado!")
+
+                    return print("Quantidade alterada com sucesso!")
                 
                 case 3 :
                     novo_preco = float(input("Digite o novo preço : "))
