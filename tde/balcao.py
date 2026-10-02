@@ -1,68 +1,94 @@
-# ARQUIVO COM FUÇÕES PARA O FUNCIONAMENTO DO BALCÃO
-#  Imports 
-from medicamentos import buscar_medicamento
-from estruturas import balcao
+# Balcão - medicamentos disponíveis para venda
+# Única porta de movimentação ESTOQUE CENTRAL -> BALCÃO: transferir_estoque_balcao()
+import time
+from estruturas import (medicamentos, limpar_tela, pausar, localizar_medicamento,
+                        LOTE_REPOSICAO, msg_ok, msg_aviso, msg_erro)
+from validar import validar_quantidade, ler_inteiro
+from relatorios import transferencia
 
-def menu_balcao() :
-    print(" =========== MENU BALCÃO =========== \n")
-    print("[1] - Listar Balcão ")
-    print("[2] - Transferir para o balcão ")
-    print("[3] - Buscar no balcão ")
-    print("[0] - SAIR \n")
-    
-    op_balc = int(input("Opção : "))
-    match op_balc :
-        case 1 :
-            listar_balcao()
-        case 2 :
-            nome = input("O nome do medicamento : ")
-            med = buscar_medicamento(nome)
-            transferir_balcao(med)
-        case 3 :
-            busca_balc = input("Digite o medicamento : ")
-            buscar_balcao(busca_balc)
 
-def adicionar_balcao() :
-    return print("adicionado ao balcão !")
-
-def listar_balcao(med) :
-    for i in balcao :
-            print(f" ----------- {i["medicamento"].upper()} ----------- ")
-            print(f"Quantidade no balcão : {i["estoque_balcao"]}")
-    
-    return print("Medicamento não encontrado !")
-        
-
-def buscar_balcao(med) :
-    for i in balcao :
-            if i["medicamento"].strip().lower() == med.strip().lower() :
-                print(f" ----------- {med.upper()} ----------- ")
-                print(f"Quantidade no balcão : {i["estoque_balcao"]}")
-            else :
-                return print("Medicamento não encontrado !")
-    return print("buscar no balcão")
-
-# TRANSFERÊNCIA MANUAL: ESTOQUE CENTRAL -> BALCÃO
-def transferir_balcao(med, quantidade):
-    # regra 1: quantidade precisa ser maior que zero
-    if quantidade <= 0:
-        print("Quantidade inválida!")
-        return False
-
-    # regra 2: não pode ultrapassar o estoque central
+# ===== LÓGICA (sem print: retorna (ok, mensagem)) =====
+def transferir_estoque_balcao(med, quantidade):
+    """Move 'quantidade' do estoque central para o balcão, com todas as checagens."""
+    if med is None:
+        return False, "Medicamento não encontrado!"
+    if not validar_quantidade(quantidade):
+        return False, "Quantidade inválida!"
     if quantidade > med["estoque_central"]:
-        print(f"Estoque central insuficiente! Disponível: {med['estoque_central']}")
-        return False
+        return False, f"Estoque central insuficiente! Disponível: {med['estoque_central']}"
 
-    # regra 3: diminui o central e aumenta o balcão
     med["estoque_central"] -= quantidade
-    med["estoque_balcão"] += quantidade
-
-    print("\nTransferência realizada com sucesso!")
-    print(f"Estoque central: {med['estoque_central']}")
-    print(f"Estoque balcão: {med['estoque_balcão']}")
-    return True
+    med["estoque_balcao"] += quantidade
+    transferencia(med, quantidade)
+    return True, (f"{quantidade} unidade(s) de {med['medicamento'].upper()} transferida(s) para o balcão. "
+                  f"Central: {med['estoque_central']} | Balcão: {med['estoque_balcao']}")
 
 
-def remover_balcao() :
-    return print("Removido do balcão")
+def distribuir_inicial(med):
+    """No cadastro: envia até LOTE_REPOSICAO unidades ao balcão (ou tudo, se houver menos)."""
+    quantidade = min(LOTE_REPOSICAO, med["estoque_central"])
+    if quantidade <= 0:
+        return False, "Sem estoque central para enviar ao balcão."
+    return transferir_estoque_balcao(med, quantidade)
+
+
+# ===== EXIBIÇÃO =====
+def listar_balcao():
+    print(" ------- BALCÃO PharmaERP ------- \n")
+    if not medicamentos:
+        msg_aviso("Nenhum medicamento cadastrado.")
+        return
+    for med in medicamentos:
+        print(f" ID {med['id']:<3} | {med['medicamento']:<25} | balcão: {med['estoque_balcao']}")
+
+
+# ===== MENU =====
+def menu_balcao():
+    from reposicao import sincronizar_reposicao  # import local: reposicao importa balcao
+
+    while True:
+        limpar_tela()
+        print("========================================= ")
+        print("              MENU DO BALCÃO              ")
+        print("========================================= \n")
+        print(" [1] - Listar balcão \n",
+              "[2] - Consultar quantidade \n",
+              "[3] - Transferir estoque -> balcão \n",
+              "[0] - Voltar \n")
+        op = ler_inteiro("Digite sua ação : ")
+        print("----------------------------------------")
+        match op:
+            case 1:
+                listar_balcao()
+                pausar()
+
+            case 2:
+                med = localizar_medicamento(input("Digite o medicamento: "))
+                if med is None:
+                    msg_erro("Medicamento não encontrado!")
+                else:
+                    print(f"{med['medicamento'].upper()} - balcão: {med['estoque_balcao']}")
+                pausar()
+
+            case 3:
+                med = localizar_medicamento(input("Digite o medicamento: "))
+                if med is None:
+                    msg_erro("Medicamento não encontrado!")
+                else:
+                    ok, msg = transferir_estoque_balcao(
+                        med, ler_inteiro("Quantidade a transferir para o balcão: ", 1))
+                    (msg_ok if ok else msg_erro)(msg)
+                    if ok:
+                        aviso = sincronizar_reposicao(med)  # balcão pode ter normalizado
+                        if aviso:
+                            print(aviso)
+                pausar()
+
+            case 0:
+                print(" -- SAINDO DO BALCÃO --")
+                time.sleep(0.5)
+                break
+
+            case _:
+                msg_erro("Opção inválida!")
+                time.sleep(1)
