@@ -14,6 +14,23 @@ from estruturas import medicamentos
 from relatorios import entrada, retirada
 from reposicao import cadastrar_repo, buscar_repo, remover_repo, remove_fila_repo
 import time
+import os
+
+def limpar_tela():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+def menu_med() :
+    limpar_tela()
+    print("==========================================")
+    print("              MENU DE MEDICAMENTOS                   ")
+    print("======================================== \n")
+    print("[1] - Adicionar medicamento \n",
+          "[2] - Alterar medicamento \n",
+          "[3] - Remover medicamento \n",
+          "[4] - Listar medicamentos \n"
+          "[0] - Voltar")
+    op_med = int(input("Digite sua ação : "))
+    
 
 # FUNÇAO DE CADASTRO DE MEDICAMENTOS
 def cadastrar_medicamento(med) :

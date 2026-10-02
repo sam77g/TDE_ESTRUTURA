@@ -47,11 +47,9 @@ while True:
     print("========== SISTEMA DE CONTROLE PharmaERP ============ \n")
     print(
         "  [1] - Adicionar medicamento \n",
-        " [2] - Ver medicamentos \n",
-        " [3] - Buscar medicamento \n",
-        " [4] - Alterar medicamento \n",
-        " [5] - Remover medicamento \n",
-        " [6] - Histórico no menu \n"
+        " [2] - Estoque \n",
+        " [3] - Reposição \n",
+        " [4] - Histórico \n",
         "  [0] - Sair \n"
     )
     print("===================================================\n")
