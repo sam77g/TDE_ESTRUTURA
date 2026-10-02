@@ -42,7 +42,8 @@ def menu_med() :
             "[2] - Alterar medicamento \n",
             "[3] - Remover medicamento \n",
             "[4] - Listar medicamentos \n",
-            "[5] - Buscar medicamento \n"
+            "[5] - Buscar medicamento \n",
+            "[6] - Listar por categoria \n"
             " [0] - Voltar \n")
         op_med = int(input("Digite sua ação : "))
         print("----------------------------------------")
@@ -101,6 +102,11 @@ def menu_med() :
                 busca = input("Digite o medicamento: ")
                 buscar_medicamento(busca)
                 input("\nPressione ENTER para continuar...")
+            case 6 :
+                opc_busca_categoria = categoria()
+                buscar_medicamento_cat(opc_busca_categoria)
+                input("\nPressione ENTER para continuar...")
+                
             # SAÍDA
             case _ :
                 print(" -- SAINDO DE MEDICAMENTOS --")
@@ -130,7 +136,18 @@ def listar_medicamentos() :
         else : 
             break
 
-# FUNÇÃO DE BUSCAR MEDICAMENTOS
+# FUNÇÃO DE BUSCAR MEDICAMENTOS POR CATEGORIA
+def buscar_medicamento_cat(nome):
+    
+    for i in medicamentos :
+        if i["categoria"].lower() == nome.lower(): # compara os nomes 
+            print(f"==================== {i["medicamento"].upper()} ======================= \n")
+            print(f"quantidade : {i["estoque"]} " )  
+            print(f"preço : {i["preco"]} ")
+            print(f"ID : {i["id"]} \n")
+            return i
+
+# FUNÇÃO DE BUSCAR MEDICAMENTOS PELO NOME
 def buscar_medicamento(nome):
     
     for i in medicamentos :
