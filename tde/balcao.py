@@ -20,20 +20,26 @@ def menu_balcao() :
             transferir_balcao(med)
         case 3 :
             busca_balc = input("Digite o medicamento : ")
-            buscar_balcao(buscar_balcao)
+            buscar_balcao(busca_balc)
 
 def adicionar_balcao() :
     return print("adicionado ao balcão !")
 
 def listar_balcao(med) :
     for i in balcao :
-        if i["medicamento"].strip().lower() == med.strip().lower() :
-            print(f" ----------- {med.upper()} ----------- ")
+            print(f" ----------- {i["medicamento"].upper()} ----------- ")
             print(f"Quantidade no balcão : {i["estoque_balcao"]}")
+    
+    return print("Medicamento não encontrado !")
         
-    return print("lista balcão")
 
-def buscar_balcao() :
+def buscar_balcao(med) :
+    for i in balcao :
+            if i["medicamento"].strip().lower() == med.strip().lower() :
+                print(f" ----------- {med.upper()} ----------- ")
+                print(f"Quantidade no balcão : {i["estoque_balcao"]}")
+            else :
+                return print("Medicamento não encontrado !")
     return print("buscar no balcão")
 
 # TRANSFERÊNCIA MANUAL: ESTOQUE CENTRAL -> BALCÃO
