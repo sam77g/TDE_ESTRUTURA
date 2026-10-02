@@ -1,6 +1,18 @@
+<div align="center">
+  
 # PharmaERP
 
-Sistema de controle de farmácia em Python (terminal) — TDE de Estruturas Lineares e Algoritmos.
+Sistema de controle de farmácia em Python (terminal) — TDE de Estruturas de Dados
+  
+![Status](https://img.shields.io/badge/status-STABLE-green)
+![Versão](https://img.shields.io/badge/vers%C3%A3o-v1.0.0-green)
+![Licença](https://img.shields.io/badge/licen%C3%A7a-MIT-green)
+[![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff)](#)
+
+---
+
+
+</div>
 
 ## 1. Objetivo
 Controlar medicamentos, estoque central, balcão, vendas e reposição automática.
@@ -44,7 +56,6 @@ Processar fila (FIFO): retira o primeiro pedido
 | `vendas.py` | vendas |
 | `reposicao.py` | fila, criticidade e processamento |
 | `relatorios.py` | histórico |
-| `tests/test_cenarios.py` | testes |
 
 ## 7. Regras de negócio
 - Limite do balcão: **15** (abaixo disso → reposição)
