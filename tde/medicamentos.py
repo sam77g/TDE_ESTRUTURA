@@ -17,9 +17,11 @@ from estoque import gerar_id
 import time
 import os
 
+# FUNÇÃO PARA LIMPAR TELA
 def limpar_tela():
     os.system('cls' if os.name == 'nt' else 'clear')
 
+# FUNÇÃO PARA CATEGORIAS
 def categoria() :
     print("[1] - Ético ")
     print("[2] - Genérico")
