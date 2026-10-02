@@ -13,6 +13,7 @@ from validar import validar_medicamento, validar_texto, validar_estoque, validar
 from estruturas import medicamentos
 from relatorios import entrada, retirada
 from reposicao import cadastrar_repo, buscar_repo, remover_repo, remove_fila_repo
+from estoque import gerar_id
 import time
 import os
 
@@ -31,6 +32,55 @@ def menu_med() :
           "[0] - Voltar")
     op_med = int(input("Digite sua ação : "))
     
+    match op_med :
+        # adicionar medicamento
+        case 1 :
+            medicamento = {
+                "medicamento": input("Digite o nome do medicamento: "),
+                "categoria": input("Digite a categoria: "),
+                "estoque": int(input("Digite a quantidade: ")),
+                "preco": float(input("Digite o preço: ")),
+                "id": gerar_id() # gera um ID único
+            }
+            # VALIDA OS DADOS DO MEDICAMENTO
+            resultado = validar_medicamento(
+                medicamento,
+                medicamentos
+            )
+            if resultado is True:
+                # CADASTRA O MEDICAMENTOW
+                cadastrar_medicamento(medicamento)
+                print("\nMedicamento cadastrado com sucesso!")
+
+                # VERIFICA SE O ESTOQUE ESTÁ ABAIXO DO MÍNIMO
+                if medicamento["estoque"] < 15:
+                    print("\nEstoque menor que o estoque mínimo!")
+                    print(
+                        f"Criando pedido de reposição para "
+                        f"{medicamento['medicamento'].upper()}!\n"
+                    )
+                    cadastrar_repo(medicamento)
+            else:
+                print(f"\n{resultado}")
+        
+        # ALTERAÇÃO DE MEDICAMENTO
+        case 2 :
+            alterar_medicamento()
+        
+        # REMOÇÃO DE MEDICAMENTO
+        case 3 :
+            remover_medicamento()
+            
+        # LISTA TODOS OS MEDICAMENTOS CADASTRADOS
+        case 4 :
+            listar_medicamentos()
+            
+        case _ :
+            print(" -- SAINDO DE MEDICAMENTOS --")
+            time.sleep(0.5)
+            return print(" [SUCESS EX]")
+            
+                
 
 # FUNÇAO DE CADASTRO DE MEDICAMENTOS
 def cadastrar_medicamento(med) :
