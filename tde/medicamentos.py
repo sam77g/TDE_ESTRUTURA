@@ -122,6 +122,7 @@ def menu_med() :
 def cadastrar_medicamento(med) :
     medicamentos.append(med) # adiciona o medicamento a lista
     entrada(med) # REGISTRA A ENTRADA
+    distribuir_inicial(med)
     
     
 
@@ -229,4 +230,9 @@ def remover_medicamento(nome):
                 remover_repo(medicamento)  # limpa o pedido de reposição pendente
             return  # achou e removeu: sai da função
     print("medicamento não encontrado !")  # só chega aqui se o for terminar sem achar
-    
+
+# DISTRIBUIÇÃO DOS MEDICAMENTOS 
+def distribuir_inicial(med) :
+    estoque_cent = med["estoque_central"]
+    med["estoque_balcão"] = 30 
+    med["estoque_central"] = estoque_cent - 30
