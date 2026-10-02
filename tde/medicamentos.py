@@ -47,6 +47,7 @@ def menu_med() :
             "[5] - Buscar medicamento \n",
             "[6] - Listar por categoria \n",
             "[7] - Adicionar ao estoque \n",
+            "[8] - Transferir para o balcão \n",
             " [0] - Voltar \n")
         op_med = int(input("Digite sua ação : "))
         print("----------------------------------------")
@@ -67,12 +68,13 @@ def menu_med() :
                     medicamentos
                 )
                 if resultado is True:
-                    # CADASTRA O MEDICAMENTOW
+                    # CADASTRA O MEDICAMENTO
                     cadastrar_medicamento(medicamento)
                     print("\nMedicamento cadastrado com sucesso!")
 
-                    # VERIFICA SE O ESTOQUE ESTÁ ABAIXO DO MÍNIMO
-                    if medicamento["estoque_central"] < 15:
+                    # VERIFICA SE O ESTOQUE DO BALCÃO ESTÁ ABAIXO DO MÍNIMO
+                    # (o pedido apenas é CRIADO aqui; o atendimento virá depois)
+                    if medicamento["estoque_balcão"] < 15:
                         print("\nEstoque menor que o estoque mínimo!")
                         print(
                             f"Criando pedido de reposição para "
@@ -110,14 +112,29 @@ def menu_med() :
                 opc_busca_categoria = categoria()
                 buscar_medicamento_cat(opc_busca_categoria)
                 input("\nPressione ENTER para continuar...")
-                
+            
+            # ENTRADA NO ESTOQUE CENTRAL
             case 7:
                 nome = input("Digite o medicamento: ")
                 med = buscar_medicamento(nome)
                 if med is not None:
                     quantidade = int(input("Quantidade de entrada: "))
-                    adicionar_estoque(med, quantidade)
+                    if not adicionar_estoque(med, quantidade):
+                        print("Quantidade inválida!")
+                else:
+                    print("Medicamento não encontrado!")
                 input("\nPressione ENTER para continuar...") 
+
+            # TRANSFERÊNCIA MANUAL: CENTRAL -> BALCÃO
+            case 8:
+                nome = input("Digite o medicamento: ")
+                med = buscar_medicamento(nome)
+                if med is not None:
+                    quantidade = int(input("Quantidade a transferir para o balcão: "))
+                    transferir_balcao(med, quantidade)
+                else:
+                    print("Medicamento não encontrado!")
+                input("\nPressione ENTER para continuar...")
                 
             # SAÍDA
             case _ :
@@ -130,7 +147,7 @@ def menu_med() :
 # FUNÇAO DE CADASTRO DE MEDICAMENTOS
 def cadastrar_medicamento(med) :
     medicamentos.append(med) # adiciona o medicamento a lista
-    entrada(med) # REGISTRA A ENTRADA
+    entrada(med, med["estoque_central"]) # REGISTRA A ENTRADA (antes da distribuição, com a quantidade total)
     distribuir_inicial(med)
     
     
@@ -185,7 +202,8 @@ def buscar_medicamento(nome):
     for i in medicamentos :
         if i["medicamento"].lower() == nome.lower(): # compara os nomes 
             print(f"==================== {i["medicamento"].upper()} ======================= \n")
-            print(f"quantidade : {i["estoque_central"]} " )  
+            print(f"Estoque central : {i["estoque_central"]} " )  
+            print(f"Balcão : {i["estoque_balcão"]}")
             print(f"preço : {i["preco"]} ")
             print(f"ID : {i["id"]} \n")
             return i
@@ -211,15 +229,11 @@ def alterar_medicamento(nome) :
                 # nova quantidade total do estoque central.
                 case 2:
                     nova_quantidade = int(input("Digite a nova quantidade do estoque central: "))
-                    if nova_quantidade < 0:
-                        print("Quantidade inválida!")
+
+                    # A alteração (e a validação) fica centralizada em ajuste_estoque()
+                    if not ajuste_estoque(medicamento, nova_quantidade):
                         return
 
-                    # Atualiza somente o estoque central
-                    medicamento["estoque_central"] = nova_quantidade
-
-                    print("\nEstoque central atualizado!")
-                    print(f"Estoque central: {medicamento['estoque_central']}")
                     print(f"Estoque balcão: {medicamento['estoque_balcão']}")
 
                     # Verifica se o balcão precisa de reposição
@@ -250,21 +264,46 @@ def remover_medicamento(nome):
 
 # DISTRIBUIÇÃO DOS MEDICAMENTOS 
 def distribuir_inicial(med) :
-    estoque_cent = med["estoque_central"]
-    if estoque_cent < 30 :
+    quantidade = min(30, med["estoque_central"])
+    if quantidade <= 0 :
         return print("[SYSTEM] : Impossibilitado de distribuir o medicamento para o balcão !")
     else :
-        med["estoque_balcão"] = 30 
-        med["estoque_central"] = estoque_cent - 30
+        med["estoque_central"] -= quantidade
+        med["estoque_balcão"] += quantidade
         print(f" ESTOQUE CENTRAL : {med["estoque_central"]}")
         print(f" BALCÃO : {med["estoque_balcão"]}")
         return print("Transferência Realizada")
+
+# TRANSFERÊNCIA MANUAL: ESTOQUE CENTRAL -> BALCÃO
+def transferir_balcao(med, quantidade):
+    # regra 1: quantidade precisa ser maior que zero
+    if quantidade <= 0:
+        print("Quantidade inválida!")
+        return False
+
+    # regra 2: não pode ultrapassar o estoque central
+    if quantidade > med["estoque_central"]:
+        print(f"Estoque central insuficiente! Disponível: {med['estoque_central']}")
+        return False
+
+    # regra 3: diminui o central e aumenta o balcão
+    med["estoque_central"] -= quantidade
+    med["estoque_balcão"] += quantidade
+
+    print("\nTransferência realizada com sucesso!")
+    print(f"Estoque central: {med['estoque_central']}")
+    print(f"Estoque balcão: {med['estoque_balcão']}")
+    return True
 
 # ADICIONA AO ESTOQUE A QUANTIDADE DESEJADA
 def adicionar_estoque(med, quantidade):
     if quantidade <= 0:
         return False
     med["estoque_central"] += quantidade
+
+    # REGISTRA NO HISTÓRICO A QUANTIDADE RECEBIDA (sem duplicar o cadastro)
+    entrada(med, quantidade)
+
     print("Entrada registrada com sucesso!")
     
     # ADICIONAR O PROCESSAMENTO DA FILA DE REPOSIÇÃO
