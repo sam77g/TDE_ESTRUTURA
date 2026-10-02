@@ -19,7 +19,19 @@ import os
 
 def limpar_tela():
     os.system('cls' if os.name == 'nt' else 'clear')
-    
+
+def categoria() :
+    print("[1] - Ético ")
+    print("[2] - Genérico")
+    print("[3] - Similar \n")
+    categoria_op = int(input("Qual a categoria ? [1,2 ou 3] : "))
+    if categoria_op == 1 :
+        return "Ético"
+    elif categoria_op == 2 :
+        return "Genérico"
+    else :
+        return "Similar"
+
 def menu_med() :
     while True:
         limpar_tela()
@@ -39,7 +51,7 @@ def menu_med() :
             case 1 :
                 medicamento = {
                     "medicamento": input("Digite o nome do medicamento: "),
-                    "categoria": input("Digite a categoria: "),
+                    "categoria": categoria(),
                     "estoque": int(input("Digite a quantidade: ")),
                     "preco": float(input("Digite o preço: ")),
                     "id": gerar_id() # gera um ID único
@@ -111,7 +123,7 @@ def listar_medicamentos() :
             print(f"==================== {i["medicamento"].upper()} ======================= \n")
             print(f"quantidade : {i["estoque"]} " )  
             print(f"preço : {i["preco"]} ")
-            print(f"ID : {i["id"]} \n")
+            print(f"categoria : {i["categoria"]} \n")
         op_listar = int(input("[ Digite 0 para SAIR ] : "))
         if op_listar == 0 :
             return False
@@ -134,16 +146,17 @@ def buscar_medicamento(nome):
 def alterar_medicamento(nome) :
     for medicamento in medicamentos: # percorre a lista de medicamentos
         if medicamento["medicamento"].lower() == nome.lower(): # verifica se o nome digitado está presente na lista
-            print(f" ----- ALTERAR {nome.upper()} ----- \n")
+            print(f" ----- ALTERAR {nome.upper()} ----- ")
             print("[1] - Categoria \n",
                   "[2] - Estoque / Quantidade \n",
                   "[3] - Preço ")
             opcao = int(input("O que você deseja alterar ? \n"))
             match opcao :
                 case 1 :
-                    nova_categoria = input("Digite a nova categoria : ")
+                    print("-- Escolha a nova categoria --")
+                    nova_categoria = categoria()
                     medicamento["categoria"] = nova_categoria # altera a categoria do medicamento
-                    time.sleep(1.5)
+                    time.sleep(0.5)
                     return print("Categoria alterada com sucesso") # printa para o usuário 
                 
                 case 2 :
@@ -153,11 +166,11 @@ def alterar_medicamento(nome) :
                     if nova_quantidade < 15 :
                         print("---- Quantidade abaixo do estoque mínimo ! ---")
                         print("Criando pedido de reposição ... ")
-                        time.sleep(1.5) # espera 1.5 segundos
+                        time.sleep(0.5) # espera 1.5 segundos
                         cadastrar_repo(medicamento) # cria um novo pedido de reposição
                     elif buscar_repo(medicamento) != None :
                         remover_repo(medicamento)
-                        time.sleep(1.5)
+                        time.sleep(0.5)
                     return print("Quantidade alterada com sucesso") # printa para o usuário 
                 
                 case 3 :

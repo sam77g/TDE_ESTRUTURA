@@ -41,5 +41,6 @@ def listar_historico() :
     for i in historico :
         print(f"==================== {i['medicamento'].upper()} ({i['tipo']}) =======================\n")
         print(f"ID : {i['id_medicamento']} \n")
-        print(f"Data : {i['data']} \n")  
+        print(f"Data : {i['data']} \n") 
+        print(f"Categoria : {i['categoria']}") 
 
