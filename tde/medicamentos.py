@@ -183,7 +183,7 @@ def alterar_medicamento(nome) :
     for medicamento in medicamentos: # percorre a lista de medicamentos
         if medicamento["medicamento"].lower() == nome.lower(): # verifica se o nome digitado está presente na lista
             print(f" ----- ALTERAR {nome.upper()} ----- ")
-            print("[1] - Categoria \n",
+            print(" [1] - Categoria \n",
                   "[2] - Estoque / Quantidade \n",
                   "[3] - Preço ")
             opcao = int(input("O que você deseja alterar ? \n"))
@@ -202,7 +202,7 @@ def alterar_medicamento(nome) :
                     if nova_quantidade < 15 :
                         print("---- Quantidade abaixo do estoque mínimo ! ---")
                         print("Criando pedido de reposição ... ")
-                        time.sleep(0.5) # espera 1.5 segundos
+                        time.sleep(0.5) # espera 0.5 segundos
                         cadastrar_repo(medicamento) # cria um novo pedido de reposição
                     elif buscar_repo(medicamento) != None :
                         remover_repo(medicamento)

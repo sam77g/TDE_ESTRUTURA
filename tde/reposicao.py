@@ -141,7 +141,7 @@ def remover_repo(med):
         if repo["medicamento"].lower() == med["medicamento"].lower():
             solicitacoes_reposicao.remove(repo)
             print(f"Reposição de {med['medicamento'].upper()} removida!")
-        return print("Reposição não encontrada ! ")
+            
 
 # --------- FILA DE REPOSIÇÃO ---------
 # Não será usada atualmente (30/09/2026). Ass.: Samuel - sam77g

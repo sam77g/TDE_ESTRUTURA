@@ -13,9 +13,10 @@ solicitacoes_reposicao = deque()  # reposicao.py
 def limpar_tela():
     os.system('cls' if os.name == 'nt' else 'clear')
 
+# FUNÇÃO DE DEBUG 
 def DEBUG() :
     print("-- PILHA DO HISTÓRICO -- \n")
-    print("\n",historico)
+    print(historico,"\n")
     print("-- FILA DE REPOSIÇAO -- \n")
     print(fila_reposicao,"\n")
     print("-- MEDICAMENTOS -- \n")

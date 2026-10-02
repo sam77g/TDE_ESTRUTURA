@@ -2,7 +2,7 @@
 # Esse arquivo será responsável pelas funcionalidades que analisam os dados.
 from collections import deque 
 from datetime import datetime
-from estruturas import historico, limpar_tela
+from estruturas import historico,limpar_tela
 
 
 # FUNÇÃO DE REGISTRO DE ENTRADA NO ESTOQUE

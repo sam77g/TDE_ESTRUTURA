@@ -8,11 +8,10 @@
 
 # IMPORTS
 import time
-from validar import validar_medicamento
 from relatorios import listar_historico
-from estruturas import limpar_tela, DEBUG
+from estruturas import  DEBUG
 from medicamentos import menu_med
-from estoque import gerar_id, menu_estoque
+from estoque import  menu_estoque
 from reposicao import  menu_repo
 
 # =========== SISTEMA PRINCIPAL ===========
@@ -22,10 +21,9 @@ while True:
     print("========== SISTEMA DE CONTROLE PharmaERP ============ \n")
     print(
         "  [1] - Menu Medicamentos\n",
-        " [2] - Estoque \n",
-        " [3] - Reposição \n",
-        " [4] - Histórico \n",
-        " [5] - DEBUG"
+        " [2] - Reposição \n",
+        " [3] - Histórico \n",
+        " [4] - DEBUG \n"
         " [0] - Sair \n"
     )
     print("=================================================== \n")
@@ -37,22 +35,18 @@ while True:
         case 1:
             menu_med()
 
-        # MENU DE ESTOQUE
-        case 2 :
-            menu_estoque()
-
         # MENU DE REPOSIÇÃO
-        case 3 :
+        case 2 :
             menu_repo()
 
         # LISTAR O HISTÓRICO
-        case 4 :
+        case 3 :
             listar_historico()
 
         # DEGUG
-        case 5 :
+        case 4 :
             DEBUG()
-            
+
         # SAIR
         case 0:
             print("Até mais!")
