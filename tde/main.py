@@ -9,27 +9,11 @@
 # IMPORTS
 import time
 from validar import validar_medicamento
-from relatorios import (
-    listar_historico,
-    retirada,
-    entrada
-)
-from estruturas import (
-    medicamentos,
-    historico,
-    fila_reposicao,
-    solicitacoes_reposicao
-)
+from relatorios import menu_hist
+from estruturas import limpar_tela
 from medicamentos import menu_med
-from estoque import gerar_id
-from reposicao import (
-    cadastrar_repo,
-    buscar_repo,
-    remover_repo,
-    listar_repo,
-    remove_fila_repo,
-    mostrar_fila_repo
-)
+from estoque import gerar_id, menu_estoque
+from reposicao import  menu_repo
 
 # =========== SISTEMA PRINCIPAL ===========
 
@@ -51,6 +35,12 @@ while True:
         # vai para o menu de medicamentos
         case 1:
             menu_med()
+        case 2 :
+            menu_estoque()
+        case 3 :
+            menu_repo()
+        case 4 :
+            menu_hist()
         # SAIR
         case 0:
             print("Até mais!")

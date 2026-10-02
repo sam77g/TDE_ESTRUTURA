@@ -25,12 +25,12 @@ def menu_med() :
     print("==========================================")
     print("              MENU DE MEDICAMENTOS                   ")
     print("======================================== \n")
-    print("[1] - Adicionar medicamento \n",
+    print(" [1] - Adicionar medicamento \n",
           "[2] - Alterar medicamento \n",
           "[3] - Remover medicamento \n",
           "[4] - Listar medicamentos \n",
           "[5] - Buscar medicamento \n"
-          "[0] - Voltar")
+          " [0] - Voltar")
     op_med = int(input("Digite sua ação : "))
     
     match op_med :

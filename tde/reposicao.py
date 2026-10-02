@@ -17,6 +17,10 @@ import time
 
 # =========== FUNÇÕES PRINCIPAIS / CRUD ===========
 
+# MENU de REPOSIÇÃO
+def menu_repo() :
+    return print("menu funcionando !")
+
 # cria/cadastra um novo pedido de reposição
 def cadastrar_repo(med) :
     # pega o ID e nome do remédio 

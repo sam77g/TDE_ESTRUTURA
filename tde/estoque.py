@@ -27,3 +27,6 @@ def gerar_id_repo():
     proximo_id_repo += 1
 
     return id_atual
+
+def menu_estoque() :
+    return print("menu funcionando !")

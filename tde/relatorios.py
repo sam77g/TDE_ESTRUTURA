@@ -4,6 +4,10 @@ from collections import deque
 from datetime import datetime
 from estruturas import historico
 
+# MENU DE HISTÓRICO
+def menu_hist():
+    return print("menu funcionando !")
+
 # FUNÇÃO DE REGISTRO DE ENTRADA NO ESTOQUE
 def entrada(med) :
     agora = datetime.now()
