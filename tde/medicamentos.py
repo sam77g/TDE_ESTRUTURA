@@ -62,7 +62,7 @@ def menu_med() :
                             f"{medicamento['medicamento'].upper()}!\n"
                         )
                         cadastrar_repo(medicamento)
-                    time.sleep(8.5)
+                    input("\nPressione ENTER para continuar...")
                 else:
                     print(f"\n{resultado}")
             
@@ -70,11 +70,15 @@ def menu_med() :
             case 2 :
                 alt = input("Digite o medicamento: ")
                 alterar_medicamento(alt)
+                time.sleep(1)
+                input("\nPressione ENTER para continuar...")
             
             # REMOÇÃO DE MEDICAMENTO
             case 3 :
                 rem = input("Digite o medicamento a ser removido: ")
                 remover_medicamento(rem)
+                time.sleep(1)
+                input("\nPressione ENTER para continuar...")
                 
             # LISTA TODOS OS MEDICAMENTOS CADASTRADOS
             case 4 :
@@ -84,6 +88,7 @@ def menu_med() :
             case 5 :
                 busca = input("Digite o medicamento: ")
                 buscar_medicamento(busca)
+                input("\nPressione ENTER para continuar...")
             # SAÍDA
             case _ :
                 print(" -- SAINDO DE MEDICAMENTOS --")
@@ -112,7 +117,6 @@ def listar_medicamentos() :
             return False
         else : 
             break
-        
 
 # FUNÇÃO DE BUSCAR MEDICAMENTOS
 def buscar_medicamento(nome):
@@ -139,6 +143,7 @@ def alterar_medicamento(nome) :
                 case 1 :
                     nova_categoria = input("Digite a nova categoria : ")
                     medicamento["categoria"] = nova_categoria # altera a categoria do medicamento
+                    time.sleep(1.5)
                     return print("Categoria alterada com sucesso") # printa para o usuário 
                 
                 case 2 :
@@ -148,15 +153,17 @@ def alterar_medicamento(nome) :
                     if nova_quantidade < 15 :
                         print("---- Quantidade abaixo do estoque mínimo ! ---")
                         print("Criando pedido de reposição ... ")
-                        time.sleep(0.75) # espera 1.5 segundos
+                        time.sleep(1.5) # espera 1.5 segundos
                         cadastrar_repo(medicamento) # cria um novo pedido de reposição
                     elif buscar_repo(medicamento) != None :
                         remover_repo(medicamento)
+                        time.sleep(1.5)
                     return print("Quantidade alterada com sucesso") # printa para o usuário 
                 
                 case 3 :
                     novo_preco = float(input("Digite o novo preço : "))
                     medicamento["preco"] = novo_preco # altera o preço do medicamento
+                    time.sleep(1.5)
                     return print("Preço alterado com sucesso") # printa para o usuário 
                     
 
@@ -168,5 +175,6 @@ def remover_medicamento(nome):
             retirada(medicamento)
             if buscar_repo(medicamento) is not None:
                 remover_repo(medicamento)  # limpa o pedido de reposição pendente
+        time.sleep(2.5)
         return print("medicamento não encontrado !")
     
