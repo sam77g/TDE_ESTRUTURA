@@ -10,6 +10,7 @@ historico = []  # relatorios.py
 fila_reposicao = deque()  # reposicao.py
 solicitacoes_reposicao = deque()  # reposicao.py
 estoque = []
+balcao = []
 
 def limpar_tela():
     os.system('cls' if os.name == 'nt' else 'clear')

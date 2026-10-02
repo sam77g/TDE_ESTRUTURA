@@ -1,8 +1,36 @@
 # ARQUIVO COM FUÇÕES PARA O FUNCIONAMENTO DO BALCÃO
+#  Imports 
+from medicamentos import buscar_medicamento
+from estruturas import balcao
+
+def menu_balcao() :
+    print(" =========== MENU BALCÃO =========== \n")
+    print("[1] - Listar Balcão ")
+    print("[2] - Transferir para o balcão ")
+    print("[3] - Buscar no balcão ")
+    print("[0] - SAIR \n")
+    
+    op_balc = int(input("Opção : "))
+    match op_balc :
+        case 1 :
+            listar_balcao()
+        case 2 :
+            nome = input("O nome do medicamento : ")
+            med = buscar_medicamento(nome)
+            transferir_balcao(med)
+        case 3 :
+            busca_balc = input("Digite o medicamento : ")
+            buscar_balcao(buscar_balcao)
+
 def adicionar_balcao() :
     return print("adicionado ao balcão !")
 
-def listar_balcao() :
+def listar_balcao(med) :
+    for i in balcao :
+        if i["medicamento"].strip().lower() == med.strip().lower() :
+            print(f" ----------- {med.upper()} ----------- ")
+            print(f"Quantidade no balcão : {i["estoque_balcao"]}")
+        
     return print("lista balcão")
 
 def buscar_balcao() :

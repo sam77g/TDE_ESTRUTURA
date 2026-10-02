@@ -14,7 +14,7 @@ from estruturas import medicamentos, estoque
 from relatorios import entrada, retirada
 from reposicao import cadastrar_repo, buscar_repo, remover_repo, remove_fila_repo
 from estoque import gerar_id, adicionar_estoque, ajuste_estoque
-from balcao import transferir_balcao
+from balcao import transferir_balcao, adicionar_balcao, remover_balcao
 import time
 import os
 
@@ -48,7 +48,7 @@ def menu_med() :
             "[5] - Buscar medicamento \n",
             "[6] - Listar por categoria \n",
             "[7] - Adicionar ao estoque \n",
-            "[8] - Transferir para o balcão \n",
+            "[8] - Balcão \n",
             " [0] - Voltar \n")
         op_med = int(input("Digite sua ação : "))
         print("----------------------------------------")
