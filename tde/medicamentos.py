@@ -10,10 +10,11 @@
 
 from collections import deque 
 from validar import validar_medicamento, validar_texto, validar_estoque, validar_nome
-from estruturas import medicamentos
+from estruturas import medicamentos, estoque
 from relatorios import entrada, retirada
 from reposicao import cadastrar_repo, buscar_repo, remover_repo, remove_fila_repo
-from estoque import gerar_id
+from estoque import gerar_id, adicionar_estoque, ajuste_estoque
+from balcao import transferir_balcao
 import time
 import os
 
@@ -149,6 +150,11 @@ def menu_med() :
 # FUNÇAO DE CADASTRO DE MEDICAMENTOS
 def cadastrar_medicamento(med) :
     medicamentos.append(med) # adiciona o medicamento a lista
+    estoque.append({
+        "medicamento" : med["medicamento"],
+        "id" : med["id"],
+        "estoque_central" : med["estoque_central"]
+    })
     entrada(med, med["estoque_central"]) # REGISTRA A ENTRADA (antes da distribuição, com a quantidade total)
     distribuir_inicial(med)
     
@@ -219,7 +225,7 @@ def alterar_medicamento(nome) :
         if medicamento["medicamento"].strip().lower() == nome.strip().lower(): # verifica se o nome digitado está presente na lista
             print(f" ----- ALTERAR {nome.upper()} ----- ")
             print(" [1] - Categoria \n",
-                  "[2] - Estoque / Quantidade \n",
+                  "[2] - Estoque central\n",
                   "[3] - Preço ")
             opcao = int(input("O que você deseja alterar ? \n"))
         else :
@@ -281,52 +287,3 @@ def distribuir_inicial(med) :
         print(f" BALCÃO : {med["estoque_balcão"]}")
         return print("Transferência Realizada")
 
-# TRANSFERÊNCIA MANUAL: ESTOQUE CENTRAL -> BALCÃO
-def transferir_balcao(med, quantidade):
-    # regra 1: quantidade precisa ser maior que zero
-    if quantidade <= 0:
-        print("Quantidade inválida!")
-        return False
-
-    # regra 2: não pode ultrapassar o estoque central
-    if quantidade > med["estoque_central"]:
-        print(f"Estoque central insuficiente! Disponível: {med['estoque_central']}")
-        return False
-
-    # regra 3: diminui o central e aumenta o balcão
-    med["estoque_central"] -= quantidade
-    med["estoque_balcão"] += quantidade
-
-    print("\nTransferência realizada com sucesso!")
-    print(f"Estoque central: {med['estoque_central']}")
-    print(f"Estoque balcão: {med['estoque_balcão']}")
-    return True
-
-# ADICIONA AO ESTOQUE A QUANTIDADE DESEJADA
-def adicionar_estoque(med, quantidade):
-    if quantidade <= 0:
-        return False
-    med["estoque_central"] += quantidade
-
-    # REGISTRA NO HISTÓRICO A QUANTIDADE RECEBIDA (sem duplicar o cadastro)
-    entrada(med, quantidade)
-
-    print("Entrada registrada com sucesso!")
-    
-    # ADICIONAR O PROCESSAMENTO DA FILA DE REPOSIÇÃO
-
-    return True
-
-# FUNÇÃO AJUSTE DE ESTOQUE
-def ajuste_estoque(med, nova_quantidade):
-
-    if nova_quantidade < 0:
-        print("Quantidade inválida!")
-        return False
-
-    med["estoque_central"] = nova_quantidade
-
-    print("\nEstoque atualizado!")
-    print(f"Estoque central: {med['estoque_central']}")
-
-    return True

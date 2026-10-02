@@ -9,6 +9,7 @@ medicamentos = []  # medicamentos.py
 historico = []  # relatorios.py
 fila_reposicao = deque()  # reposicao.py
 solicitacoes_reposicao = deque()  # reposicao.py
+estoque = []
 
 def limpar_tela():
     os.system('cls' if os.name == 'nt' else 'clear')
