@@ -25,9 +25,9 @@ while True:
         " [2] - Estoque \n",
         " [3] - Reposição \n",
         " [4] - Histórico \n",
-        "  [0] - Sair \n"
+        " [0] - Sair \n"
     )
-    print("===================================================\n")
+    print("=================================================== \n")
     opcao = int(input("Escolha uma opção: "))
 
     # MATCH CASE PARA A OPÇÃO DIGITADA

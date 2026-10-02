@@ -19,76 +19,78 @@ import os
 
 def limpar_tela():
     os.system('cls' if os.name == 'nt' else 'clear')
-
-def menu_med() :
-    limpar_tela()
-    print("==========================================")
-    print("              MENU DE MEDICAMENTOS                   ")
-    print("======================================== \n")
-    print(" [1] - Adicionar medicamento \n",
-          "[2] - Alterar medicamento \n",
-          "[3] - Remover medicamento \n",
-          "[4] - Listar medicamentos \n",
-          "[5] - Buscar medicamento \n"
-          " [0] - Voltar")
-    op_med = int(input("Digite sua ação : "))
     
-    match op_med :
-        # adicionar medicamento
-        case 1 :
-            medicamento = {
-                "medicamento": input("Digite o nome do medicamento: "),
-                "categoria": input("Digite a categoria: "),
-                "estoque": int(input("Digite a quantidade: ")),
-                "preco": float(input("Digite o preço: ")),
-                "id": gerar_id() # gera um ID único
-            }
-            # VALIDA OS DADOS DO MEDICAMENTO
-            resultado = validar_medicamento(
-                medicamento,
-                medicamentos
-            )
-            if resultado is True:
-                # CADASTRA O MEDICAMENTOW
-                cadastrar_medicamento(medicamento)
-                print("\nMedicamento cadastrado com sucesso!")
+def menu_med() :
+    while True:
+        limpar_tela()
+        print("==========================================")
+        print("              MENU DE MEDICAMENTOS                   ")
+        print("======================================== \n")
+        print(" [1] - Adicionar medicamento \n",
+            "[2] - Alterar medicamento \n",
+            "[3] - Remover medicamento \n",
+            "[4] - Listar medicamentos \n",
+            "[5] - Buscar medicamento \n"
+            " [0] - Voltar")
+        op_med = int(input("Digite sua ação : "))
+        print("----------------------------------------")
+        match op_med :
+            # adicionar medicamento
+            case 1 :
+                medicamento = {
+                    "medicamento": input("Digite o nome do medicamento: "),
+                    "categoria": input("Digite a categoria: "),
+                    "estoque": int(input("Digite a quantidade: ")),
+                    "preco": float(input("Digite o preço: ")),
+                    "id": gerar_id() # gera um ID único
+                }
+                # VALIDA OS DADOS DO MEDICAMENTO
+                resultado = validar_medicamento(
+                    medicamento,
+                    medicamentos
+                )
+                if resultado is True:
+                    # CADASTRA O MEDICAMENTOW
+                    cadastrar_medicamento(medicamento)
+                    print("\nMedicamento cadastrado com sucesso!")
 
-                # VERIFICA SE O ESTOQUE ESTÁ ABAIXO DO MÍNIMO
-                if medicamento["estoque"] < 15:
-                    print("\nEstoque menor que o estoque mínimo!")
-                    print(
-                        f"Criando pedido de reposição para "
-                        f"{medicamento['medicamento'].upper()}!\n"
-                    )
-                    cadastrar_repo(medicamento)
-            else:
-                print(f"\n{resultado}")
-        
-        # ALTERAÇÃO DE MEDICAMENTO
-        case 2 :
-            alt = input("Digite o medicamento: ")
-            alterar_medicamento(alt)
-        
-        # REMOÇÃO DE MEDICAMENTO
-        case 3 :
-            rem = input("Digite o medicamento a ser removido: ")
-            remover_medicamento(rem)
+                    # VERIFICA SE O ESTOQUE ESTÁ ABAIXO DO MÍNIMO
+                    if medicamento["estoque"] < 15:
+                        print("\nEstoque menor que o estoque mínimo!")
+                        print(
+                            f"Criando pedido de reposição para "
+                            f"{medicamento['medicamento'].upper()}!\n"
+                        )
+                        cadastrar_repo(medicamento)
+                    time.sleep(8.5)
+                else:
+                    print(f"\n{resultado}")
             
-        # LISTA TODOS OS MEDICAMENTOS CADASTRADOS
-        case 4 :
-            listar_medicamentos()
-        
-        # BUSCA DE MEDICAMENTO
-        case 5 :
-            busca = input("Digite o medicamento: ")
-            buscar_medicamento(busca)
-        # SAÍDA
-        case _ :
-            print(" -- SAINDO DE MEDICAMENTOS --")
-            time.sleep(0.5)
-            return print(" [ SUCESS EXIT ! ]")
+            # ALTERAÇÃO DE MEDICAMENTO
+            case 2 :
+                alt = input("Digite o medicamento: ")
+                alterar_medicamento(alt)
             
+            # REMOÇÃO DE MEDICAMENTO
+            case 3 :
+                rem = input("Digite o medicamento a ser removido: ")
+                remover_medicamento(rem)
                 
+            # LISTA TODOS OS MEDICAMENTOS CADASTRADOS
+            case 4 :
+                listar_medicamentos()
+            
+            # BUSCA DE MEDICAMENTO
+            case 5 :
+                busca = input("Digite o medicamento: ")
+                buscar_medicamento(busca)
+            # SAÍDA
+            case _ :
+                print(" -- SAINDO DE MEDICAMENTOS --")
+                time.sleep(0.5)
+                break
+                
+                    
 
 # FUNÇAO DE CADASTRO DE MEDICAMENTOS
 def cadastrar_medicamento(med) :
@@ -99,14 +101,22 @@ def cadastrar_medicamento(med) :
 
 # FUNÇAO DE LISTAR TODOS OS MEDICAMENTOS
 def listar_medicamentos() :
-    for i in medicamentos :
-        print(f"==================== {i["medicamento"].upper()} ======================= \n")
-        print(f"quantidade : {i["estoque"]} " )  
-        print(f"preço : {i["preco"]} ")
-        print(f"ID : {i["id"]} \n")
+    while True :
+        for i in medicamentos :
+            print(f"==================== {i["medicamento"].upper()} ======================= \n")
+            print(f"quantidade : {i["estoque"]} " )  
+            print(f"preço : {i["preco"]} ")
+            print(f"ID : {i["id"]} \n")
+        op_listar = int(input("[ Digite 0 para SAIR ] : "))
+        if op_listar == 0 :
+            return False
+        else : 
+            break
+        
 
 # FUNÇÃO DE BUSCAR MEDICAMENTOS
 def buscar_medicamento(nome):
+    
     for i in medicamentos :
         if i["medicamento"].lower() == nome.lower(): # compara os nomes 
             print(f"==================== {i["medicamento"].upper()} ======================= \n")
