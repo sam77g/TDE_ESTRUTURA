@@ -38,6 +38,46 @@ def retirada(med):
     historico.append(out_med)  # registra a saída (antes era historico.pop())
     return print(f"O {med['medicamento'].upper()} foi retirado ")
 
+def transferencia(med) :
+    agora = datetime.now()
+    data_formatada = agora.strftime("%d/%m/%Y %H:%M") # SALVA O DIA E HORA DE RETIRADA
+    transf_med = {
+        "medicamento": med["medicamento"],
+        "id_medicamento": med["id"],
+        "categoria": med["categoria"],
+        "tipo": "TRANSFERÊNCIA",
+        "data": data_formatada
+    }
+    historico.append(transf_med)
+    return print(f"O {med["medicamento"].upper()} foi transferido para o balcão")
+
+def venda(med) :
+    agora = datetime.now()
+    data_formatada = agora.strftime("%d/%m/%Y %H:%M") # SALVA O DIA E HORA DE RETIRADA
+    venda_med = {
+        "medicamento": med["medicamento"],
+        "id_medicamento": med["id"],
+        "categoria": med["categoria"],
+        "tipo": "VENDA",
+        "data": data_formatada
+    }
+    historico.append(venda_med)
+    return print(f"O {med["medicamento"].upper()} foi vendido !")
+
+def venda(med) :
+    agora = datetime.now()
+    data_formatada = agora.strftime("%d/%m/%Y %H:%M") # SALVA O DIA E HORA DE RETIRADA
+    ajuste_med = {
+        "medicamento": med["medicamento"],
+        "id_medicamento": med["id"],
+        "categoria": med["categoria"],
+        "tipo": "AJUSTE",
+        "data": data_formatada
+    }
+    historico.append(ajuste_med)
+    return print(f"O {med["medicamento"].upper()} foi ajustado no estoque !")
+
+
 # FUNÇÃO PARA LISTAR O HISTÓRICO
 def listar_historico() :
     limpar_tela()
@@ -48,3 +88,4 @@ def listar_historico() :
             print(f"Quantidade : {i['quantidade']}")
         print(f"Data : {i['data']} ") 
         print(f"Categoria : {i['categoria']} \n")
+    

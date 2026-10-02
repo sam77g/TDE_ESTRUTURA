@@ -137,10 +137,12 @@ def menu_med() :
                 input("\nPressione ENTER para continuar...")
                 
             # SAÍDA
-            case _ :
+            case 0 :
                 print(" -- SAINDO DE MEDICAMENTOS --")
                 time.sleep(0.5)
                 break
+            case _ :
+                print(" -- OPÇÃO INVÁLIDA -- ")
                 
                     
 
@@ -207,6 +209,8 @@ def buscar_medicamento(nome):
             print(f"preço : {i["preco"]} ")
             print(f"ID : {i["id"]} \n")
             return i
+        else :
+            return print("Nenhum medicamento encontrado ! \n")
 
     
 # função de alterar características do medicamento atrvés do nome digitado
@@ -218,7 +222,10 @@ def alterar_medicamento(nome) :
                   "[2] - Estoque / Quantidade \n",
                   "[3] - Preço ")
             opcao = int(input("O que você deseja alterar ? \n"))
-            match opcao :
+        else :
+            return print("Nenhum medicamento encontradado !")
+            
+        match opcao :
                 case 1 :
                     print("-- Escolha a nova categoria --")
                     nova_categoria = categoria()
