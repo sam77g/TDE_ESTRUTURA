@@ -137,15 +137,32 @@ def listar_medicamentos() :
             break
 
 # FUNÇÃO DE BUSCAR MEDICAMENTOS POR CATEGORIA
-def buscar_medicamento_cat(nome):
-    
-    for i in medicamentos :
-        if i["categoria"].lower() == nome.lower(): # compara os nomes 
-            print(f"==================== {i["medicamento"].upper()} ======================= \n")
-            print(f"quantidade : {i["estoque"]} " )  
-            print(f"preço : {i["preco"]} ")
-            print(f"ID : {i["id"]} \n")
-            return i
+def buscar_medicamento_cat(categoria_nome):
+    # filtra todos os medicamentos da mesma categoria
+    # Equivale a :
+    # encontrados = []
+    # for m in medicamentos:
+    #     if m["categoria"].strip().lower() == categoria_nome.strip().lower():
+    #         encontrados.append(m)
+    encontrados = [
+        # percorre a lista de medicamentos 
+        m for m in medicamentos 
+        # e guarda os correspondedes em uma lista nova
+        if m["categoria"].strip().lower() == categoria_nome.strip().lower()
+    ]
+
+    if not encontrados:
+        print(f"Nenhum medicamento cadastrado na categoria {categoria_nome}.")
+        return []
+
+    print(f"=========== CATEGORIA: {categoria_nome.upper()} ({len(encontrados)}) ===========\n")
+    for i in encontrados:
+        print(f"==================== {i['medicamento'].upper()} ======================= \n")
+        print(f"quantidade : {i['estoque']} ")
+        print(f"preço : {i['preco']} ")
+        print(f"ID : {i['id']} \n")
+
+    return encontrados
 
 # FUNÇÃO DE BUSCAR MEDICAMENTOS PELO NOME
 def buscar_medicamento(nome):
@@ -205,6 +222,6 @@ def remover_medicamento(nome):
             retirada(medicamento)
             if buscar_repo(medicamento) is not None:
                 remover_repo(medicamento)  # limpa o pedido de reposição pendente
-        time.sleep(2.5)
-        return print("medicamento não encontrado !")
+            return  # achou e removeu: sai da função
+    print("medicamento não encontrado !")  # só chega aqui se o for terminar sem achar
     
