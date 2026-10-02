@@ -45,7 +45,8 @@ def menu_med() :
             "[3] - Remover medicamento \n",
             "[4] - Listar medicamentos \n",
             "[5] - Buscar medicamento \n",
-            "[6] - Listar por categoria \n"
+            "[6] - Listar por categoria \n",
+            "[7] - Adicionar ao estoque \n",
             " [0] - Voltar \n")
         op_med = int(input("Digite sua ação : "))
         print("----------------------------------------")
@@ -109,6 +110,14 @@ def menu_med() :
                 opc_busca_categoria = categoria()
                 buscar_medicamento_cat(opc_busca_categoria)
                 input("\nPressione ENTER para continuar...")
+                
+            case 7:
+                nome = input("Digite o medicamento: ")
+                med = buscar_medicamento(nome)
+                if med is not None:
+                    quantidade = int(input("Quantidade de entrada: "))
+                    adicionar_estoque(med, quantidade)
+                input("\nPressione ENTER para continuar...") 
                 
             # SAÍDA
             case _ :
@@ -176,7 +185,7 @@ def buscar_medicamento(nome):
     for i in medicamentos :
         if i["medicamento"].lower() == nome.lower(): # compara os nomes 
             print(f"==================== {i["medicamento"].upper()} ======================= \n")
-            print(f"quantidade : {i["estoque"]} " )  
+            print(f"quantidade : {i["estoque_central"]} " )  
             print(f"preço : {i["preco"]} ")
             print(f"ID : {i["id"]} \n")
             return i
@@ -243,7 +252,7 @@ def remover_medicamento(nome):
 def distribuir_inicial(med) :
     estoque_cent = med["estoque_central"]
     if estoque_cent < 30 :
-        return print("[SYSTEM] : Impossibitado de distribuir o medicamento para o balcão !")
+        return print("[SYSTEM] : Impossibilitado de distribuir o medicamento para o balcão !")
     else :
         med["estoque_balcão"] = 30 
         med["estoque_central"] = estoque_cent - 30
@@ -251,6 +260,7 @@ def distribuir_inicial(med) :
         print(f" BALCÃO : {med["estoque_balcão"]}")
         return print("Transferência Realizada")
 
+# ADICIONA AO ESTOQUE A QUANTIDADE DESEJADA
 def adicionar_estoque(med, quantidade):
     if quantidade <= 0:
         return False
@@ -258,5 +268,19 @@ def adicionar_estoque(med, quantidade):
     print("Entrada registrada com sucesso!")
     
     # ADICIONAR O PROCESSAMENTO DA FILA DE REPOSIÇÃO
+
+    return True
+
+# FUNÇÃO AJUSTE DE ESTOQUE
+def ajuste_estoque(med, nova_quantidade):
+
+    if nova_quantidade < 0:
+        print("Quantidade inválida!")
+        return False
+
+    med["estoque_central"] = nova_quantidade
+
+    print("\nEstoque atualizado!")
+    print(f"Estoque central: {med['estoque_central']}")
 
     return True
