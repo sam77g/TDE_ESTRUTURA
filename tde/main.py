@@ -25,7 +25,7 @@ while True:
         " [2] - Estoque \n",
         " [3] - Reposição \n",
         " [4] - Histórico \n",
-        " [5] - DEBUG"
+        " [5] - DEBUG \n"
         " [0] - Sair \n"
     )
     print("=================================================== \n")
@@ -52,7 +52,7 @@ while True:
         # DEGUG
         case 5 :
             DEBUG()
-            
+
         # SAIR
         case 0:
             print("Até mais!")
