@@ -234,5 +234,11 @@ def remover_medicamento(nome):
 # DISTRIBUIÇÃO DOS MEDICAMENTOS 
 def distribuir_inicial(med) :
     estoque_cent = med["estoque_central"]
-    med["estoque_balcão"] = 30 
-    med["estoque_central"] = estoque_cent - 30
+    if estoque_cent < 30 :
+        return print("[SYSTEM] : Impossibitado de distribuir o medicamento para o balcão !")
+    else :
+        med["estoque_balcão"] = 30 
+        med["estoque_central"] = estoque_cent - 30
+        print(f" ESTOQUE CENTRAL : {med["estoque_central"]}")
+        print(f" BALCÃO : {med["estoque_balcão"]}")
+        return print("Transferência Realizada")
