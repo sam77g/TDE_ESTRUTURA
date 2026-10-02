@@ -23,15 +23,15 @@ def limpar_tela():
 def menu_med() :
     while True:
         limpar_tela()
-        print("==========================================")
-        print("              MENU DE MEDICAMENTOS                   ")
-        print("======================================== \n")
+        print("========================================= ")
+        print("          MENU DE MEDICAMENTOS            ")
+        print("========================================= \n")
         print(" [1] - Adicionar medicamento \n",
             "[2] - Alterar medicamento \n",
             "[3] - Remover medicamento \n",
             "[4] - Listar medicamentos \n",
             "[5] - Buscar medicamento \n"
-            " [0] - Voltar")
+            " [0] - Voltar \n")
         op_med = int(input("Digite sua ação : "))
         print("----------------------------------------")
         match op_med :
@@ -123,9 +123,9 @@ def buscar_medicamento(nome):
             print(f"quantidade : {i["estoque"]} " )  
             print(f"preço : {i["preco"]} ")
             print(f"ID : {i["id"]} \n")
+            return i
 
     
-
 # função de alterar características do medicamento atrvés do nome digitado
 def alterar_medicamento(nome) :
     for medicamento in medicamentos: # percorre a lista de medicamentos
