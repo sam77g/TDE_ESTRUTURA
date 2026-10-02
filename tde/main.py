@@ -1,67 +1,48 @@
-# Arquivo principal que orquestrará o sistema
-# Ele será responsável por:
-#     mostrar o menu principal;
-#     receber as escolhas do usuário;
-#     chamar as funções dos outros arquivos;
-#     controlar o fluxo geral do programa.
-
-
-# IMPORTS
-import time
-from validar import validar_medicamento
+# Arquivo principal - orquestra o sistema (menu principal e fluxo geral)
+from estruturas import DEBUG, msg_erro
+from validar import ler_inteiro
 from relatorios import listar_historico
-from estruturas import limpar_tela, DEBUG
 from medicamentos import menu_med
-from estoque import gerar_id, menu_estoque
-from reposicao import  menu_repo
+from estoque import menu_estoque
 from balcao import menu_balcao
+from vendas import menu_vendas
+from reposicao import menu_repo
+import time
 
 # =========== SISTEMA PRINCIPAL ===========
-
 while True:
-    # MENU DO SISTEMA
     print("========== SISTEMA DE CONTROLE PharmaERP ============ \n")
     print(
-        "  [1] - Menu Medicamentos\n",
+        "  [1] - Medicamentos \n",
         " [2] - Estoque \n",
-        " [3] - Reposição \n",
-        " [4] - Histórico \n",
-        " [5] - Balcão \n",
-        " [10] - DEBUG \n"
-        "  [0] - Sair \n"
+        " [3] - Balcão \n",
+        " [4] - Vendas \n",
+        " [5] - Reposição \n",
+        " [6] - Histórico \n",
+        " [7] - DEBUG \n",
+        " [0] - Sair \n"
     )
     print("=================================================== \n")
-    opcao = int(input("Escolha uma opção: "))
+    opcao = ler_inteiro("Escolha uma opção: ")
 
-    # MATCH CASE PARA A OPÇÃO DIGITADA
     match opcao:
-        # MENU DE MEDICAMENTOS
         case 1:
             menu_med()
-
-        # MENU DE ESTOQUE
-        case 2 :
+        case 2:
             menu_estoque()
-
-        # MENU DE REPOSIÇÃO
-        case 3 :
-            menu_repo()
-
-        # LISTAR O HISTÓRICO
-        case 4 :
-            listar_historico()
-
-        # DEGUG
-        case 5 :
+        case 3:
             menu_balcao()
-        case 10 :
+        case 4:
+            menu_vendas()
+        case 5:
+            menu_repo()
+        case 6:
+            listar_historico()
+        case 7:
             DEBUG()
-        # SAIR
         case 0:
             print("Até mais!")
             break
-
-        # OPÇÃO INVÁLIDA
         case _:
-
-            print("Opção inválida! Tente novamente.")
+            msg_erro("Opção inválida! Tente novamente.")
+            time.sleep(1)
