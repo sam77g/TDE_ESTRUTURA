@@ -14,7 +14,6 @@ from estruturas import limpar_tela, DEBUG
 from medicamentos import menu_med
 from estoque import gerar_id, menu_estoque
 from reposicao import  menu_repo
-from balcao import menu_balcao
 
 # =========== SISTEMA PRINCIPAL ===========
 
@@ -26,9 +25,8 @@ while True:
         " [2] - Estoque \n",
         " [3] - Reposição \n",
         " [4] - Histórico \n",
-        " [5] - Balcão \n",
-        " [10] - DEBUG \n"
-        "  [0] - Sair \n"
+        " [5] - DEBUG"
+        " [0] - Sair \n"
     )
     print("=================================================== \n")
     opcao = int(input("Escolha uma opção: "))
@@ -53,9 +51,8 @@ while True:
 
         # DEGUG
         case 5 :
-            menu_balcao()
-        case 10 :
             DEBUG()
+            
         # SAIR
         case 0:
             print("Até mais!")

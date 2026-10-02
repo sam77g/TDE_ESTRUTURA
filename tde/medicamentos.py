@@ -10,11 +10,10 @@
 
 from collections import deque 
 from validar import validar_medicamento, validar_texto, validar_estoque, validar_nome
-from estruturas import medicamentos, estoque
+from estruturas import medicamentos
 from relatorios import entrada, retirada
 from reposicao import cadastrar_repo, buscar_repo, remover_repo, remove_fila_repo
-from estoque import gerar_id, adicionar_estoque, ajuste_estoque
-from balcao import transferir_balcao, adicionar_balcao, remover_balcao
+from estoque import gerar_id
 import time
 import os
 
@@ -46,9 +45,7 @@ def menu_med() :
             "[3] - Remover medicamento \n",
             "[4] - Listar medicamentos \n",
             "[5] - Buscar medicamento \n",
-            "[6] - Listar por categoria \n",
-            "[7] - Adicionar ao estoque \n",
-            "[8] - Transferir para o balcão \n",
+            "[6] - Listar por categoria \n"
             " [0] - Voltar \n")
         op_med = int(input("Digite sua ação : "))
         print("----------------------------------------")
@@ -58,8 +55,7 @@ def menu_med() :
                 medicamento = {
                     "medicamento": input("Digite o nome do medicamento: "),
                     "categoria": categoria(),
-                    "estoque_central": int(input("Digite a quantidade: ")),
-                    "estoque_balcão"  : 0,
+                    "estoque": int(input("Digite a quantidade: ")),
                     "preco": float(input("Digite o preço: ")),
                     "id": gerar_id() # gera um ID único
                 }
@@ -69,13 +65,12 @@ def menu_med() :
                     medicamentos
                 )
                 if resultado is True:
-                    # CADASTRA O MEDICAMENTO
+                    # CADASTRA O MEDICAMENTOW
                     cadastrar_medicamento(medicamento)
                     print("\nMedicamento cadastrado com sucesso!")
 
-                    # VERIFICA SE O ESTOQUE DO BALCÃO ESTÁ ABAIXO DO MÍNIMO
-                    # (o pedido apenas é CRIADO aqui; o atendimento virá depois)
-                    if medicamento["estoque_balcão"] < 15:
+                    # VERIFICA SE O ESTOQUE ESTÁ ABAIXO DO MÍNIMO
+                    if medicamento["estoque"] < 15:
                         print("\nEstoque menor que o estoque mínimo!")
                         print(
                             f"Criando pedido de reposição para "
@@ -113,50 +108,19 @@ def menu_med() :
                 opc_busca_categoria = categoria()
                 buscar_medicamento_cat(opc_busca_categoria)
                 input("\nPressione ENTER para continuar...")
-            
-            # ENTRADA NO ESTOQUE CENTRAL
-            case 7:
-                nome = input("Digite o medicamento: ")
-                med = buscar_medicamento(nome)
-                if med is not None:
-                    quantidade = int(input("Quantidade de entrada: "))
-                    if not adicionar_estoque(med, quantidade):
-                        print("Quantidade inválida!")
-                else:
-                    print("Medicamento não encontrado!")
-                input("\nPressione ENTER para continuar...") 
-
-            # TRANSFERÊNCIA MANUAL: CENTRAL -> BALCÃO
-            case 8:
-                nome = input("Digite o medicamento: ")
-                med = buscar_medicamento(nome)
-                if med is not None:
-                    quantidade = int(input("Quantidade a transferir para o balcão: "))
-                    transferir_balcao(med, quantidade)
-                else:
-                    print("Medicamento não encontrado!")
-                input("\nPressione ENTER para continuar...")
                 
             # SAÍDA
-            case 0 :
+            case _ :
                 print(" -- SAINDO DE MEDICAMENTOS --")
                 time.sleep(0.5)
                 break
-            case _ :
-                print(" -- OPÇÃO INVÁLIDA -- ")
                 
                     
 
 # FUNÇAO DE CADASTRO DE MEDICAMENTOS
 def cadastrar_medicamento(med) :
     medicamentos.append(med) # adiciona o medicamento a lista
-    estoque.append({
-        "medicamento" : med["medicamento"],
-        "id" : med["id"],
-        "estoque_central" : med["estoque_central"]
-    })
-    entrada(med, med["estoque_central"]) # REGISTRA A ENTRADA (antes da distribuição, com a quantidade total)
-    distribuir_inicial(med)
+    entrada(med) # REGISTRA A ENTRADA
     
     
 
@@ -165,9 +129,8 @@ def listar_medicamentos() :
     while True :
         for i in medicamentos :
             print(f"==================== {i["medicamento"].upper()} ======================= \n")
-            print(f"Estoque : {i["estoque_central"]} " )  
-            print(f"Balcão : {i["estoque_balcão"]}")
-            print(f"Preço : {i["preco"]} ")
+            print(f"quantidade : {i["estoque"]} " )  
+            print(f"preço : {i["preco"]} ")
             print(f"categoria : {i["categoria"]} \n")
         op_listar = int(input("[ Digite 0 para SAIR ] : "))
         if op_listar == 0 :
@@ -197,9 +160,8 @@ def buscar_medicamento_cat(categoria_nome):
     print(f"=========== CATEGORIA: {categoria_nome.upper()} ({len(encontrados)}) ===========\n")
     for i in encontrados:
         print(f"==================== {i['medicamento'].upper()} ======================= \n")
-        print(f"Estoque : {i["estoque_central"]} " )  
-        print(f"Balcão : {i["estoque_balcão"]}")
-        print(f"Preço : {i['preco']} ")
+        print(f"quantidade : {i['estoque']} ")
+        print(f"preço : {i['preco']} ")
         print(f"ID : {i['id']} \n")
 
     return encontrados
@@ -208,30 +170,24 @@ def buscar_medicamento_cat(categoria_nome):
 def buscar_medicamento(nome):
     
     for i in medicamentos :
-        if i["medicamento"].strip().lower() == nome.strip().lower(): # compara os nomes 
+        if i["medicamento"].lower() == nome.lower(): # compara os nomes 
             print(f"==================== {i["medicamento"].upper()} ======================= \n")
-            print(f"Estoque central : {i["estoque_central"]} " )  
-            print(f"Balcão : {i["estoque_balcão"]}")
+            print(f"quantidade : {i["estoque"]} " )  
             print(f"preço : {i["preco"]} ")
             print(f"ID : {i["id"]} \n")
             return i
-        else :
-            return print("Nenhum medicamento encontrado ! \n")
 
     
 # função de alterar características do medicamento atrvés do nome digitado
 def alterar_medicamento(nome) :
     for medicamento in medicamentos: # percorre a lista de medicamentos
-        if medicamento["medicamento"].strip().lower() == nome.strip().lower(): # verifica se o nome digitado está presente na lista
+        if medicamento["medicamento"].lower() == nome.lower(): # verifica se o nome digitado está presente na lista
             print(f" ----- ALTERAR {nome.upper()} ----- ")
-            print(" [1] - Categoria \n",
-                  "[2] - Estoque central\n",
+            print("[1] - Categoria \n",
+                  "[2] - Estoque / Quantidade \n",
                   "[3] - Preço ")
             opcao = int(input("O que você deseja alterar ? \n"))
-        else :
-            return print("Nenhum medicamento encontradado !")
-            
-        match opcao :
+            match opcao :
                 case 1 :
                     print("-- Escolha a nova categoria --")
                     nova_categoria = categoria()
@@ -239,23 +195,19 @@ def alterar_medicamento(nome) :
                     time.sleep(0.5)
                     return print("Categoria alterada com sucesso") # printa para o usuário 
                 
-                # nova quantidade total do estoque central.
-                case 2:
-                    nova_quantidade = int(input("Digite a nova quantidade do estoque central: "))
-
-                    # A alteração (e a validação) fica centralizada em ajuste_estoque()
-                    if not ajuste_estoque(medicamento, nova_quantidade):
-                        return
-
-                    print(f"Estoque balcão: {medicamento['estoque_balcão']}")
-
-                    # Verifica se o balcão precisa de reposição
-                    if medicamento["estoque_balcão"] < 15:
-                        if buscar_repo(medicamento) is None:
-                            cadastrar_repo(medicamento)
-                            print("\nPedido de reposição criado!")
-
-                    return print("Quantidade alterada com sucesso!")
+                case 2 :
+                    nova_quantidade = int(input("Digite a nova quantidade : "))
+                    medicamento["estoque"] = nova_quantidade # altera a quantidade em estoque do sistema
+                    
+                    if nova_quantidade < 15 :
+                        print("---- Quantidade abaixo do estoque mínimo ! ---")
+                        print("Criando pedido de reposição ... ")
+                        time.sleep(0.5) # espera 1.5 segundos
+                        cadastrar_repo(medicamento) # cria um novo pedido de reposição
+                    elif buscar_repo(medicamento) != None :
+                        remover_repo(medicamento)
+                        time.sleep(0.5)
+                    return print("Quantidade alterada com sucesso") # printa para o usuário 
                 
                 case 3 :
                     novo_preco = float(input("Digite o novo preço : "))
@@ -267,23 +219,11 @@ def alterar_medicamento(nome) :
 # função para remover o medicamento
 def remover_medicamento(nome):
     for medicamento in medicamentos:
-        if medicamento["medicamento"].strip().lower() == nome.strip().lower():
+        if medicamento["medicamento"].lower() == nome.lower():
             medicamentos.remove(medicamento)
             retirada(medicamento)
             if buscar_repo(medicamento) is not None:
                 remover_repo(medicamento)  # limpa o pedido de reposição pendente
             return  # achou e removeu: sai da função
     print("medicamento não encontrado !")  # só chega aqui se o for terminar sem achar
-
-# DISTRIBUIÇÃO DOS MEDICAMENTOS 
-def distribuir_inicial(med) :
-    quantidade = min(30, med["estoque_central"])
-    if quantidade <= 0 :
-        return print("[SYSTEM] : Impossibilitado de distribuir o medicamento para o balcão !")
-    else :
-        med["estoque_central"] -= quantidade
-        med["estoque_balcão"] += quantidade
-        print(f" ESTOQUE CENTRAL : {med["estoque_central"]}")
-        print(f" BALCÃO : {med["estoque_balcão"]}")
-        return print("Transferência Realizada")
-
+    

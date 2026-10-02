@@ -88,7 +88,7 @@ def cadastrar_repo(med) :
         "medicamento" : med["medicamento"],
         "id_repo" : gerar_id_repo(),
         "id_medicamento" : med["id"],
-        "criticidade" : criticidade(med["estoque_balcão"])
+        "criticidade" : criticidade(med["estoque"])
     }
 
     # LISTA DE SOLICITAÇÕES
@@ -98,11 +98,12 @@ def cadastrar_repo(med) :
         "criticidade" : repor["criticidade"]
     })
     
+    #  fila inutilizada
     # ADICIONA A FILA DE REPOSIÇÃO
-    fila_reposicao.append({
-         "ID_reposição" : repor["id_repo"],
-         "medicamento" : repor["medicamento"]
-     })
+    # fila_reposicao.append({
+    #     "id_repo" : repor["id_repo"],
+    #     "medicamento" : repor["medicamento"]
+    # })
     
     print(f" medicamento : {repor["medicamento"].upper()} \n",
         f"criticidade : {repor["criticidade"]} \n",
@@ -139,7 +140,7 @@ def remover_repo(med):
     for repo in solicitacoes_reposicao:
         if repo["medicamento"].lower() == med["medicamento"].lower():
             solicitacoes_reposicao.remove(repo)
-            return print(f"Reposição de {med['medicamento'].upper()} removida!")
+            print(f"Reposição de {med['medicamento'].upper()} removida!")
         return print("Reposição não encontrada ! ")
 
 # --------- FILA DE REPOSIÇÃO ---------
@@ -160,8 +161,8 @@ def remove_fila_repo() :
 def mostrar_fila_repo() :
     print("=========================== FILA DE REPOSIÇAO ================================== \n")
     for medicamento in fila_reposicao :
-        print(f" nome : {medicamento["medicamento"]} ",
-              f"id de reposição : {medicamento["ID_reposição"]} \n",)
+        print(f" nome : {medicamento["medicamento"]} \n",
+              f"id de reposição : {medicamento["id_repo"]} \n",)
         print(" ---------------------------------------- \n")
 # Inutilizado na main para o menu
     # mostrar_fila_repo()
