@@ -75,6 +75,40 @@ def buscar_repo(med):
 
     return None
 
+# ===== CADASTRAR REPOSIÇÃO ======
+def cadastrar_repo(med) :
+    # pega o ID e nome do remédio 
+
+    repo_existente = buscar_repo(med)
+    
+    if repo_existente is not None :
+        return
+    # DICIONÁRIO PARA CADA MEDICAMENTO
+    repor = {
+        "medicamento" : med["medicamento"],
+        "id_repo" : gerar_id_repo(),
+        "id_medicamento" : med["id"],
+        "criticidade" : criticidade(med["estoque"])
+    }
+
+    # LISTA DE SOLICITAÇÕES
+    solicitacoes_reposicao.append({
+        "id_repo" : repor["id_repo"],
+        "medicamento" : repor["medicamento"],
+        "criticidade" : repor["criticidade"]
+    })
+    
+    #  fila inutilizada
+    # ADICIONA A FILA DE REPOSIÇÃO
+    # fila_reposicao.append({
+    #     "id_repo" : repor["id_repo"],
+    #     "medicamento" : repor["medicamento"]
+    # })
+    
+    print(f" medicamento : {repor["medicamento"].upper()} \n",
+        f"criticidade : {repor["criticidade"]} \n",
+        f"ID de reposição : {repor["id_repo"]} \n",)
+
 
 # exibe uma reposição já encontrada
 def exibir_repo(repo):
