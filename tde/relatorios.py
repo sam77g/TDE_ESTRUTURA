@@ -2,8 +2,14 @@
 # Esse arquivo será responsável pelas funcionalidades que analisam os dados.
 from collections import deque 
 from datetime import datetime
-from estruturas import historico,limpar_tela
+from estruturas import historico,limpar_tela, medicamentos
 
+# MENU
+def menu_hist() :
+    print(
+            " [1] - Listar Histórico \n",
+            " [2] - Desfazer / Voltar histórico \n"
+        )
 
 # FUNÇÃO DE REGISTRO DE ENTRADA NO ESTOQUE
 def entrada(med) :
@@ -14,6 +20,7 @@ def entrada(med) :
         "medicamento" : med["medicamento"],
         "id_medicamento" : med["id"],
         "categoria" : med["categoria"],
+        "dados": med.copy(),
         "data" : data_formatada, # saída: dd/mm/2026 hr:min
         "tipo" : "ENTRADA"
     }
@@ -38,8 +45,19 @@ def retirada(med):
 # FUNÇÃO PARA LISTAR O HISTÓRICO
 def listar_historico() :
     limpar_tela()
-    for i in historico :
+    for i in reversed(historico) :
         print(f"==================== {i['medicamento'].upper()} ({i['tipo']}) =======================\n")
         print(f"ID : {i['id_medicamento']} \n")
         print(f"Data : {i['data']} \n") 
         print(f"Categoria : {i['categoria']}") 
+
+def desfazer_ultima():
+    if not historico:
+        print("Nada para desfazer.")
+        return
+    mov = historico.pop()                       # só mexe no topo
+    if mov["tipo"] == "ENTRADA":                # desfaz entrada = remove o medicamento
+        medicamentos[:] = [m for m in medicamentos if m["id"] != mov["id_medicamento"]]
+    else:                                       # desfaz saída = devolve o medicamento
+        medicamentos.append(mov["dados"])
+    print(f"Desfeito: {mov['tipo']} de {mov['medicamento']}")

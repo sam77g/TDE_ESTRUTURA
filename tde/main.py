@@ -8,7 +8,7 @@
 
 # IMPORTS
 import time
-from relatorios import listar_historico
+from relatorios import listar_historico, menu_hist
 from estruturas import  DEBUG
 from medicamentos import menu_med
 from reposicao import  menu_repo
@@ -40,6 +40,7 @@ while True:
 
         # LISTAR O HISTÓRICO
         case 3 :
+            menu_hist()
             listar_historico()
 
         # DEGUG

@@ -23,6 +23,7 @@ def menu_repo():
         print("========================================= \n")
         print(" [1] - Buscar reposição \n",
               "[2] - Listar reposições \n",
+              "[3] - Atender reposição \n"
               "[0] - Voltar \n")
 
         try:
@@ -129,33 +130,15 @@ def criticidade(estoque):
     return "AVISO"
         
 # função para remover uma solicitação de reposição
-def remover_repo(med):
+def cancelar_repo(med):
     for repo in solicitacoes_reposicao:
         if repo["medicamento"].lower() == med["medicamento"].lower():
             solicitacoes_reposicao.remove(repo)
             print(f"Reposição de {med['medicamento'].upper()} removida!")
             
-
-# --------- FILA DE REPOSIÇÃO ---------
-
-# FUNÇÃO PARA RETIRAR UM ELEMENTO NA FILA DE REPOSIÇAO
-def remove_fila_repo() :
-    print(f"remover o medicamento : {fila_reposicao[0]["medicamento"]}")
-    yes_or_no = str(input("Vocẽ realmente deseja retirar esse medicamento da fila de reposição ? [s/n] : ").strip().lower())
-    if yes_or_no == "s" :
-        fila_reposicao.popleft() # retira o primeiro
-        print("REMOVENDO ...")
-        time.sleep(0.5)
-        print(" ---- Item removido com sucesso !! ----")
-    else : 
-        print("O medicamento continua na FILA ! \n")
-
-# FUNÇÃO PARA MOSTRAR A FILA DE REPOSIÇÃO
-def mostrar_fila_repo() :
-    print("=========================== FILA DE REPOSIÇAO ================================== \n")
-    for medicamento in fila_reposicao :
-        print(f" nome : {medicamento["medicamento"]} \n",
-              f"id de reposição : {medicamento["id_repo"]} \n",)
-        print(" ---------------------------------------- \n")
-
+def atender_reposicao():
+    if not solicitacoes_reposicao:
+        print("Fila vazia."); return
+    repo = solicitacoes_reposicao.popleft()     # sai o mais antigo (FIFO)
+    print(f"Atendendo reposição de {repo['medicamento']}")
             
