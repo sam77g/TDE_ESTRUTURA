@@ -12,6 +12,7 @@ from relatorios import listar_historico, menu_hist
 from estruturas import  DEBUG
 from medicamentos import menu_med
 from reposicao import  menu_repo
+from validar import ler_int
 
 # =========== SISTEMA PRINCIPAL ===========
 
@@ -27,7 +28,7 @@ while True:
     )
     print("=================================================== \n")
     try :
-        opcao = int(input("Escolha uma opção: "))
+        opcao = ler_int("[OPÇÃO]")
     except ValueError :
         print("Digite apenas números!")
         time.sleep(1)

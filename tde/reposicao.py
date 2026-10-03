@@ -17,7 +17,7 @@ def menu_repo():
               "[2] - Listar reposições \n",
               "[3] - Atender reposição \n",
               "[4] - Cancelar reposição \n",
-              "[6] - Alterar \n",
+              "[5] - Alterar \n",
               " [0] - Voltar \n")
         
         try:
@@ -123,7 +123,8 @@ def cadastrar_repo(med) :
 def exibir_repo(repo):
     print(f" nome : {repo['medicamento']} \n",
           f"id de reposição : {repo['id_repo']} \n",
-          f"criticidade : {repo['criticidade']} \n")
+          f"criticidade : {repo['criticidade']} \n",
+          f"quantidade solicitada : {repo['quantidade_solicitada']}")
 
 
 # =========== LISTAR ===========
@@ -146,11 +147,13 @@ def criticidade(estoque):
         
 # função para remover uma solicitação de reposição
 def cancelar_repo(med):
+    nome = med["medicamento"] if isinstance(med, dict) else med
+    nome = str(nome).strip().lower()
     for repo in solicitacoes_reposicao:
-        if repo["medicamento"].lower() == med["medicamento"].lower():
+        if repo["medicamento"].strip().lower() == nome:
             solicitacoes_reposicao.remove(repo)
-            print(f"Reposição de {med['medicamento'].upper()} removida!")
-            return 
+            print(f"Reposição de {repo['medicamento'].upper()} removida!")
+            return
     print("Reposição não encontrada")
             
             
@@ -190,11 +193,16 @@ def atender_reposicao():
         print("Ainda abaixo do mínimo; nova solicitação criada.")
         cadastrar_repo(med)
             
-def alterar_repo(nome) :
-    for med in solicitacoes_reposicao :
-        if med["medicamento"].strip().lower() == nome.strip().lower() :
-            qtd_nova = int(input("Nova quantidade solicitada : "))
-            if validar_estoque(qtd_nova) :
-                med["quantidade_solicitada"] += qtd_nova
-        return
+def alterar_repo(nome):
+    repo = buscar_repo(nome)
+    if repo is None:
+        print("Reposição não encontrada"); return
+    try:
+        qtd = int(input("Nova quantidade solicitada : "))
+    except ValueError:
+        print("Digite apenas números!"); return
+    if qtd <= 0:
+        print("A quantidade deve ser maior que 0."); return
+    repo["quantidade_solicitada"] = qtd
+    print("Quantidade solicitada alterada!")
                 

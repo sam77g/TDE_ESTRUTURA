@@ -1,10 +1,19 @@
 # ARQUIVO COM FUNÇÕES DE VALIDAÇÃO
 
+# LER FLOATS
+def ler_float(msg):
+    while True:
+        try:
+            return float(input(msg).replace(",", "."))
+        except ValueError:
+            print("Digite apenas números!")
 # LER INTEIROS
-def ler_int(msg) :
-    if not isinstance(msg, int or isinstance(msg,bool)) :
-        return False
-    
+def ler_int(msg):
+    while True:
+        try:
+            return int(input(msg))
+        except ValueError:
+            print("Digite apenas números inteiros!")
 
 # VALIDA O TEXTO DIGITADO
 def validar_texto(valor):

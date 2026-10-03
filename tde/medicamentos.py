@@ -7,7 +7,7 @@
 # alterar_medicamento()
 # remover_medicamento()
 # Também terá algumas validações
-
+from validar import (validar_medicamento, validar_texto, validar_estoque,validar_nome, ler_int, ler_float)
 from collections import deque 
 from validar import validar_medicamento, validar_texto, validar_estoque, validar_nome
 from estruturas import medicamentos
@@ -26,13 +26,14 @@ def categoria() :
     print("[1] - Ético ")
     print("[2] - Genérico")
     print("[3] - Similar \n")
-    categoria_op = int(input("Qual a categoria ? [1,2 ou 3] : "))
+    categoria_op = ler_int("Digite a categoria : ")
     if categoria_op == 1 :
         return "Ético"
     elif categoria_op == 2 :
         return "Genérico"
-    else :
+    elif categoria_op == 3 :
         return "Similar"
+    else : return
 
 def menu_med() :
     while True:
@@ -49,7 +50,7 @@ def menu_med() :
             "[7] - Listar / ordenar por preço \n"
             " [0] - Voltar \n")
         try :
-            op_med = int(input("Digite sua ação : "))
+            op_med = ler_int("Digite a quantidade: ")
         except ValueError:
             print("Digite apenas números!")
             time.sleep(1)
@@ -60,11 +61,21 @@ def menu_med() :
         match op_med :
             # adicionar medicamento
             case 1 :
+                nome = input("Digite o nome do medicamento: ").strip()
+                if not validar_nome(nome, medicamentos):
+                    print("\nNome vazio ou já cadastrado.")
+                    input("\nPressione ENTER para continuar...")
+                    continue
+                estoque = ler_int("Digite o estoque : ")
+                if not validar_estoque(estoque, medicamentos):
+                    print("\nDigite um valor válido")
+                    input("\nPressione ENTER para continuar...")
+                    continue
                 medicamento = {
-                    "medicamento": input("Digite o nome do medicamento: "),
+                    "medicamento": nome,
                     "categoria": categoria(),
-                    "estoque": int(input("Digite a quantidade: ")),
-                    "preco": float(input("Digite o preço: ")),
+                    "estoque": ler_int("Digite a quantidade: "),
+                    "preco": ler_float("Digite o preço: "),
                     "id": gerar_id() # gera um ID único
                 }
                 # VALIDA OS DADOS DO MEDICAMENTO
@@ -118,7 +129,8 @@ def menu_med() :
                 input("\nPressione ENTER para continuar...")
             
             case 7 :
-                ordenar_por_preco(medicamentos)
+                for i in ordenar_por_preco(medicamentos):
+                    print(f"{i['medicamento'].upper()} - R$ {i['preco']} (estoque: {i['estoque']})")
                 input("\nPressione ENTER para continuar...")
                 
             # SAÍDA
@@ -144,7 +156,7 @@ def listar_medicamentos() :
             print(f"quantidade : {i["estoque"]} " )  
             print(f"preço : {i["preco"]} ")
             print(f"categoria : {i["categoria"]} \n")
-        op_listar = int(input("[ Digite 0 para SAIR ] : "))
+        op_listar =  ler_int("[ Digite 0 para SAIR ] : ")
         if op_listar == 0 :
             return False
         else : 
@@ -198,7 +210,7 @@ def alterar_medicamento(nome) :
             print(" [1] - Categoria \n",
                   "[2] - Estoque / Quantidade \n",
                   "[3] - Preço ")
-            opcao = int(input("O que você deseja alterar ? \n"))
+            opcao = ler_int("O que você deseja alterar ? \n")
             match opcao :
                 case 1 :
                     print("-- Escolha a nova categoria --")
@@ -208,7 +220,7 @@ def alterar_medicamento(nome) :
                     return print("Categoria alterada com sucesso") # printa para o usuário 
                 
                 case 2 :
-                    nova_quantidade = int(input("Digite a nova quantidade : "))
+                    nova_quantidade = ler_int("Digite a nova quantidade : ")
                     medicamento["estoque"] = nova_quantidade # altera a quantidade em estoque do sistema
                     
                     if nova_quantidade < 15 :
@@ -222,7 +234,7 @@ def alterar_medicamento(nome) :
                     return print("Quantidade alterada com sucesso") # printa para o usuário 
                 
                 case 3 :
-                    novo_preco = float(input("Digite o novo preço : "))
+                    novo_preco = ler_float("Digite o novo preço : ")
                     medicamento["preco"] = novo_preco # altera o preço do medicamento
                     time.sleep(1.5)
                     return print("Preço alterado com sucesso") # printa para o usuário 
