@@ -26,7 +26,12 @@ while True:
         "  [0] - Sair \n"
     )
     print("=================================================== \n")
-    opcao = int(input("Escolha uma opção: "))
+    try :
+        opcao = int(input("Escolha uma opção: "))
+    except ValueError :
+        print("Digite apenas números!")
+        time.sleep(1)
+        continue
 
     # MATCH CASE PARA A OPÇÃO DIGITADA
     match opcao:

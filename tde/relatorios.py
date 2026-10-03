@@ -19,7 +19,7 @@ def menu_hist() :
             )
         try :
             opcao = int(input("Digite a opçao desejada : "))
-        except :
+        except ValueError :
             print("Digite apenas números!")
             time.sleep(1)
             continue
@@ -28,10 +28,13 @@ def menu_hist() :
             case 1 :
                 listar_historico()
                 time.sleep(1)
+                input("\nPressione ENTER para continuar...")
+                
             case 2 :
                 desfazer_ultima()
-                
                 time.sleep(1)
+                input("\nPressione ENTER para continuar...")
+                
             case 0 :
                 print("Voltando para o menu principal ...")
                 time.sleep(0.5)

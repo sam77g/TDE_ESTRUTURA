@@ -17,7 +17,7 @@ def limpar_tela():
 def DEBUG() :
     print("-- PILHA DO HISTÓRICO -- \n")
     print(historico,"\n")
-    print("-- FILA DE REPOSIÇAO -- \n")
-    print(fila_reposicao,"\n")
+    print("-- REPOSIÇAO -- \n")
+    print(solicitacoes_reposicao,"\n")
     print("-- MEDICAMENTOS -- \n")
     print(medicamentos,"\n")

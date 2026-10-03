@@ -45,11 +45,12 @@ def menu_med() :
             "[3] - Remover medicamento \n",
             "[4] - Listar medicamentos \n",
             "[5] - Buscar medicamento \n",
-            "[6] - Listar por categoria \n"
+            "[6] - Listar por categoria \n",
+            "[7] - Listar / ordenar por preço \n"
             " [0] - Voltar \n")
         try :
             op_med = int(input("Digite sua ação : "))
-        except :
+        except ValueError:
             print("Digite apenas números!")
             time.sleep(1)
             continue
@@ -114,6 +115,10 @@ def menu_med() :
             case 6 :
                 opc_busca_categoria = categoria()
                 buscar_medicamento_cat(opc_busca_categoria)
+                input("\nPressione ENTER para continuar...")
+            
+            case 7 :
+                ordenar_por_preco(medicamentos)
                 input("\nPressione ENTER para continuar...")
                 
             # SAÍDA
@@ -237,7 +242,11 @@ def remover_medicamento(nome):
 def ordenar_por_preco(lista):
     v = lista.copy()
     for i in range(len(v)):
+        trocou = False
         for j in range(len(v) - i - 1):
             if v[j]["preco"] > v[j+1]["preco"]:
                 v[j], v[j+1] = v[j+1], v[j]
-    return v    # O(n²) pior caso; O(n) melhor caso se parar quando não houver trocas
+                trocou = True
+        if not trocou:       # já está ordenado: para aqui
+            break
+    return v    

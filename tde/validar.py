@@ -1,5 +1,11 @@
 # ARQUIVO COM FUNÇÕES DE VALIDAÇÃO
 
+# LER INTEIROS
+def ler_int(msg) :
+    if not isinstance(msg, int or isinstance(msg,bool)) :
+        return False
+    
+
 # VALIDA O TEXTO DIGITADO
 def validar_texto(valor):
 
