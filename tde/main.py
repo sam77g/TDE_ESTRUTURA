@@ -27,12 +27,7 @@ while True:
         "  [0] - Sair \n"
     )
     print("=================================================== \n")
-    try :
-        opcao = ler_int("[OPÇÃO]")
-    except ValueError :
-        print("Digite apenas números!")
-        time.sleep(1)
-        continue
+    opcao = ler_int("[OPÇÃO] : ")
 
     # MATCH CASE PARA A OPÇÃO DIGITADA
     match opcao:

@@ -3,7 +3,7 @@
 from validar import validar_estoque
 from collections import deque
 from estoque import gerar_id, gerar_id_repo
-from estruturas import fila_reposicao, solicitacoes_reposicao, limpar_tela, medicamentos 
+from estruturas import solicitacoes_reposicao, limpar_tela, medicamentos 
 import time
 
 # ===== MENU DE REPOSIÇÃO ====
@@ -107,12 +107,7 @@ def cadastrar_repo(med) :
     }
 
     # LISTA DE SOLICITAÇÕES
-    solicitacoes_reposicao.append({
-        "id_repo" : repor["id_repo"],
-        "id_medicamento" : repor["id_medicamento"],
-        "medicamento" : repor["medicamento"],
-        "criticidade" : repor["criticidade"]
-    })
+    solicitacoes_reposicao.append(repor)
     
     print(f" medicamento : {repor["medicamento"].upper()} \n",
         f"criticidade : {repor["criticidade"]} \n",

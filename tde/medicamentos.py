@@ -9,7 +9,6 @@
 # Também terá algumas validações
 from validar import (validar_medicamento, validar_texto, validar_estoque,validar_nome, ler_int, ler_float)
 from collections import deque 
-from validar import validar_medicamento, validar_texto, validar_estoque, validar_nome
 from estruturas import medicamentos
 from relatorios import entrada, retirada
 from reposicao import cadastrar_repo, buscar_repo, cancelar_repo
@@ -26,14 +25,12 @@ def categoria() :
     print("[1] - Ético ")
     print("[2] - Genérico")
     print("[3] - Similar \n")
-    categoria_op = ler_int("Digite a categoria : ")
-    if categoria_op == 1 :
-        return "Ético"
-    elif categoria_op == 2 :
-        return "Genérico"
-    elif categoria_op == 3 :
-        return "Similar"
-    else : return
+    while True:
+        op = ler_int("Digite a categoria [1, 2 ou 3] : ")
+        if op == 1: return "Ético"
+        if op == 2: return "Genérico"
+        if op == 3: return "Similar"
+        print("Opção inválida! Escolha 1, 2 ou 3.")
 
 def menu_med() :
     while True:
@@ -50,7 +47,7 @@ def menu_med() :
             "[7] - Listar / ordenar por preço \n"
             " [0] - Voltar \n")
         try :
-            op_med = ler_int("Digite a quantidade: ")
+            op_med = ler_int("Digite sua ação :  ")
         except ValueError:
             print("Digite apenas números!")
             time.sleep(1)
@@ -67,7 +64,7 @@ def menu_med() :
                     input("\nPressione ENTER para continuar...")
                     continue
                 estoque = ler_int("Digite o estoque : ")
-                if not validar_estoque(estoque, medicamentos):
+                if not validar_estoque(estoque):
                     print("\nDigite um valor válido")
                     input("\nPressione ENTER para continuar...")
                     continue
@@ -221,7 +218,8 @@ def alterar_medicamento(nome) :
                 
                 case 2 :
                     nova_quantidade = ler_int("Digite a nova quantidade : ")
-                    medicamento["estoque"] = nova_quantidade # altera a quantidade em estoque do sistema
+                    if not validar_estoque(nova_quantidade):
+                        return print("Quantidade inválida!")
                     
                     if nova_quantidade < 15 :
                         print("---- Quantidade abaixo do estoque mínimo ! ---")

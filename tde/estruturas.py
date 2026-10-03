@@ -7,7 +7,6 @@ from collections import deque
 import os
 medicamentos = []  # medicamentos.py
 historico = []  # relatorios.py
-fila_reposicao = deque()  # reposicao.py
 solicitacoes_reposicao = deque()  # reposicao.py
 
 def limpar_tela():
