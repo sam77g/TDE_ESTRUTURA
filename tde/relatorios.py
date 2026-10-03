@@ -2,11 +2,16 @@
 # Esse arquivo será responsável pelas funcionalidades que analisam os dados.
 from collections import deque 
 from datetime import datetime
+from reposicao import cancelar_repo, cadastrar_repo
 from estruturas import historico,limpar_tela, medicamentos
 import time
 # MENU
 def menu_hist() :
     while True:
+        limpar_tela()
+        print("========================================= ")
+        print("             MENU DE HISTÓRICO            ")
+        print("========================================= ")
         print(
                 " [1] - Listar Histórico \n",
                 " [2] - Desfazer / Voltar histórico \n"
@@ -25,6 +30,7 @@ def menu_hist() :
                 time.sleep(1)
             case 2 :
                 desfazer_ultima()
+                
                 time.sleep(1)
             case 0 :
                 print("Voltando para o menu principal ...")
@@ -79,6 +85,10 @@ def desfazer_ultima():
     mov = historico.pop()                       # só mexe no topo
     if mov["tipo"] == "ENTRADA":                # desfaz entrada = remove o medicamento
         medicamentos[:] = [m for m in medicamentos if m["id"] != mov["id_medicamento"]]
+        cancelar_repo()
     else:                                       # desfaz saída = devolve o medicamento
         medicamentos.append(mov["dados"])
+        for i in medicamentos :
+            if i["estoque"] < 15 :
+                cadastrar_repo(i)
     print(f"Desfeito: {mov['tipo']} de {mov['medicamento']}")
