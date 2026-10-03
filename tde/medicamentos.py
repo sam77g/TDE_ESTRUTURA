@@ -74,7 +74,7 @@ def menu_med() :
                 medicamento = {
                     "medicamento": nome,
                     "categoria": categoria(),
-                    "estoque": ler_int("Digite a quantidade: "),
+                    "estoque": estoque,
                     "preco": ler_float("Digite o preço: "),
                     "id": gerar_id() # gera um ID único
                 }
