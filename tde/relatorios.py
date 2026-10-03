@@ -5,6 +5,7 @@ from datetime import datetime
 from reposicao import cancelar_repo, cadastrar_repo
 from estruturas import historico,limpar_tela, medicamentos
 import time
+
 # MENU
 def menu_hist() :
     while True:
@@ -59,7 +60,7 @@ def entrada(med) :
 
 # FUNÇAO DE REGISTRO DE SAÍDA NO ESTOQUE
 def retirada(med):
-    agora = datetime.now() # pega a data e
+    agora = datetime.now() # pega a data 
     data_formatada = agora.strftime("%d/%m/%Y %H:%M") # SALVA O DIA E HORA DE RETIRADA
     out_med = {
         "medicamento": med["medicamento"],
