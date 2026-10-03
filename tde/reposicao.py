@@ -1,22 +1,14 @@
-# fila de reposição
-# CRUD para as solitações de reposição 
-# Adicionar as funções de :
-# Cadastrar
-# Consultar
-# Alterar
-# Remover
-# Listar
-# Sam77g : vou adicionar as validações após criar o CRUD inicial
 
 # =========== IMPORTS ===========
+from validar import validar_estoque
 from collections import deque
 from estoque import gerar_id, gerar_id_repo
-from estruturas import fila_reposicao, solicitacoes_reposicao, limpar_tela
+from estruturas import fila_reposicao, solicitacoes_reposicao, limpar_tela, medicamentos 
 import time
 
 # ===== MENU DE REPOSIÇÃO ====
 def menu_repo():
-    while True:
+    while True :
         limpar_tela()
         print("========================================= ")
         print("          MENU DE REPOSIÇÃO            ")
@@ -25,7 +17,7 @@ def menu_repo():
               "[2] - Listar reposições \n",
               "[3] - Atender reposição \n"
               " [0] - Voltar \n")
-
+        
         try:
             op_repo = int(input("Digite a ação desejada : "))
         except ValueError:
@@ -137,12 +129,43 @@ def cancelar_repo(med):
         if repo["medicamento"].lower() == med["medicamento"].lower():
             solicitacoes_reposicao.remove(repo)
             print(f"Reposição de {med['medicamento'].upper()} removida!")
-        return 
+            return 
     print("Reposição não encontrada")
+            
             
 def atender_reposicao():
     if not solicitacoes_reposicao:
-        print("Fila vazia."); return
-    repo = solicitacoes_reposicao.popleft()     # sai o mais antigo (FIFO)
-    print(f"Atendendo reposição de {repo['medicamento']}")
+        print("Fila vazia.")
+        return
+
+    repo = solicitacoes_reposicao[0]            # só espia, não remove
+    print(f"Próxima da fila: {repo['medicamento'].upper()} ({repo['criticidade']})")
+
+    try:
+        qtd = int(input("Digite a quantidade recebida : "))
+    except ValueError:
+        print("Digite apenas números!")
+        return
+    if not validar_estoque(qtd) or qtd == 0:
+        print("Quantidade inválida.")
+        return
+
+    med = None
+    for m in medicamentos:                      # busca linear na lista de cadastro
+        if m["id"] == repo["id_repo"]:
+            med = m
+            break
+
+    solicitacoes_reposicao.popleft()            # só agora sai da fila: O(1)
+
+    if med is None:
+        print("Medicamento não existe mais; solicitação descartada.")
+        return
+
+    med["estoque"] += qtd
+    print(f"{med['medicamento'].upper()}: estoque agora é {med['estoque']}")
+
+    if med["estoque"] < 15:                     # continua baixo: volta pro fim da fila
+        print("Ainda abaixo do mínimo; nova solicitação criada.")
+        cadastrar_repo(med)
             
