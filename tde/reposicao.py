@@ -46,7 +46,21 @@ def menu_repo():
                 input("\nPressione ENTER para continuar...")
                 
             case 4 :
-                return
+                nome = input("Digite o nome do medicamento : ")
+                repo = buscar_repo(nome)
+                if repo is None:
+                    print(f"\nNenhuma reposição pendente para '{nome}'.")
+                else:
+                    cancelar_repo(nome)
+                input("\nPressione ENTER para continuar...")
+            case 5 :
+                nome = input("Digite o nome do medicamento : ")
+                repo = buscar_repo(nome)
+                if repo is None:
+                    print(f"\nNenhuma reposição pendente para '{nome}'.")
+                else:
+                    alterar_repo(nome)
+                input("\nPressione ENTER para continuar...")
             case 0:
                 print(" -- SAINDO DE REPOSIÇÃO --")
                 time.sleep(0.5)
@@ -88,7 +102,8 @@ def cadastrar_repo(med) :
         "medicamento" : med["medicamento"],
         "id_repo" : gerar_id_repo(),
         "id_medicamento" : med["id"],
-        "criticidade" : criticidade(med["estoque"])
+        "criticidade" : criticidade(med["estoque"]),
+        "quantidade_solicitada" : 15 - med["estoque"]
     }
 
     # LISTA DE SOLICITAÇÕES
@@ -175,3 +190,11 @@ def atender_reposicao():
         print("Ainda abaixo do mínimo; nova solicitação criada.")
         cadastrar_repo(med)
             
+def alterar_repo(nome) :
+    for med in solicitacoes_reposicao :
+        if med["medicamento"].strip().lower() == nome.strip().lower() :
+            qtd_nova = int(input("Nova quantidade solicitada : "))
+            if validar_estoque(qtd_nova) :
+                med["quantidade_solicitada"] += qtd_nova
+        return
+                
