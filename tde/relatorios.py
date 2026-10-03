@@ -85,10 +85,10 @@ def desfazer_ultima():
     mov = historico.pop()                       # só mexe no topo
     if mov["tipo"] == "ENTRADA":                # desfaz entrada = remove o medicamento
         medicamentos[:] = [m for m in medicamentos if m["id"] != mov["id_medicamento"]]
-        cancelar_repo()
+        cancelar_repo(mov["dados"])
     else:                                       # desfaz saída = devolve o medicamento
-        medicamentos.append(mov["dados"])
-        for i in medicamentos :
-            if i["estoque"] < 15 :
-                cadastrar_repo(i)
+        med = mov["dados"]
+        medicamentos.append(med)
+        if med["estoque"] < 15:
+            cadastrar_repo(med)
     print(f"Desfeito: {mov['tipo']} de {mov['medicamento']}")

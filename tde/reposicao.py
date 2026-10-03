@@ -15,7 +15,9 @@ def menu_repo():
         print("========================================= \n")
         print(" [1] - Buscar reposição \n",
               "[2] - Listar reposições \n",
-              "[3] - Atender reposição \n"
+              "[3] - Atender reposição \n",
+              "[4] - Cancelar reposição \n",
+              "[6] - Alterar \n",
               " [0] - Voltar \n")
         
         try:
@@ -24,10 +26,9 @@ def menu_repo():
             print("Digite apenas números!")
             time.sleep(1)
             continue
-
         print("-----------------------------------")
         match op_repo:
-            case 1:
+            case 1 :
                 nome = input("Digite o nome do medicamento : ")
                 repo = buscar_repo(nome)
                 if repo is None:
@@ -42,6 +43,10 @@ def menu_repo():
                 
             case 3 :
                 atender_reposicao()
+                input("\nPressione ENTER para continuar...")
+                
+            case 4 :
+                return
             case 0:
                 print(" -- SAINDO DE REPOSIÇÃO --")
                 time.sleep(0.5)
@@ -89,6 +94,7 @@ def cadastrar_repo(med) :
     # LISTA DE SOLICITAÇÕES
     solicitacoes_reposicao.append({
         "id_repo" : repor["id_repo"],
+        "id_medicamento" : repor["id_medicamento"],
         "medicamento" : repor["medicamento"],
         "criticidade" : repor["criticidade"]
     })
@@ -152,7 +158,7 @@ def atender_reposicao():
 
     med = None
     for m in medicamentos:                      # busca linear na lista de cadastro
-        if m["id"] == repo["id_repo"]:
+        if m["id"] == repo["id_medicamento"]:
             med = m
             break
 
