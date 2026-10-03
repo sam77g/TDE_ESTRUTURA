@@ -47,8 +47,15 @@ def menu_med() :
             "[5] - Buscar medicamento \n",
             "[6] - Listar por categoria \n"
             " [0] - Voltar \n")
-        op_med = int(input("Digite sua ação : "))
+        try :
+            op_med = int(input("Digite sua ação : "))
+        except :
+            print("Digite apenas números!")
+            time.sleep(1)
+            continue
+        
         print("----------------------------------------")
+        
         match op_med :
             # adicionar medicamento
             case 1 :

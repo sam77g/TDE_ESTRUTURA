@@ -38,10 +38,9 @@ while True:
         case 2 :
             menu_repo()
 
-        # LISTAR O HISTÓRICO
+        # MENU HISTÓRICO
         case 3 :
             menu_hist()
-            listar_historico()
 
         # DEGUG
         case 4 :

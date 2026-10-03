@@ -24,7 +24,7 @@ def menu_repo():
         print(" [1] - Buscar reposição \n",
               "[2] - Listar reposições \n",
               "[3] - Atender reposição \n"
-              "[0] - Voltar \n")
+              " [0] - Voltar \n")
 
         try:
             op_repo = int(input("Digite a ação desejada : "))
@@ -47,7 +47,9 @@ def menu_repo():
             case 2:
                 listar_repo()
                 input("\nPressione ENTER para continuar...")
-
+                
+            case 3 :
+                atender_reposicao()
             case 0:
                 print(" -- SAINDO DE REPOSIÇÃO --")
                 time.sleep(0.5)
@@ -135,6 +137,8 @@ def cancelar_repo(med):
         if repo["medicamento"].lower() == med["medicamento"].lower():
             solicitacoes_reposicao.remove(repo)
             print(f"Reposição de {med['medicamento'].upper()} removida!")
+        return 
+    print("Reposição não encontrada")
             
 def atender_reposicao():
     if not solicitacoes_reposicao:

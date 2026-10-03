@@ -21,5 +21,3 @@ def DEBUG() :
     print(fila_reposicao,"\n")
     print("-- MEDICAMENTOS -- \n")
     print(medicamentos,"\n")
-    print("-- SOLITAÇOES DE REPOSIÇAO -- \n")
-    print(solicitacoes_reposicao,"\n")
