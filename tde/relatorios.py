@@ -59,7 +59,7 @@ def entrada(med) :
 
 # FUNÇAO DE REGISTRO DE SAÍDA NO ESTOQUE
 def retirada(med):
-    agora = datetime.now()
+    agora = datetime.now() # pega a data e
     data_formatada = agora.strftime("%d/%m/%Y %H:%M") # SALVA O DIA E HORA DE RETIRADA
     out_med = {
         "medicamento": med["medicamento"],
@@ -74,13 +74,14 @@ def retirada(med):
 
 # FUNÇÃO PARA LISTAR O HISTÓRICO
 def listar_historico() :
-    limpar_tela()
-    for i in reversed(historico) :
+    limpar_tela() # limpa a tela do terminal
+    for i in reversed(historico) : 
         print(f"==================== {i['medicamento'].upper()} ({i['tipo']}) =======================\n")
         print(f"ID : {i['id_medicamento']} \n")
         print(f"Data : {i['data']} \n") 
         print(f"Categoria : {i['categoria']}") 
-
+        
+# FUNÇÃO PARA DESFAZER A ULTIMA AÇÃO NO HISTÓRICO
 def desfazer_ultima():
     if not historico:
         print("Nada para desfazer.")
