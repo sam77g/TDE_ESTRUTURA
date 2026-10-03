@@ -12,7 +12,7 @@ from collections import deque
 from validar import validar_medicamento, validar_texto, validar_estoque, validar_nome
 from estruturas import medicamentos
 from relatorios import entrada, retirada
-from reposicao import cadastrar_repo, buscar_repo, remover_repo, remove_fila_repo
+from reposicao import cadastrar_repo, buscar_repo, cancelar_repo
 from estoque import gerar_id
 import time
 import os
@@ -205,7 +205,7 @@ def alterar_medicamento(nome) :
                         time.sleep(0.5) # espera 0.5 segundos
                         cadastrar_repo(medicamento) # cria um novo pedido de reposição
                     elif buscar_repo(medicamento) != None :
-                        remover_repo(medicamento)
+                        cancelar_repo(medicamento)
                         time.sleep(0.5)
                     return print("Quantidade alterada com sucesso") # printa para o usuário 
                 
@@ -223,7 +223,14 @@ def remover_medicamento(nome):
             medicamentos.remove(medicamento)
             retirada(medicamento)
             if buscar_repo(medicamento) is not None:
-                remover_repo(medicamento)  # limpa o pedido de reposição pendente
+                cancelar_repo(medicamento)  # limpa o pedido de reposição pendente
             return  # achou e removeu: sai da função
     print("medicamento não encontrado !")  # só chega aqui se o for terminar sem achar
     
+def ordenar_por_preco(lista):
+    v = lista.copy()
+    for i in range(len(v)):
+        for j in range(len(v) - i - 1):
+            if v[j]["preco"] > v[j+1]["preco"]:
+                v[j], v[j+1] = v[j+1], v[j]
+    return v    # O(n²) pior caso; O(n) melhor caso se parar quando não houver trocas
