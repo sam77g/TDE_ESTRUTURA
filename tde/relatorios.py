@@ -15,7 +15,7 @@ def menu_hist() :
         print("========================================= ")
         print(
                 " [1] - Listar Histórico \n",
-                " [2] - Desfazer / Voltar histórico \n"
+                "[2] - Desfazer / Voltar histórico \n"
                 " [0] - Voltar \n"
             )
         try :
