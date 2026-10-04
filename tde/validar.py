@@ -4,6 +4,7 @@
 def ler_float(msg):
     while True:
         try:
+            # consegue receber números float com virgula (ex.: 45,80:)
             return float(input(msg).replace(",", "."))
         except ValueError:
             print("Digite apenas números!")
@@ -30,7 +31,7 @@ def validar_texto(valor):
 
 # VALIDA O PREÇO
 def validar_preco(valor):
-
+    # verifica se o preço é int, float ou booleano 
     if not isinstance(valor, (int, float)) or isinstance(valor, bool):
         return False
 
@@ -42,7 +43,7 @@ def validar_preco(valor):
 
 # VALIDA O ESTOQUE
 def validar_estoque(valor):
-
+    # verifica o tipo do valor 
     if not isinstance(valor, int) or isinstance(valor, bool):
         return False
     if valor < 0:
