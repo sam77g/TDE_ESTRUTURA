@@ -17,7 +17,7 @@ def menu_repo():
               "[3] - Atender reposição \n",
               "[4] - Cancelar reposição \n",
               "[5] - Alterar \n",
-              " [0] - Voltar \n")
+              "[0] - Voltar \n")
         
         # se digitar letra não quebra, só volta pro menu
         try:
