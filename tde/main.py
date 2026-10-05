@@ -5,6 +5,28 @@
 #     chamar as funções dos outros arquivos;
 #     controlar o fluxo geral do programa.
 
+import pyfiglet
+from colorama import Fore, Style, init
+
+# Inicializa o colorama (necessário para compatibilidade com Windows)
+init(autoreset=True)
+
+# Gera a arte do texto
+texto_art = pyfiglet.figlet_format("PharmaERP", font="slant")
+
+# Imprime o título em verde brilhante
+print(Fore.GREEN + Style.BRIGHT + texto_art)
+
+# Subtítulo e descrições
+print(Fore.YELLOW + "Sistema de controle farmceutico\n")
+print(
+    Fore.GREEN
+    + "Samuel , Samoel , Marcos & Gabriel "
+    + Fore.WHITE
+    + "| "
+    + Fore.MAGENTA
+    + " TDE Estrutura de Dados "
+)
 
 # IMPORTS
 import time
