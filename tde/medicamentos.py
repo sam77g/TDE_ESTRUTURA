@@ -7,7 +7,7 @@
 # alterar_medicamento()
 # remover_medicamento()
 # Também terá algumas validações
-from validar import (validar_medicamento, validar_texto, validar_estoque,validar_nome, ler_int, ler_float)
+from validar import (validar_medicamento, validar_texto, validar_estoque,validar_nome, ler_int, ler_float, validar_preco)
 from collections import deque 
 from estruturas import medicamentos
 from relatorios import entrada, retirada
@@ -81,7 +81,7 @@ def menu_med() :
                     "medicamento": nome,
                     "categoria": categoria(),
                     "estoque": estoque,
-                    "preco": ler_float("Digite o preço: "), # valida e adiciona o preço
+                    "preco": validar_preco("Digite o preço: "), # valida e adiciona o preço
                     "id": gerar_id() # gera um ID único
                 }
                 
