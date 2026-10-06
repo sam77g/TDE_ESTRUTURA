@@ -81,7 +81,7 @@ def menu_med() :
                     "medicamento": nome,
                     "categoria": categoria(),
                     "estoque": estoque,
-                    "preco": validar_preco("Digite o preço: "), # valida e adiciona o preço
+                    "preco": ler_float("Digite o preço: "), # valida e adiciona o preço
                     "id": gerar_id() # gera um ID único
                 }
                 
