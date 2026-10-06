@@ -115,9 +115,8 @@ def cadastrar_repo(med) :
         "criticidade" : criticidade(med["estoque"]),
         "quantidade_solicitada" : 15 - med["estoque"]    # 15 = estoque mínimo, pede só o que falta
     }
-
-    # LISTA DE SOLICITAÇÕES
-    solicitacoes_reposicao.append(repor)   # entra no fim da fila
+    # INSERE A PRIORIDADE
+    inserir_por_prioridade(repor) 
     
     print(f" medicamento : {repor["medicamento"].upper()} \n",
         f"criticidade : {repor["criticidade"]} \n",
@@ -189,8 +188,7 @@ def atender_reposicao():
         if m["id"] == repo["id_medicamento"]:
             med = m
             break
-
-    solicitacoes_reposicao.popleft()            # só agora sai da fila: O(1)
+    solicitacoes_reposicao.pop(0) 
 
     # caso o remédio tenha sido excluído enquanto estava na fila
     if med is None:
@@ -217,3 +215,16 @@ def alterar_repo(nome):
         print("A quantidade deve ser maior que 0."); return
     repo["quantidade_solicitada"] = qtd   # repo é a referência da fila, então já atualiza lá
     print("Quantidade solicitada alterada!")
+
+# menor número = maior prioridade
+PRIORIDADE = {"CRÍTICO": 0, "ALERTA": 1, "AVISO": 2}
+
+# insere já na posição certa; empate vai depois dos que já estavam (FIFO)
+def inserir_por_prioridade(repo):
+    p = PRIORIDADE[repo["criticidade"]]
+    pos = len(solicitacoes_reposicao)          # padrão: fim da fila
+    for i, r in enumerate(solicitacoes_reposicao):
+        if PRIORIDADE[r["criticidade"]] > p:   # primeiro com prioridade menor
+            pos = i
+            break
+    solicitacoes_reposicao.insert(pos, repo)

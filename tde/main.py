@@ -18,14 +18,14 @@ texto_art = pyfiglet.figlet_format("PharmaERP", font="slant")
 print(Fore.GREEN + Style.BRIGHT + texto_art)
 
 # Subtítulo e descrições
-print(Fore.YELLOW + "Sistema de controle farmceutico\n")
+print(Fore.YELLOW + "Sistema de controle farmaceutico\n")
 print(
     Fore.GREEN
     + "Samuel , Samoel , Marcos & Gabriel "
     + Fore.WHITE
     + "| "
     + Fore.MAGENTA
-    + " TDE Estrutura de Dados "
+    + " TDE Estrutura de Dados \n"
 )
 
 # IMPORTS
