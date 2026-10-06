@@ -2,10 +2,9 @@
 
 # PharmaERP
 
-Sistema ERP de linha de comando para o controle de estoque e reposição de uma farmácia, desenvolvido como trabalho acadêmico (TDE) da disciplina de **Algoritmos e Estruturas de Dados**, ministrada pelo Prof. Gean Paulo (UNIFAN - Centro Universitário Nobre, 2026.2).
+**Sistema de gerenciamento de medicamentos e solicitações de reposição para uma farmácia, desenvolvido em Python como projeto acadêmico de Estruturas de Dados.**
 
-![Status](https://img.shields.io/badge/status-Entrega%20TDE-green)
-![Versão](https://img.shields.io/badge/vers%C3%A3o-v1.1.0-green)
+![Status](https://img.shields.io/badge/status-vers%C3%A3o%20final-green)
 ![Python](https://img.shields.io/badge/Python-3.12%2B-3776AB?logo=python&logoColor=white)
 ![Estruturas](https://img.shields.io/badge/estruturas-Lista%20%7C%20Pilha%20%7C%20Fila-blue)
 ![Licença](https://img.shields.io/badge/licen%C3%A7a-MIT-green)
@@ -17,249 +16,656 @@ Sistema ERP de linha de comando para o controle de estoque e reposição de uma 
 ## Sumário
 
 1. [Sobre o Projeto](#1-sobre-o-projeto)
-2. [Funcionalidades](#2-funcionalidades)
-3. [Estruturas de Dados e Algoritmos](#3-estruturas-de-dados-e-algoritmos)
-4. [Regras de Negócio](#4-regras-de-negócio)
-5. [Tecnologias Utilizadas](#5-tecnologias-utilizadas)
-6. [Estrutura do Projeto](#6-estrutura-do-projeto)
-7. [Pré-requisitos](#7-pré-requisitos)
-8. [Como Executar](#8-como-executar)
-9. [Versionamento](#9-versionamento)
-10. [Fluxo de Desenvolvimento](#10-fluxo-de-desenvolvimento)
-11. [Status do Projeto](#11-status-do-projeto)
-12. [Licença](#12-licença)
+2. [Objetivos](#2-objetivos)
+3. [Funcionalidades](#3-funcionalidades)
+4. [Estruturas de Dados](#4-estruturas-de-dados)
+5. [Algoritmos](#5-algoritmos)
+6. [Regras de Negócio](#6-regras-de-negócio)
+7. [Arquitetura do Projeto](#7-arquitetura-do-projeto)
+8. [Tecnologias e Dependências](#8-tecnologias-e-dependências)
+9. [Pré-requisitos](#9-pré-requisitos)
+10. [Como Executar](#10-como-executar)
+11. [Fluxo do Sistema](#11-fluxo-do-sistema)
+12. [Complexidade](#12-complexidade)
+13. [Versionamento e Git](#13-versionamento-e-git)
+14. [Status do Projeto](#14-status-do-projeto)
+15. [Licença](#15-licença)
 
 ---
 
 ## 1. Sobre o Projeto
 
-O **PharmaERP** é um sistema de ERP (*Enterprise Resource Planning*) executado no terminal, ambientado em uma farmácia. Ele controla o cadastro de medicamentos, a fila de pedidos de reposição de estoque e o histórico de movimentações, com possibilidade de desfazer a última ação.
+O **PharmaERP** é um sistema de gerenciamento de uma farmácia executado diretamente no terminal.
 
-O projeto tem finalidade acadêmica e busca aplicar, de forma prática, os conceitos de estruturas de dados lineares (**lista**, **pilha** e **fila**), algoritmos de busca e ordenação implementados manualmente e análise de complexidade, conforme a proposta do TDE.
+O projeto foi desenvolvido como atividade acadêmica da disciplina de **Algoritmos e Estruturas de Dados**, com foco na aplicação prática de **estruturas de dados lineares**, algoritmos de busca, ordenação e manipulação de registros.
 
-> Os dados são mantidos **em memória**: ao encerrar o programa, as informações são descartadas.
+O sistema permite cadastrar e administrar medicamentos, acompanhar o estoque, criar e gerenciar solicitações de reposição e registrar as movimentações realizadas.
 
-## 2. Funcionalidades
+O projeto demonstra, de forma prática, a utilização de:
 
-- **CRUD de Medicamentos**: cadastro, consulta, alteração (categoria, estoque e preço) e remoção, com validação dos dados obrigatórios e bloqueio de nomes duplicados.
-- **CRUD de Reposição**: consulta, listagem, alteração da quantidade solicitada, cancelamento e atendimento das solicitações de reposição.
-- **Reposição automática**: ao cadastrar ou alterar um medicamento com estoque abaixo do mínimo, uma solicitação é criada na fila.
-- **Histórico com desfazer**: registro de entradas e saídas, com opção de desfazer a última movimentação.
-- **Relatórios**: listagem de todos os registros, filtro por categoria, listagem ordenada por preço, exibição da fila de reposição e exibição do histórico.
-- **Entrada de dados segura**: valores não numéricos nos campos numéricos são recusados e solicitados novamente, sem encerrar o programa.
-- **Modo DEBUG**: exibe o conteúdo bruto das estruturas para conferência durante a apresentação.
+- **Lista** para armazenamento e gerenciamento dos medicamentos;
+- **Pilha** para controle do histórico e operação de desfazer;
+- **Fila** para gerenciamento das solicitações de reposição;
+- **Prioridade por criticidade** para atender primeiro situações mais urgentes.
 
-## 3. Estruturas de Dados e Algoritmos
+> **Observação:** os dados são mantidos somente em memória. Ao encerrar o programa, os registros são perdidos.
 
-### 3.1. Estruturas utilizadas
+---
 
-| Estrutura | Implementação | Onde é usada | Operações permitidas |
-| --------- | ------------- | ------------ | -------------------- |
-| **Lista** | `list` | Cadastro de medicamentos (`medicamentos`) | Inserção, remoção, busca e travessia |
-| **Pilha (LIFO)** | `list` | Histórico de movimentações (`historico`) | Apenas `append` e `pop` no topo |
-| **Fila (FIFO)** | `collections.deque` | Solicitações de reposição (`solicitacoes_reposicao`) | `append` no fim e `popleft` no início |
+## 2. Objetivos
 
-**Por que cada estrutura?**
+O desenvolvimento do PharmaERP tem como principais objetivos:
 
-- **Lista**: o cadastro precisa de inserção, remoção, busca e percurso completo para os relatórios.
-- **Pilha**: desfazer sempre atua sobre a ação **mais recente**, comportamento natural de uma pilha (último a entrar, primeiro a sair).
-- **Fila**: as reposições devem ser atendidas na **ordem de chegada** (primeiro a entrar, primeiro a sair). O `deque` foi escolhido porque o `popleft()` é O(1), enquanto `list.pop(0)` seria O(n).
+- Aplicar estruturas de dados lineares em um sistema funcional;
+- Implementar inserção, busca, alteração e remoção;
+- Utilizar busca linear;
+- Implementar manualmente um algoritmo de ordenação;
+- Trabalhar com comportamento **LIFO** através de uma pilha;
+- Trabalhar com **FIFO combinado com prioridade** nas solicitações de reposição;
+- Praticar modularização em Python;
+- Implementar validação e tratamento de entradas;
+- Demonstrar conceitos de complexidade de algoritmos.
 
-### 3.2. Algoritmos implementados manualmente
+---
 
-| Algoritmo | Uso |
-| --------- | --- |
-| **Busca linear** | Localizar medicamentos e reposições pelo nome |
-| **Filtro sequencial** | Listar medicamentos por categoria |
-| **Bubble Sort** (com parada antecipada) | Listar medicamentos ordenados por preço |
+## 3. Funcionalidades
 
-### 3.3. Complexidade
+### 3.1. Gerenciamento de medicamentos
 
-| Operação | Estrutura / algoritmo | Melhor caso | Pior caso |
-| -------- | --------------------- | ----------- | --------- |
-| Cadastrar medicamento | Lista (`append`) | O(1) | O(1) |
-| Buscar medicamento por nome | Busca linear | O(1) | O(n) |
-| Listar por categoria | Filtro sequencial | O(n) | O(n) |
-| Listar ordenado por preço | Bubble Sort | O(n) (já ordenado) | O(n²) |
-| Registrar movimentação | Pilha (`append`) | O(1) | O(1) |
-| Desfazer última movimentação | Pilha (`pop`) + ajuste na lista | O(1) (histórico vazio) | O(n)* |
-| Criar solicitação de reposição | Fila (`append`) | O(1) (fila vazia) | O(n)** |
-| Atender próxima reposição | Fila (`popleft`) | O(1) | O(n)*** |
-| Cancelar reposição | Fila (`remove` no meio) | O(1) | O(n) |
+O sistema permite:
 
-\* Desfazer percorre a lista de medicamentos (para remover o item) ou a fila (para recriar a reposição). O `pop` da pilha em si é O(1).
+- Cadastrar medicamentos;
+- Alterar categoria, estoque e preço;
+- Remover medicamentos;
+- Listar todos os medicamentos;
+- Buscar medicamento pelo nome;
+- Filtrar medicamentos por categoria;
+- Listar medicamentos ordenados por preço;
+- Validar os dados antes do cadastro;
+- Impedir nomes duplicados.
 
-\** O `append` é O(1); o que custa O(n) é a verificação de duplicidade feita antes de inserir.
+Cada medicamento possui informações como:
 
-\*** O `popleft` é O(1); o que custa O(n) é localizar o medicamento na lista para somar a quantidade recebida ao estoque.
+```text
+medicamento
+categoria
+estoque
+preco
+id
+```
 
-> O **cancelamento** remove um item do meio da fila (O(n)). Trata-se de uma exceção ao comportamento FIFO, justificada porque o fluxo normal usa apenas `append` e `popleft`.
+Categorias disponíveis:
 
-## 4. Regras de Negócio
+- **Ético**
+- **Genérico**
+- **Similar**
 
-| Regra | Valor |
-| ----- | ----- |
-| Estoque mínimo | **15 unidades** (abaixo disso, é criada uma reposição) |
-| Criticidade **CRÍTICO** | estoque menor que 5 |
-| Criticidade **ALERTA** | estoque de 5 a 9 |
-| Criticidade **AVISO** | estoque de 10 a 14 |
-| Quantidade solicitada (padrão) | `15 - estoque atual` |
-| Categorias | Ético, Genérico e Similar |
+---
 
-**Atendimento de reposição:** o primeiro da fila é atendido, a quantidade recebida é somada ao estoque do medicamento e, se o estoque continuar abaixo do mínimo, uma nova solicitação é colocada no **fim** da fila.
+### 3.2. Gerenciamento de reposições
 
-**Desfazer:**
+Quando o estoque de um medicamento fica abaixo do limite mínimo, o sistema cria automaticamente uma solicitação de reposição.
 
-- Desfazer uma **entrada** remove o medicamento cadastrado e cancela a reposição pendente.
-- Desfazer uma **saída** devolve o medicamento e recria a reposição, caso o estoque esteja abaixo do mínimo.
+Uma solicitação possui:
 
-## 5. Tecnologias Utilizadas
+```text
+medicamento
+id_repo
+id_medicamento
+criticidade
+quantidade_solicitada
+```
 
-| Tecnologia | Finalidade |
-| ---------- | ---------- |
-| **Python 3.12+** | Linguagem de desenvolvimento |
-| **`collections.deque`** | Implementação da fila |
-| **`datetime`** | Registro de data e hora das movimentações |
-| **`match/case`** | Controle dos menus |
+O sistema permite:
 
-> O projeto utiliza apenas a biblioteca padrão do Python. Não há dependências externas.
+- Buscar uma solicitação;
+- Listar solicitações pendentes;
+- Atender uma solicitação;
+- Cancelar uma solicitação;
+- Alterar a quantidade solicitada;
+- Evitar solicitações duplicadas.
 
-## 6. Estrutura do Projeto
+---
+
+### 3.3. Criticidade e prioridade
+
+As solicitações recebem uma classificação automática de acordo com a quantidade disponível no estoque.
+
+| Estoque | Criticidade | Prioridade |
+|---:|:---|---:|
+| Menor que 5 | **CRÍTICO** | 1ª |
+| 5 a 9 | **ALERTA** | 2ª |
+| 10 a 14 | **AVISO** | 3ª |
+| 15 ou mais | Sem reposição | — |
+
+As solicitações são organizadas de acordo com a criticidade.
+
+Quando duas solicitações possuem a mesma criticidade, a ordem de chegada é preservada.
+
+Dessa forma:
+
+```text
+CRÍTICO
+   ↓
+ALERTA
+   ↓
+AVISO
+```
+
+Em caso de empate:
+
+```text
+Primeiro a chegar
+       ↓
+Primeiro a ser atendido
+```
+
+---
+
+### 3.4. Histórico e desfazer
+
+As entradas e saídas de medicamentos são registradas no histórico.
+
+O sistema permite:
+
+- Visualizar o histórico;
+- Registrar data e hora das movimentações;
+- Desfazer a última movimentação.
+
+A operação de desfazer utiliza o princípio:
+
+**LIFO — Last In, First Out**
+
+Exemplo:
+
+```text
+Movimentação A
+Movimentação B
+Movimentação C ← última movimentação
+
+Desfazer → Movimentação C
+```
+
+---
+
+### 3.5. DEBUG
+
+O sistema possui um menu de **DEBUG** utilizado para visualizar diretamente o conteúdo das principais estruturas de dados.
+
+São exibidos:
+
+- Lista de medicamentos;
+- Pilha de histórico;
+- Fila de solicitações de reposição.
+
+Esse recurso facilita a demonstração prática das estruturas durante a apresentação acadêmica.
+
+---
+
+## 4. Estruturas de Dados
+
+### 4.1. Lista
+
+A lista Python é utilizada para armazenar os medicamentos:
+
+```python
+medicamentos = []
+```
+
+Ela permite realizar:
+
+- Inserção;
+- Remoção;
+- Busca;
+- Percurso;
+- Filtragem;
+- Ordenação.
+
+A lista representa o cadastro principal do sistema.
+
+---
+
+### 4.2. Pilha — LIFO
+
+O histórico utiliza uma lista Python como estrutura de pilha:
+
+```python
+historico = []
+```
+
+Novas movimentações são adicionadas utilizando `append()` e a última movimentação é retirada utilizando `pop()`.
+
+Isso representa o comportamento:
+
+**Last In, First Out — LIFO**
+
+---
+
+### 4.3. Fila de reposição
+
+As solicitações utilizam `collections.deque`:
+
+```python
+from collections import deque
+
+solicitacoes_reposicao = deque()
+```
+
+O sistema combina o conceito de fila com prioridade por criticidade.
+
+A prioridade utilizada é:
+
+```text
+CRÍTICO → ALERTA → AVISO
+```
+
+Quando duas solicitações possuem a mesma prioridade, o sistema preserva a ordem de chegada.
+
+---
+
+## 5. Algoritmos
+
+### 5.1. Busca Linear
+
+A busca linear é utilizada para localizar medicamentos e solicitações de reposição.
+
+O algoritmo percorre os elementos sequencialmente até encontrar o registro desejado.
+
+Complexidade:
+
+- Melhor caso: **O(1)**
+- Pior caso: **O(n)**
+
+---
+
+### 5.2. Filtragem por Categoria
+
+O sistema percorre a lista de medicamentos e seleciona os registros que pertencem à categoria informada.
+
+Complexidade:
+
+**O(n)**
+
+---
+
+### 5.3. Bubble Sort
+
+A listagem de medicamentos por preço utiliza uma implementação manual do **Bubble Sort**.
+
+O algoritmo possui uma otimização de parada antecipada: caso nenhuma troca ocorra durante uma passagem, significa que a lista já está ordenada.
+
+Complexidade:
+
+- Melhor caso: **O(n)**
+- Pior caso: **O(n²)**
+
+---
+
+### 5.4. Inserção por Prioridade
+
+As solicitações são inseridas de acordo com sua criticidade.
+
+A prioridade pode ser representada por:
+
+```python
+PRIORIDADE = {
+    "CRÍTICO": 0,
+    "ALERTA": 1,
+    "AVISO": 2
+}
+```
+
+A inserção procura a posição adequada para manter a fila organizada.
+
+Complexidade:
+
+- Melhor caso: **O(1)** quando a inserção ocorre no final;
+- Pior caso: **O(n)**.
+
+---
+
+## 6. Regras de Negócio
+
+| Regra | Comportamento |
+|---|---|
+| Estoque mínimo | **15 unidades** |
+| Estoque < 5 | **CRÍTICO** |
+| Estoque de 5 a 9 | **ALERTA** |
+| Estoque de 10 a 14 | **AVISO** |
+| Estoque ≥ 15 | Não cria nova reposição |
+| Quantidade solicitada padrão | `15 - estoque atual` |
+| Reposição duplicada | Não permitida |
+| Empate de criticidade | Mantém ordem de chegada |
+| Medicamento removido | Cancela reposição pendente |
+| Estoque alterado para ≥ 15 | Cancela reposição pendente |
+
+### Atendimento de uma reposição
+
+O processo de atendimento segue aproximadamente estas etapas:
+
+1. Identificar a solicitação prioritária;
+2. Localizar o medicamento pelo ID;
+3. Informar a quantidade a ser adicionada;
+4. Atualizar o estoque;
+5. Remover a solicitação atendida;
+6. Verificar novamente a situação do estoque.
+
+---
+
+## 7. Arquitetura do Projeto
+
+A aplicação foi dividida em módulos para separar responsabilidades.
 
 ```text
 TDE_ESTRUTURA/
+│
 ├── tde/
-│   ├── main.py            # Menu principal e controle do fluxo
-│   ├── estruturas.py      # Lista, pilha e fila (estruturas globais) e DEBUG
-│   ├── medicamentos.py    # CRUD de medicamentos, filtro e Bubble Sort
-│   ├── reposicao.py       # CRUD de reposição e atendimento da fila
-│   ├── relatorios.py      # Histórico (pilha) e desfazer
-│   ├── estoque.py         # Geração de IDs
-│   └── validar.py         # Validações e leitura segura de dados
-├── DOCUMENTAÇÃO.md        # Planejamento e estudo das estruturas
-├── LICENSE                # Licença MIT
-└── README.md              # Documentação geral do projeto
+│   ├── main.py
+│   ├── estruturas.py
+│   ├── medicamentos.py
+│   ├── reposicao.py
+│   ├── relatorios.py
+│   ├── estoque.py
+│   └── validar.py
+│
+├── CONTRIBUTING.md
+├── DOCUMENTAÇÃO.md
+├── LICENSE
+├── README.md
+└── .gitignore
 ```
 
-## 7. Pré-requisitos
+### Responsabilidade dos módulos
 
-- **Python 3.12 ou superior** (o código usa `match/case` e f-strings com aspas aninhadas).
-- Terminal (Prompt de Comando, PowerShell, Terminal do Linux ou macOS).
-- *(Opcional)* [Git](https://git-scm.com/) para clonagem do repositório.
-- *(Opcional)* Editor de código, como o [Visual Studio Code](https://code.visualstudio.com/).
+| Arquivo | Responsabilidade |
+|---|---|
+| `main.py` | Inicialização e menus principais |
+| `estruturas.py` | Estruturas globais e funções de DEBUG |
+| `medicamentos.py` | CRUD e consultas de medicamentos |
+| `reposicao.py` | Solicitações, criticidade, prioridade e atendimento |
+| `relatorios.py` | Histórico, entradas, saídas e desfazer |
+| `estoque.py` | Geração dos IDs |
+| `validar.py` | Validação e leitura segura dos dados |
 
-Para verificar a versão instalada:
+A modularização permite separar responsabilidades e facilita a manutenção do código.
+
+---
+
+## 8. Tecnologias e Dependências
+
+### Linguagem
+
+- **Python 3.12+**
+
+### Bibliotecas externas
+
+| Biblioteca | Finalidade |
+|---|---|
+| `pyfiglet` | Geração do título ASCII do PharmaERP |
+| `colorama` | Cores e estilos no terminal |
+
+### Biblioteca padrão
+
+| Recurso | Finalidade |
+|---|---|
+| `collections.deque` | Estrutura das solicitações de reposição |
+| `datetime` | Registro de data e hora |
+| `os` | Operações relacionadas ao terminal |
+
+---
+
+## 9. Pré-requisitos
+
+Para executar o projeto, é necessário possuir:
+
+- **Python 3.12 ou superior**;
+- Terminal compatível com execução de programas Python;
+- Git, caso queira clonar o projeto.
+
+Verifique a versão instalada:
 
 ```bash
 python --version
 ```
 
-## 8. Como Executar
+Caso seu sistema utilize `python3`:
 
-1. Clone o repositório:
+```bash
+python3 --version
+```
 
-   ```bash
-   git clone https://github.com/sam77g/TDE_ESTRUTURA.git
-   ```
+---
 
-2. Acesse a pasta do código-fonte:
+## 10. Como Executar
 
-   ```bash
-   cd TDE_ESTRUTURA/tde
-   ```
+### 10.1. Clonar o repositório
 
-3. Execute o sistema:
+```bash
+git clone https://github.com/sam77g/TDE_ESTRUTURA.git
+```
 
-   ```bash
-   python main.py
-   ```
+### 10.2. Acessar o projeto
 
-> O programa deve ser executado **de dentro da pasta `tde/`**, pois os módulos são importados diretamente. Por se tratar de um projeto sem dependências, não há etapa de instalação.
+```bash
+cd TDE_ESTRUTURA/tde
+```
 
-### Menus do sistema
+### 10.3. Instalar as dependências
+
+```bash
+pip install pyfiglet colorama
+```
+
+Ou:
+
+```bash
+pip3 install pyfiglet colorama
+```
+
+### 10.4. Executar
+
+```bash
+python main.py
+```
+
+Ou:
+
+```bash
+python3 main.py
+```
+
+---
+
+### Menus principais
 
 ```text
 Menu principal
+
 ├── [1] Medicamentos
-│   ├── Adicionar / Alterar / Remover
-│   ├── Listar / Buscar
+│   ├── Adicionar
+│   ├── Alterar
+│   ├── Remover
+│   ├── Listar
+│   ├── Buscar
 │   ├── Listar por categoria
-│   └── Listar ordenado por preço
+│   └── Ordenar por preço
+│
 ├── [2] Reposição
-│   ├── Buscar / Listar
-│   ├── Atender (próxima da fila)
+│   ├── Buscar
+│   ├── Listar
+│   ├── Atender
 │   ├── Cancelar
-│   └── Alterar quantidade solicitada
+│   └── Alterar
+│
 ├── [3] Histórico
 │   ├── Listar
-│   └── Desfazer última movimentação
+│   └── Desfazer
+│
 ├── [4] DEBUG
+│
 └── [0] Sair
 ```
 
-### Roteiro de demonstração
+---
 
-1. Cadastre **Dipirona** com estoque **3** e **Amoxicilina** com estoque **8** (duas reposições entram na fila).
-2. Em **Reposição → Listar**, confira a ordem de chegada.
-3. **Atenda** a primeira reposição com quantidade **5**: a Dipirona vai para 8 e volta ao fim da fila.
-4. **Altere** a quantidade solicitada e **cancele** uma reposição.
-5. Em **Histórico**, liste as movimentações e **desfaça** a última.
-6. Use **DEBUG** para mostrar o estado das três estruturas.
+## 11. Fluxo do Sistema
 
-## 9. Versionamento
-
-O projeto adota **Git Tags** para identificar seus marcos de desenvolvimento.
-
-| Versão | Descrição |
-| ------ | --------- |
-| `v0.1.10` | Estrutura inicial e estudo de lista, pilha e fila |
-| `v0.1.35` | CRUD de medicamentos, reposição e histórico |
-| `v1.1.0` | Versão final para entrega e apresentação |
-
-As versões publicadas não devem ser alteradas. Correções em versões já publicadas devem originar uma nova versão.
-
-## 10. Fluxo de Desenvolvimento
-
-O desenvolvimento segue um fluxo baseado em *branches* e *Pull Requests*:
-
-- **`main`**: versão estável, destinada à entrega. Não recebe *commits* diretos.
-- **`feature/*` e `fix/*`**: *branches* de trabalho (por exemplo, `feature/novo-estoque`), integradas à `main` por *Pull Request*.
-- **develop** : versão de teste / produção 
+O fluxo geral do PharmaERP pode ser representado da seguinte maneira:
 
 ```text
-feature/nome-da-tarefa ──► Pull Request ──► main
+                    ┌──────────────────┐
+                    │    PharmaERP     │
+                    └────────┬─────────┘
+                             │
+              ┌──────────────┼──────────────┐
+              │              │              │
+              ▼              ▼              ▼
+        Medicamentos     Reposição       Histórico
+              │              │              │
+              ▼              ▼              ▼
+           Lista       Prioridade/FIFO     Pilha
+              │              │              │
+              ▼              ▼              ▼
+       CRUD / Busca      Criticidade      Desfazer
+       / Ordenação       / Atendimento
 ```
 
-**Padrão de commits:** [Conventional Commits](https://www.conventionalcommits.org/pt-br/v1.0.0/).
+### Fluxo de reposição
 
-| Prefixo | Uso |
-| ------- | --- |
+```text
+Cadastro/alteração do medicamento
+              │
+              ▼
+        Estoque < 15?
+         /        \
+       não        sim
+        │           │
+        ▼           ▼
+   Sem pedido   Criar pedido
+                    │
+                    ▼
+              Classificar por
+               criticidade
+                    │
+                    ▼
+             Inserir na fila
+                    │
+                    ▼
+          Buscar / Alterar / Cancelar
+                    │
+                    ▼
+                  Atender
+```
+
+---
+
+## 12. Complexidade
+
+| Operação | Estrutura / Algoritmo | Complexidade |
+|---|---|---|
+| Inserção de medicamento | Lista `append()` | O(1) |
+| Busca de medicamento | Busca linear | O(n) |
+| Filtro por categoria | Percurso sequencial | O(n) |
+| Ordenação por preço | Bubble Sort | O(n²) |
+| Registro no histórico | Pilha `append()` | O(1) |
+| Desfazer histórico | `pop()` + ajustes | O(n) no pior caso |
+| Busca de reposição | Busca linear | O(n) |
+| Inserção por prioridade | Percurso + inserção | O(n) no pior caso |
+| Cancelamento de reposição | Busca + remoção | O(n) |
+| Atendimento | Busca do medicamento + remoção | O(n) |
+
+> As complexidades representam o custo das operações sobre as estruturas utilizadas. Operações auxiliares, como localizar um medicamento antes de atualizar seu estoque, também influenciam o custo total.
+
+---
+
+## 13. Versionamento e Git
+
+O desenvolvimento utiliza **Git** para controle de versões e organização das funcionalidades.
+
+Branches utilizadas durante o desenvolvimento:
+
+```text
+main
+develop
+feature/*
+fix/*
+final_version
+```
+
+A branch **`final_version`** representa a versão consolidada utilizada para a entrega final do projeto.
+
+### Conventional Commits
+
+O projeto utiliza a convenção de commits:
+
+| Prefixo | Utilização |
+|---|---|
 | `feat` | Nova funcionalidade |
 | `fix` | Correção de problema |
-| `docs` | Alteração na documentação |
-| `refactor` | Reorganização de código sem alteração de comportamento |
+| `docs` | Documentação |
+| `refactor` | Refatoração |
+| `test` | Testes |
 
 Exemplo:
 
 ```bash
-git commit -m "feat: adiciona atendimento da fila de reposição"
+git commit -m "feat: adiciona prioridade por criticidade na fila"
 ```
 
-## 11. Status do Projeto
+Para informações sobre colaboração e organização do repositório, consulte o [`CONTRIBUTING.md`](./CONTRIBUTING.md).
 
-🚧 **Entrega do TDE** — etapa `v1.1.0` (lista, pilha, fila, busca, ordenação, CRUD e relatórios).
+---
 
-- [x] Lista: cadastro de medicamentos (CRUD completo)
-- [x] Pilha: histórico de movimentações com desfazer
-- [x] Fila: solicitações de reposição (FIFO) com atendimento
-- [x] CRUD de uma segunda entidade (Reposição)
-- [x] Busca linear e ordenação manual (Bubble Sort)
-- [x] Validação de dados e leitura segura de entradas
-- [x] Relatórios: listar, filtrar, exibir fila e exibir histórico
-- [ ] Persistência dos dados em arquivo (hoje os dados ficam apenas em memória)
-- [ ] Cadastro de fornecedores
-- [ ] Prioridade na fila de reposição por criticidade (hoje a fila é FIFO simples)
+## 14. Status do Projeto
 
-## 12. Licença
+**Versão final acadêmica.**
 
-Este projeto está licenciado sob a **Licença MIT**. Consulte o arquivo [`LICENSE`](./LICENSE) para mais informações.
+### Implementado
+
+- [x] CRUD de medicamentos;
+- [x] Validação de dados;
+- [x] Busca linear;
+- [x] Filtro por categoria;
+- [x] Bubble Sort por preço;
+- [x] IDs independentes para medicamentos e reposições;
+- [x] Criação automática de solicitações;
+- [x] Criticidade **CRÍTICO**, **ALERTA** e **AVISO**;
+- [x] Fila com prioridade;
+- [x] FIFO em casos de empate;
+- [x] Busca de reposições;
+- [x] Alteração de solicitações;
+- [x] Cancelamento de solicitações;
+- [x] Atendimento de reposições;
+- [x] Histórico de entradas e saídas;
+- [x] Desfazer última movimentação;
+- [x] DEBUG das estruturas;
+- [x] Interface de terminal com `pyfiglet` e `colorama`.
+
+### Fora do escopo da versão atual
+
+- [ ] Persistência em arquivos;
+- [ ] Banco de dados;
+- [ ] Autenticação de usuários;
+- [ ] Interface gráfica;
+- [ ] API;
+- [ ] Integração com fornecedores.
+
+Esses recursos não fazem parte do escopo da versão acadêmica atual.
+
+---
+
+## 15. Licença
+
+Este projeto está licenciado sob a **MIT License**.
+
+Consulte o arquivo [`LICENSE`](./LICENSE) para obter o texto completo da licença.
+
+---
+
+<div align="center">
+
+**PharmaERP — TDE Estruturas de Dados**
+
+Desenvolvido por **Samuel, Samoel, Marcos e Gabriel**.
+
+</div>
