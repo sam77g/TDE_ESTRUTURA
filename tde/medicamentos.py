@@ -270,6 +270,7 @@ def remover_medicamento(nome):
     print("medicamento não encontrado !")  # só chega aqui se o for terminar sem achar
 
 # FUNÇÃO PARA ORDENAR POR PREÇO
+## Alterar para uma ordenação própria/personalizada
 def ordenar_por_preco(lista):
     """
     Ordena uma lista de dicionários pelo campo "preco" (do menor para o maior)
