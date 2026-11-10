@@ -116,7 +116,7 @@ def validar_medicamento(medicamento, lista_medicamentos, ignorar_id=None):
     if not validar_texto(medicamento["medicamento"]):
         return "Erro: o nome do medicamento não pode estar vazio."
     # Valida a categoria
-    if not validar_texto(medicamento["categoria"]):
+    if not validar_texto(medicamento["categoria"]) and validar_texto(medicamento["medicamento"])  :
         return "Erro: a categoria não pode estar vazia."
     # Valida o estoque
     if not validar_estoque(medicamento["estoque"]):
@@ -124,13 +124,4 @@ def validar_medicamento(medicamento, lista_medicamentos, ignorar_id=None):
     # Valida o preço
     if not validar_preco(medicamento["preco"]):
         return "Erro: o preço deve ser um número positivo ou zero."
-
-    return True
-
-#Função para validar a categoria
-def validar_categoria(categoria) :
-    
-    if not validar_texto(categoria) :
-        return False
-
     return True
