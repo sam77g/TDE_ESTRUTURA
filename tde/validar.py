@@ -1,14 +1,24 @@
 # ARQUIVO COM FUNÇÕES DE VALIDAÇÃO
-
+lista_teste = []
+import math # importando a biblioteca math
 # LER FLOATS
 def ler_float(msg):
-    while True:
+    
+    while (math.isfinite(msg)):
         try:
-            # consegue receber números float com virgula (ex.: 45,80:)
-            return float(input(msg).replace(",", "."))
+            # Lê o valor, substitui vírgula por ponto e converte para float
+            entrada = input(msg).replace(",", ".")
+            valor = float(entrada)
+            
+            # Verifica se o número é finito (rejeita inf, -inf e nan)
+            if math.isfinite(valor):
+                return valor
+            else:
+                print("Erro: O valor inserido não é um número finito (infinito ou NaN). Tente novamente.")
         except ValueError:
             print("Digite apenas números!")
-            
+
+
 # LER INTEIROS
 def ler_int(msg):
     while True:
@@ -26,6 +36,9 @@ def validar_texto(valor):
     if not valor.strip():
         return False
 
+    if valor.strip().lower() == '' ;
+        return False
+
     return True
 
 
@@ -37,7 +50,10 @@ def validar_preco(valor):
 
     if valor < 0:
         return False
-
+    
+    if not math.isfinite(valor):
+        return False
+    
     return True
 
 
@@ -50,11 +66,14 @@ def validar_estoque(valor):
         return False
 
     return True
-
+ 
 
 # VALIDA SE O ID ESTÁ DISPONÍVEL
 def validar_id(med_id, lista_medicamentos):
-    if not validar_texto(med_id):
+    if not math.isfinite(med_id):
+        return False
+
+    if not isinstance(med_id, int) or isinstance(med_id, bool) :
         return False
 
     for medicamento in lista_medicamentos:
@@ -105,5 +124,13 @@ def validar_medicamento(medicamento, lista_medicamentos, ignorar_id=None):
     # Valida o preço
     if not validar_preco(medicamento["preco"]):
         return "Erro: o preço deve ser um número positivo ou zero."
+
+    return True
+
+#Função para validar a categoria
+def validar_categoria(categoria) :
+    
+    if not validar_texto(categoria) :
+        return False
 
     return True
