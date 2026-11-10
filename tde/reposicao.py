@@ -188,7 +188,7 @@ def atender_reposicao():
         if m["id"] == repo["id_medicamento"]:
             med = m
             break
-    solicitacoes_reposicao.pop(0) 
+    solicitacoes_reposicao.popleft()
 
     # caso o remédio tenha sido excluído enquanto estava na fila
     if med is None:
