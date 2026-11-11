@@ -63,18 +63,8 @@ def menu_med() :
             # adicionar medicamento
             case 1 :
                 nome = input("Digite o nome do medicamento: ").strip()
-                # valida o nome digitado
-                if not validar_nome(nome, medicamentos): 
-                    print("\nNome vazio ou já cadastrado.")
-                    input("\nPressione ENTER para continuar...")
-                    continue
-                
                 estoque = ler_int("Digite o estoque : ")
-                # valida o estoque
-                if not validar_estoque(estoque):
-                    print("\nDigite um valor válido")
-                    input("\nPressione ENTER para continuar...")
-                    continue
+                
                 
                 # dicionário do medicamento
                 medicamento = {
@@ -94,7 +84,6 @@ def menu_med() :
                 if resultado is True:
                     # CADASTRA O MEDICAMENTO
                     cadastrar_medicamento(medicamento)
-                    print("\nMedicamento cadastrado com sucesso!")
 
                     # VERIFICA SE O ESTOQUE ESTÁ ABAIXO DO MÍNIMO [15]
                     if medicamento["estoque"] < 15:
@@ -106,7 +95,7 @@ def menu_med() :
                         cadastrar_repo(medicamento)
                     input("\nPressione ENTER para continuar...")
                 else:
-                    print(f"\n{resultado}")
+                    print(f"\n [ERROR] : {resultado}")
             
             # ALTERAÇÃO DE MEDICAMENTO
             case 2 :
@@ -146,10 +135,14 @@ def menu_med() :
                 input("\nPressione ENTER para continuar...")
                 
             # SAÍDA
-            case _ :
+            case 0 :
                 print(" -- SAINDO DE MEDICAMENTOS --")
                 time.sleep(0.5)
                 break
+            
+            # VALOR INVÁLIDO 
+            case _ :
+                print(" \n [ERROR] VALOR INVÁLIDO !")
                 
                     
 
@@ -157,6 +150,7 @@ def menu_med() :
 def cadastrar_medicamento(med) :
     medicamentos.append(med) # adiciona o medicamento a lista
     entrada(med) # REGISTRA A ENTRADA
+    print(" \n [SUCESS] : Medicamento cadastrado com sucesso ")
     
     
 
